@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:radio_adblocker/screens/home/currentRadio.dart';
 import 'package:radio_adblocker/screens/home/filter.dart';
 import 'package:radio_adblocker/screens/home/headline.dart';
-import 'package:radio_adblocker/screens/home/radiolist.dart';
+import 'package:radio_adblocker/screens/home/radioList/radioList.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
