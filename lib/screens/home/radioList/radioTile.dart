@@ -15,7 +15,7 @@ class RadioTile extends StatelessWidget {
         child: ListTile(
           leading: CircleAvatar(
             radius: 25.0,
-            backgroundImage: AssetImage('assets/${radio.image}'),
+            backgroundImage: AssetImage('assets/${radio.logoUrl}'),
           ),
           title: Text(radio.name),
           subtitle: Text(radio.song.name),

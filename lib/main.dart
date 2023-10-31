@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:radio_adblocker/provider/filterRadioStationsProvider.dart';
+import 'package:radio_adblocker/provider/radioStationsProvider.dart';
 import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/navbar.dart';
 import 'package:radio_adblocker/shared/colors.dart';
@@ -25,12 +28,24 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: backgroundColor,
-      body: SafeArea( //to ensure the the body starts after the status bar-
-        child: Home(),
+    //initialize all Provider
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => FilterRadioStationsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => RadioStationsProvider(),
+        ),
+      ],
+      child: const Scaffold(
+        backgroundColor: backgroundColor,
+        //to ensure the the body starts after the status bar-
+        body: SafeArea(
+          child: Home(),
+        ),
+        bottomNavigationBar: MyBottomNavigationBar(),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(),
     );
   }
 }
