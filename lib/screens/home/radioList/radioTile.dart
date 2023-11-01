@@ -19,6 +19,10 @@ class RadioTile extends StatelessWidget {
           ),
           title: Text(radio.name),
           subtitle: Text(radio.song.name),
+          trailing: Icon(
+            Icons.favorite,
+            color: radio.isFavorite ? Colors.red : null,
+          ),
         ),
       ),
     );

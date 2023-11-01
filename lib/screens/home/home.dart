@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_adblocker/provider/filterRadioStationsProvider.dart';
 import 'package:radio_adblocker/screens/home/currentRadio.dart';
-import 'package:radio_adblocker/screens/home/filter.dart';
+import 'package:radio_adblocker/screens/home/filter/filter.dart';
 import 'package:radio_adblocker/screens/home/headline.dart';
 import 'package:radio_adblocker/screens/home/radioList/radioList.dart';
 
@@ -10,23 +10,32 @@ import '../../model/radioStation.dart';
 import '../../model/song.dart';
 import '../../provider/radioStationsProvider.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<Home> createState() => _HomeState();
+}
 
+class _HomeState extends State<Home> {
+
+  @override
+  void initState() {
+    super.initState();
     List<RadioStation> radioList = [
-      RadioStation.namedParameter(name: "1Live", streamUrl: "asdf", logoUrl: "1Live.png", genres: ["EDM", "Techno", "Pop"], status: "music", song: Song.namedParameter(name: "Losing it",artists: ["FISHER"])),
+      RadioStation.namedParameter(name: "Bremen Next", streamUrl: "asdf", logoUrl: "bremen_next.png", genres: ["EDM", "Techno", "Pop"], status: "add", song: Song.namedParameter(name: "Losing it",artists: ["FISHER"]), isFavorite: true),
       RadioStation("1Live", "asdf", "1Live.png", ["EDM", "Techno", "Pop"], "music", Song("Losing it",["FISHER"])),
-      RadioStation("WDR2", "asdf", "wdr2.png", ["EDM", "Techno", "Pop"], "music", Song("Losing it",["FISHER"])),
+      RadioStation("WDR2", "asdf", "wdr2.png", ["EDM", "Techno", "Pop"], "music", Song("Losing it",["FISHER"]),isFavorite: true),
       RadioStation("100,5 Hitradio", "asdf", "100_5_Hitradio.png",["EDM", "Techno", "Pop"], "music", Song("Losing it",["FISHER"])),
       RadioStation("NDR2", "asdf", "ndr2.png", ["EDM", "Techno", "Pop"], "music", Song("Losing it",["FISHER"])),
     ];
 
     context.read<RadioStationsProvider>().changeRadioStationList(radios: radioList); //get all available  radios
     context.read<FilterRadioStationsProvider>().changeRadioStationList(radios: radioList); //get all available radios
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: [
         Column(
