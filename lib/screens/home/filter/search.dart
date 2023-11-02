@@ -1,46 +1,54 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../model/radioStation.dart';
-import '../../../provider/filterRadioStationsProvider.dart';
 
 class Search extends StatefulWidget {
-  final List<RadioStation> filterRadios;
-  final List<RadioStation> radios;
-  const Search({super.key, required this.filterRadios, required this.radios});
+  final Function(List<bool Function(RadioStation)>) runFilter;
+  final List<bool Function(RadioStation)> filterQueries;
+
+  const Search(
+      {super.key, required this.runFilter, required this.filterQueries});
 
   @override
   State<Search> createState() => _SearchState();
 }
 
 class _SearchState extends State<Search> {
-
   @override
   Widget build(BuildContext context) {
-
-    void setRadioStations(List<RadioStation> foundRadios) {
-      context
-          .read<FilterRadioStationsProvider>()
-          .changeRadioStationList(radios: foundRadios);
+    //removes search filter queries
+    void removeExpiredFilterQueries(bool Function(RadioStation) filterQuery) {
+      widget.filterQueries.removeWhere(
+        (existingQuery) => existingQuery.toString() == filterQuery.toString(),
+      );
     }
 
-    List<RadioStation> runListFilter(bool Function(RadioStation) filterQuery) {
-      return widget.filterRadios.where(filterQuery).toList();
-    }
-
-    void runSearchFilter(String value, bool Function(RadioStation) filterQuery) {
-      value.isNotEmpty
-          ? setRadioStations(runListFilter((filterQuery))) //set search filter
-          : setRadioStations(widget.radios); //reset filter
+    void runSearchFilter(
+        String value, bool Function(RadioStation) filterQuery) {
+      //run filter only if value != empty
+      if (value.isNotEmpty) {
+        removeExpiredFilterQueries(filterQuery); //remove filter queries otherwise every character will add another filter function
+        widget.filterQueries.add((filterQuery)); //add new filter to filterQueryList
+        widget.runFilter(widget.filterQueries);
+      } else {
+        removeExpiredFilterQueries(filterQuery); //remove filter from list if input is empty
+        widget.runFilter(widget.filterQueries);
+      }
     }
 
     return TextField(
+      //run runSearchFilter, if the input changes
       onChanged: (value) => runSearchFilter(
-          value, (radio) =>
-              radio.name.toLowerCase().contains(value.toLowerCase())),
+          value, //input value
+          (radio) => radio.name.toLowerCase().contains(value.toLowerCase())), //filter query
+
       decoration: const InputDecoration(
-          labelText: 'Suche nach Radio...', suffixIcon: Icon(Icons.search)),
+        // labelText: 'Suche nach Radio...',
+        prefixIcon: Icon(Icons.search),
+        hintText: 'Suche nach Radio...',
+        filled: true,
+      ),
     );
   }
 }

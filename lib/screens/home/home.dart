@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
             Container(
               color: Colors.green,
               height: MediaQuery.of(context).size.height * 0.2,
-              child: const FilterOptions(),
+              child: FilterOptions(),
             ),
             // radio list (32% of body)
             Expanded(
