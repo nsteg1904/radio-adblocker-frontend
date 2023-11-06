@@ -24,6 +24,7 @@ class _RadioScreenState extends State<RadioScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         //Überschrift des Radios
         Container(
@@ -45,7 +46,6 @@ class _RadioScreenState extends State<RadioScreen> {
           child: Image.asset('assets/${currentRadio.image}'),
         ),
         Container(
-          color: Colors.black,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.2,
           child: Center(
@@ -67,7 +67,48 @@ class _RadioScreenState extends State<RadioScreen> {
             ),
           ),
         ),
+        Container(
+          //Create a line that is visualizing the sound
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.2,
+          child: Controls(),
+        ),
       ],
     );
   }
 }
+
+class Controls extends StatelessWidget {
+  const Controls({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    //Make the buttons bigger and in the center of the row
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        IconButton(
+          icon: const Icon(Icons.skip_previous),
+          iconSize: 80,
+          color: Colors.white,
+          onPressed: () {},
+        ),
+        IconButton.outlined(
+          icon: const Icon(Icons.play_arrow),
+          selectedIcon: const Icon(Icons.pause),
+          iconSize: 80,
+          color: Colors.white,
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: const Icon(Icons.skip_next),
+          iconSize: 80,
+          color: Colors.white,
+          onPressed: () {},
+        ),
+      ],);
+  }
+}
+
