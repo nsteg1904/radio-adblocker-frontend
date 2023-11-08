@@ -47,8 +47,11 @@ class _SearchState extends State<Search> {
         // labelText: 'Suche nach Radio...',
         prefixIcon: Icon(Icons.search),
         hintText: 'Suche nach Radio...',
+        hintStyle: TextStyle(color: Colors.white,),
         filled: true,
+        fillColor: Color(0xff2d2c3c),
       ),
+      style: const TextStyle(color: Colors.white),
     );
   }
 }

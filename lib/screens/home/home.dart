@@ -42,20 +42,17 @@ class _HomeState extends State<Home> {
           children: [
             // headline (12% of body)
             Container(
-              color: Colors.blue,
               height: MediaQuery.of(context).size.height * 0.12,
               child: const Headline(),
             ),
             // filter options (20% of body)
             Container(
-              color: Colors.green,
               height: MediaQuery.of(context).size.height * 0.2,
               child: FilterOptions(),
             ),
             // radio list (32% of body)
             Expanded(
               child: Container(
-                color: Colors.orange,
                 child: const RadioList(),
               ),
             ),
