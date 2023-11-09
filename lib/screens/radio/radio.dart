@@ -15,8 +15,8 @@ class RadioScreen extends StatefulWidget {
 class _RadioScreenState extends State<RadioScreen> {
   RadioStation currentRadio = RadioStation.namedParameter(
       name: "1Live",
-      url: "asdf",
-      image: "1Live.png",
+      streamUrl: "asdf",
+      logoUrl: "1Live.png",
       genres: ["EDM", "Techno", "Pop"],
       status: "music",
       song: Song.namedParameter(name: "Losing it", artists: ["FISHER"]));
@@ -43,7 +43,7 @@ class _RadioScreenState extends State<RadioScreen> {
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.3,
-          child: Image.asset('assets/${currentRadio.image}'),
+          child: Image.asset('assets/${currentRadio.logoUrl}'),
         ),
         Container(
           width: MediaQuery.of(context).size.width,

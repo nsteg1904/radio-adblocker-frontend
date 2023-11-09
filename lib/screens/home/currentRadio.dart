@@ -10,6 +10,8 @@ class CurrentRadio extends StatefulWidget {
 class _CurrentRadioState extends State<CurrentRadio> {
   @override
   Widget build(BuildContext context) {
-    return const Text('Aktuelles Radio');
+    return Container(
+      color: const Color(0xff2d2c3c),
+        child: const Text('Aktuelles Radio'));
   }
 }
