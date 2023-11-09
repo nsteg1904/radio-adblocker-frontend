@@ -30,8 +30,11 @@ class _HomeState extends State<Home> {
       RadioStation("NDR2", "asdf", "ndr2.png", ["EDM", "Techno", "Pop"], "music", Song("Losing it",["FISHER"])),
     ];
 
-    context.read<RadioStationsProvider>().changeRadioStationList(radios: radioList); //get all available  radios
-    context.read<FilterRadioStationsProvider>().changeRadioStationList(radios: radioList); //get all available radios
+    //to ensure that the code is only called after the build phase
+    Future.microtask(() {
+      context.read<RadioStationsProvider>().changeRadioStationList(radios: radioList);
+      context.read<FilterRadioStationsProvider>().changeRadioStationList(radios: radioList);
+    });
   }
 
   @override
