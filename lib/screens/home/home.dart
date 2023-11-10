@@ -44,31 +44,28 @@ class _HomeState extends State<Home> {
         Column(
           children: [
             // headline (12% of body)
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.12,
               child: const Headline(),
             ),
             // filter options (20% of body)
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.2,
-              child: FilterOptions(),
+              child: const FilterOptions(),
             ),
             // radio list (32% of body)
-            Expanded(
-              child: Container(
-                child: const RadioList(),
-              ),
+            const Expanded(
+              child: RadioList(),
             ),
           ],
         ),
-        // fixed current Radio positioned at the bottom edge (8% of the body)
+        // fixed current Radio positioned at the bottom edge (10% of the body)
         Positioned(
           bottom: 0,
           left: 0,
           right: 0,
-          child: Container(
-              color: Colors.red,
-              height: MediaQuery.of(context).size.height * 0.08,
+          child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.1,
               child: const CurrentRadio()),
         ),
       ],

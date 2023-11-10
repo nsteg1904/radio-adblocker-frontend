@@ -31,7 +31,6 @@ class _FilterOptionsState extends State<FilterOptions> {
     void runFilter(List<bool Function(RadioStation)> filterQueries) {
       List<RadioStation> filteredRadios = radios;
 
-      print(filterQueries);
       for (final query in filterQueries) {
         filteredRadios = filteredRadios.where(query).toList();
       }

@@ -40,7 +40,7 @@ class _FilterButtonState extends State<FilterButton> {
       style: ElevatedButton.styleFrom(
         backgroundColor: isPressed
             ? selectedElementColor
-            : buttonColor,
+            : areaColor,
       ),
       child: Text(widget.name),
     );
