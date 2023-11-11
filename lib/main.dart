@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:radio_adblocker/provider/currentRadioProvider.dart';
 import 'package:radio_adblocker/provider/filterRadioStationsProvider.dart';
 import 'package:radio_adblocker/provider/radioStationsProvider.dart';
 import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/radio/radio.dart';
 import 'package:radio_adblocker/screens/settings/settings.dart';
 import 'package:radio_adblocker/shared/colors.dart';
+
+import 'model/radioStation.dart';
+import 'model/song.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,16 +46,18 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   @override
   Widget build(BuildContext context) {
+
+
     Widget page;
     switch (_currentIndex) {
       case 0:
-        page = Home();
+        page = const Home();
         break;
       case 1:
-        page = RadioScreen();
+        page = const RadioScreen();
         break;
       case 2:
-        page = Settings();
+        page = const Settings();
         break;
       default:
         throw UnimplementedError('no widget for $_currentIndex');
@@ -64,6 +70,9 @@ class _MainScaffoldState extends State<MainScaffold> {
         ),
         ChangeNotifierProvider(
           create: (context) => RadioStationsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CurrentRadioProvider(RadioStation.namedParameter(name: "Bremen Next", streamUrl: "asdf", logoUrl: "bremen_next.png", genres: ["EDM", "Techno", "Pop"], status: "add", song: Song.namedParameter(name: "Losing it",artists: ["FISHER"]), isFavorite: true)),
         ),
       ],
       child: Scaffold(

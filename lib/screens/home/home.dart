@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:radio_adblocker/provider/currentRadioProvider.dart';
 import 'package:radio_adblocker/provider/filterRadioStationsProvider.dart';
 import 'package:radio_adblocker/screens/home/currentRadio.dart';
 import 'package:radio_adblocker/screens/home/filter/filter.dart';
@@ -34,6 +35,7 @@ class _HomeState extends State<Home> {
     Future.microtask(() {
       context.read<RadioStationsProvider>().changeRadioStationList(radios: radioList);
       context.read<FilterRadioStationsProvider>().changeRadioStationList(radios: radioList);
+      context.read<CurrentRadioProvider>().setCurrentRadio(radio: radioList[0]);
     });
   }
 
@@ -48,9 +50,9 @@ class _HomeState extends State<Home> {
               height: MediaQuery.of(context).size.height * 0.12,
               child: const Headline(),
             ),
-            // filter options (20% of body)
+            // filter options (15% of body)
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: MediaQuery.of(context).size.height * 0.15,
               child: const FilterOptions(),
             ),
             // radio list (32% of body)

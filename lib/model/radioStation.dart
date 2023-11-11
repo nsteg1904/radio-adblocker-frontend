@@ -7,7 +7,7 @@ class RadioStation { //RadioStation because Radio has name conflicts with packag
   final List<String> genres;
   final String status;
   final Song song;
-  final bool isFavorite;
+  bool isFavorite;
 
   RadioStation.namedParameter ({required this.name, required this.streamUrl, required this.logoUrl, required this.genres, required this.status, required this.song, this.isFavorite = false});
   RadioStation (this.name, this.streamUrl, this.logoUrl, this.genres, this.status, this.song, {this.isFavorite = false});

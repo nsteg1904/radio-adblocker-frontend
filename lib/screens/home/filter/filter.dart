@@ -53,7 +53,7 @@ class _FilterOptionsState extends State<FilterOptions> {
               filterQueries: filterQueries,
             ),
             FilterButton(
-              name: "Aktuell Werbefrei",
+              name: "Aktuell werbefrei",
               filterQuery: (radio) => radio.status != "add",
               runFilter: runFilter,
               filterQueries: filterQueries,
