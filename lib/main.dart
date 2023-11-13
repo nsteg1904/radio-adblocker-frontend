@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:radio_adblocker/provider/filterRadioStationsProvider.dart';
+import 'package:radio_adblocker/provider/radioStationsProvider.dart';
 import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/radio/radio.dart';
 import 'package:radio_adblocker/screens/settings/settings.dart';
@@ -54,28 +57,39 @@ class _MainScaffoldState extends State<MainScaffold> {
         throw UnimplementedError('no widget for $_currentIndex');
     }
 
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      body: SafeArea( //to ensure the the body starts after the status bar-
-        child: page,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: _onTabTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.radio),
-            label: 'Radio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => FilterRadioStationsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => RadioStationsProvider(),
+        ),
+      ],
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        //to ensure the the body starts after the status bar-
+        body: SafeArea(
+          child: page,
+        ),
+        bottomNavigationBar:BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: _onTabTapped,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.radio),
+              label: 'Radio',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+            ),
+          ],
+        ),
       ),
     );
   }
