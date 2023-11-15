@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:radio_adblocker/shared/colors.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -25,7 +26,7 @@ class _SettingState extends State<Settings>{
             child: Text(
               'Settings',
               style: TextStyle(
-                color: Colors.grey,
+                color: defaultFontColor,
                 fontSize: 38.0,
                 fontWeight: FontWeight.normal,
               ),
@@ -42,8 +43,8 @@ class _SettingState extends State<Settings>{
               ),
               const Spacer(),
               Switch(
-                activeColor: Colors.red[300],
-                activeTrackColor: Colors.grey[850],
+                activeColor: selectedElementColor,
+                activeTrackColor: unSelectedElementColor,
                 inactiveTrackColor:Colors.grey[850],
                 inactiveThumbColor: Colors.grey[700],
                 value: switchValue1,
@@ -55,19 +56,19 @@ class _SettingState extends State<Settings>{
               ),
             ],
           ),
-          const Divider(height: 20,color: Colors.black38,thickness: 0.5,),
+          const Divider(height: 20,color: Colors.black38,thickness: 0.5),
           Row(
             children: <Widget>[
-              Icon(Icons.block),
-              SizedBox(width: 8.0),
+              const Icon(Icons.block),
+              const SizedBox(width: 8.0),
               const Text(
                 'Nachrichten',
                 style: TextStyle(color: Colors.grey ,fontSize: 20.0),
               ),
               const Spacer(),
               Switch(
-                activeColor: Colors.red[300],
-                activeTrackColor: Colors.grey[850],
+                activeColor: selectedElementColor,
+                activeTrackColor: unSelectedElementColor,
                 inactiveTrackColor:Colors.grey[850],
                 inactiveThumbColor: Colors.grey[700],
                 value: switchValue2,
@@ -91,8 +92,8 @@ class _SettingState extends State<Settings>{
               ),
               const Spacer(),
               Switch(
-                activeColor: Colors.red[300],
-                activeTrackColor: Colors.grey[850],
+                activeColor: selectedElementColor,
+                activeTrackColor: unSelectedElementColor,
                 inactiveTrackColor:Colors.grey[850],
                 inactiveThumbColor: Colors.grey[700],
                 value: switchValue3,

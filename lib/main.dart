@@ -37,10 +37,12 @@ class MainScaffold extends StatefulWidget {
 }
 
 class _MainScaffoldState extends State<MainScaffold> {
-  int _currentIndex = 0;
+  int _selectedIndex = 0;
+  final Color _selectedColor = selectedElementColor;
+  final Color _unselectedColor = unSelectedElementColor;
   void _onTabTapped(int index) {
     setState(() {
-      _currentIndex = index;
+      _selectedIndex = index;
     });
   }
 
@@ -49,7 +51,7 @@ class _MainScaffoldState extends State<MainScaffold> {
 
 
     Widget page;
-    switch (_currentIndex) {
+    switch (_selectedIndex) {
       case 0:
         page = const Home();
         break;
@@ -60,7 +62,7 @@ class _MainScaffoldState extends State<MainScaffold> {
         page = const Settings();
         break;
       default:
-        throw UnimplementedError('no widget for $_currentIndex');
+        throw UnimplementedError('no widget for $_selectedIndex');
     }
 
     return MultiProvider(
@@ -82,22 +84,29 @@ class _MainScaffoldState extends State<MainScaffold> {
           child: page,
         ),
         bottomNavigationBar:BottomNavigationBar(
-          currentIndex: _currentIndex,
+          currentIndex: _selectedIndex,
+          backgroundColor: backgroundColor,
+
           onTap: _onTabTapped,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',
+
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.radio),
               label: 'Radio',
+
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: 'Settings',
             ),
           ],
+
+          selectedItemColor: _selectedColor,
+          unselectedItemColor: _unselectedColor,
         ),
       ),
     );

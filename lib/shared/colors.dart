@@ -6,3 +6,4 @@ const selectedElementColor = Color(0xfffb6580);
 const areaColor =  Color(0xff2d2c3c);
 const playButtonBackground = Color(0xff191925);
 const playButton = Colors.white;
+const unSelectedElementColor = Color(0x61E7DBDB);
