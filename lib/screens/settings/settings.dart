@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:radio_adblocker/shared/colors.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class Settings extends StatefulWidget {
   const Settings({super.key});
 
@@ -12,6 +12,12 @@ class _SettingState extends State<Settings>{
   bool switchValue1 = false;
   bool switchValue2 = false;
   bool switchValue3 = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loadSettings();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +57,7 @@ class _SettingState extends State<Settings>{
                 onChanged: (bool value) {
                   setState(() {
                     switchValue1 = value;
+                    saveSettings();
                   });
                 },
               ),
@@ -75,6 +82,7 @@ class _SettingState extends State<Settings>{
                 onChanged: (bool value) {
                   setState(() {
                     switchValue2 = value;
+                    saveSettings();
                   });
                 },
               ),
@@ -100,6 +108,7 @@ class _SettingState extends State<Settings>{
                 onChanged: (bool value) {
                   setState(() {
                     switchValue3 = value;
+                    saveSettings();
                   });
                 },
               ),
@@ -108,6 +117,20 @@ class _SettingState extends State<Settings>{
         ],
       ),
     );
+  }
+  void saveSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('switch1', switchValue1);
+    prefs.setBool('switch2', switchValue2);
+    prefs.setBool('switch3', switchValue3);
+  }
+  void loadSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      switchValue1 = prefs.getBool('switch1') ?? false;
+      switchValue2 = prefs.getBool('switch2') ?? false;
+      switchValue3 = prefs.getBool('switch3') ?? false;
+    });
   }
 }
 
