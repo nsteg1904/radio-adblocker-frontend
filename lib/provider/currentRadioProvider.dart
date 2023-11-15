@@ -13,7 +13,7 @@ class CurrentRadioProvider extends ChangeNotifier {
   RadioStation get currentRadio => _currentRadio;
   bool get isPlaying => _isPlaying;
 
-  void setCurrentRadio({
+  void setRadio({
     required RadioStation radio,
   }) {
     _currentRadio = radio;
@@ -25,6 +25,12 @@ class CurrentRadioProvider extends ChangeNotifier {
   }) {
     _isPlaying = isPlaying;
     notifyListeners();
+  }
+
+  Future<void> setAudioStream({
+    required String url,
+  }) async {
+    await audioPlayer.setSource(UrlSource(url));
   }
 
 

@@ -15,10 +15,16 @@ class RadioTile extends StatefulWidget {
 class _RadioTileState extends State<RadioTile> {
   @override
   Widget build(BuildContext context) {
+
+    final currentRadioProvider = context.read<CurrentRadioProvider>();
+
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: InkWell(
-        onTap: () => context.read<CurrentRadioProvider>().setCurrentRadio(radio: widget.radio),
+        onTap: () {
+          currentRadioProvider.setRadio(radio: widget.radio);
+          currentRadioProvider.setAudioStream(url: widget.radio.streamUrl);
+        },
         child: Card(
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0),
           color: const Color(0xff0b0b15),
