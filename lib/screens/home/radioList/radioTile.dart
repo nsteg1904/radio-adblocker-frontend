@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../model/radioStation.dart';
 import '../../../provider/currentRadioProvider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RadioTile extends StatefulWidget {
   final RadioStation radio;
@@ -17,6 +18,12 @@ class _RadioTileState extends State<RadioTile> {
   Widget build(BuildContext context) {
 
     final currentRadioProvider = context.read<CurrentRadioProvider>();
+
+    void safeFavorites(int id, bool favorite) async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool(id.toString(), favorite);
+    }
+
 
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
@@ -46,7 +53,10 @@ class _RadioTileState extends State<RadioTile> {
               ),
             ),
             trailing: IconButton(
-              onPressed: () => setState(() => widget.radio.isFavorite = !widget.radio.isFavorite),
+              onPressed: () {
+                setState(() => widget.radio.isFavorite = !widget.radio.isFavorite);
+                safeFavorites(widget.radio.id, widget.radio.isFavorite);
+              } ,
               icon: Icon(
                 Icons.favorite,
                 color: widget.radio.isFavorite ? Colors.red : const Color(0xff7b7b8b),

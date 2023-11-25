@@ -74,7 +74,7 @@ class _MainScaffoldState extends State<MainScaffold> {
           create: (context) => RadioStationsProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => CurrentRadioProvider(RadioStation.namedParameter(name: "Bremen Next", streamUrl: "asdf", logoUrl: "bremen_next.png", genres: ["EDM", "Techno", "Pop"], status: "add", song: Song.namedParameter(name: "Losing it",artists: ["FISHER"]), isFavorite: true)),
+          create: (context) => CurrentRadioProvider(RadioStation.namedParameter(id:1,name: "Bremen Next", streamUrl: "asdf", logoUrl: "bremen_next.png", genres: ["EDM", "Techno", "Pop"], status: "add", song: Song.namedParameter(name: "Losing it",artists: ["FISHER"]), isFavorite: true)),
         ),
       ],
       child: Scaffold(
