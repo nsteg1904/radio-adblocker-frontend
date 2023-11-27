@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_adblocker/provider/currentRadioProvider.dart';
@@ -7,11 +9,12 @@ import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/radio/radio.dart';
 import 'package:radio_adblocker/screens/settings/settings.dart';
 import 'package:radio_adblocker/shared/colors.dart';
+import 'package:radio_adblocker/services/api.dart';
 
 import 'model/radioStation.dart';
 import 'model/song.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const MyApp());
 }
 
