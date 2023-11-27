@@ -65,7 +65,7 @@ class APIService {
   }
 
 /// Returns a List of Radiostations
-  void getRadioStations() async {
+  Future<List<RadioStation>> getRadioStations() async {
     //Warte auf Servermessage
     sendMessage(jsonEncode({
       "type": "search_request",
@@ -80,16 +80,19 @@ class APIService {
 
       int i = 0;
       for(var radio in dataDecoded['radios']){
-        //radioStationList[i].id = radio['id'];
-
+        radioStationList[i] = RadioStation.namedParameter(
+            id: radio['id'],
+            name: radio['name'],
+            streamUrl: radio['streamUrl'],
+            logoUrl: radio['logoUrl'],
+            genres: radio['genres'],
+            status: radio['status'],
+            song: radio['song']);
 
         i++;
       }
-
-//       for var element in dataDecoded['radios']
-//
     }
-//     RadioStation radioStation;
+    return radioStationList;
   }
 
 /// Returns a List of Radios that are playable (currently no adds), sorted by preference

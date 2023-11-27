@@ -84,50 +84,11 @@
 //   }
 // }
 
-// import 'dart:async';
-// import 'dart:io';
-// import 'package:web_socket_channel/io.dart';
-//
 // class Connection {
-//   static Connection? _instance;
-//   IOWebSocketChannel? _mainChannel;
-//   Map<String, IOWebSocketChannel> _channels = {};
+//     static Connection? _instance;
+//     IOWebSocketChannel? _mainChannel;
+//     Map<String, IOWebSocketChannel> _channels = {};
 //
-//   Connection._(); // Privater Konstruktor
-//
-//   static Future<Connection> getInstance() async {
-//     if (_instance == null) {
-//       _instance = Connection._();
-//       await _instance!._initWebSocket();
-//     }
-//     return _instance!;
-//   }
-//
-//   Future<void> _initWebSocket() async {
-//     try {
-//       final WebSocket ws = await WebSocket.connect('ws://185.233.107.253:5000/api')
-//           .timeout(Duration(seconds: 20));
-//
-//       _mainChannel = IOWebSocketChannel(ws);
-//     } catch (e) {
-//       if (e is TimeoutException) {
-//         print('Error: Connection timed out');
-//       } else {
-//         print('Error: Connection failed. ${e.toString()}');
-//       }
-//     }
-//   }
-//
-//   IOWebSocketChannel getChannel(String channelId) {
-//     if (_mainChannel == null) {
-//       throw Exception('Main channel not initialized. Call getInstance first.');
-//     }
-//
-//     if (!_channels.containsKey(channelId)) {
-//       _channels[channelId] = IOWebSocketChannel(_mainChannel!.streamController);
-//     }
-//     return _channels[channelId]!;
-//   }
 // }
 
 
