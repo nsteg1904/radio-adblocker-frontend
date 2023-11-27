@@ -9,9 +9,9 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingState extends State<Settings>{
-  bool switchValue1 = false;
-  bool switchValue2 = false;
-  bool switchValue3 = false;
+  bool dunkelModus = false;
+  bool nachrichten = false;
+  bool werbung = false;
 
   @override
   void initState() {
@@ -53,10 +53,10 @@ class _SettingState extends State<Settings>{
                 activeTrackColor: unSelectedElementColor,
                 inactiveTrackColor:Colors.grey[850],
                 inactiveThumbColor: Colors.grey[700],
-                value: switchValue1,
+                value: dunkelModus,
                 onChanged: (bool value) {
                   setState(() {
-                    switchValue1 = value;
+                    dunkelModus = value;
                     saveSettings();
                   });
                 },
@@ -78,10 +78,10 @@ class _SettingState extends State<Settings>{
                 activeTrackColor: unSelectedElementColor,
                 inactiveTrackColor:Colors.grey[850],
                 inactiveThumbColor: Colors.grey[700],
-                value: switchValue2,
+                value: nachrichten,
                 onChanged: (bool value) {
                   setState(() {
-                    switchValue2 = value;
+                    nachrichten = value;
                     saveSettings();
                   });
                 },
@@ -104,10 +104,10 @@ class _SettingState extends State<Settings>{
                 activeTrackColor: unSelectedElementColor,
                 inactiveTrackColor:Colors.grey[850],
                 inactiveThumbColor: Colors.grey[700],
-                value: switchValue3,
+                value: werbung,
                 onChanged: (bool value) {
                   setState(() {
-                    switchValue3 = value;
+                    werbung = value;
                     saveSettings();
                   });
                 },
@@ -120,16 +120,16 @@ class _SettingState extends State<Settings>{
   }
   void saveSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('switch1', switchValue1);
-    prefs.setBool('switch2', switchValue2);
-    prefs.setBool('switch3', switchValue3);
+    prefs.setBool('switch1', dunkelModus);
+    prefs.setBool('switch2', nachrichten);
+    prefs.setBool('switch3', werbung);
   }
   void loadSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      switchValue1 = prefs.getBool('switch1') ?? false;
-      switchValue2 = prefs.getBool('switch2') ?? false;
-      switchValue3 = prefs.getBool('switch3') ?? false;
+      dunkelModus = prefs.getBool('switch1') ?? false;
+      nachrichten = prefs.getBool('switch2') ?? false;
+      werbung = prefs.getBool('switch3') ?? false;
     });
   }
 }

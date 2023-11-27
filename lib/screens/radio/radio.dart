@@ -14,6 +14,7 @@ class RadioScreen extends StatefulWidget {
 
 class _RadioScreenState extends State<RadioScreen> {
   RadioStation currentRadio = RadioStation.namedParameter(
+      id:1,
       name: "1Live",
       streamUrl: "asdf",
       logoUrl: "1Live.png",
