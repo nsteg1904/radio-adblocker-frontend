@@ -19,22 +19,55 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   void initState() {
     super.initState();
     List<RadioStation> radioList = [
-      RadioStation.namedParameter(name: "Bremen Next", streamUrl: "https://d141.rndfnk.com/ard/rb/bremennext/live/mp3/128/stream.mp3?aggregator=radio-de&cid=01FC1W7JCTNQQ1J99JMF830D6A&sid=2Y1b9thMIxZmsLRLd0mghxOAa5z&token=8L1rIdBMw4oYbnQchWphgKG6nsUqmvHaE517v0H_HQ8&tvf=Mlde_guclhdkMTQxLnJuZGZuay5jb20", logoUrl: "bremen_next.png", genres: ["EDM", "Techno", "Pop"], status: "add", song: Song.namedParameter(name: "Losing it",artists: ["FISHER"]), isFavorite: true),
-      RadioStation("1Live", "https://d131.rndfnk.com/ard/wdr/1live/live/mp3/128/stream.mp3?cid=01FBRZTS1K1TCD4KA2YZ1ND8X3&sid=2XyxxkD71majarUcdiEln8KVqD5&token=O5zzKPieNrNpT5ppgEZzveXFuIIey1t9mxLvQqwTC3M&tvf=V9C7UtFSlhdkMTMxLnJuZGZuay5jb20", "1Live.png", ["EDM", "Techno", "Pop"], "https://d131.rndfnk.com/ard/wdr/1live/live/mp3/128/stream.mp3?cid=01FBRZTS1K1TCD4KA2YZ1ND8X3&sid=2XyxxkD71majarUcdiEln8KVqD5&token=O5zzKPieNrNpT5ppgEZzveXFuIIey1t9mxLvQqwTC3M&tvf=V9C7UtFSlhdkMTMxLnJuZGZuay5jb20", Song("Losing it",["FISHER"])),
-      RadioStation("WDR2", "https://d131.rndfnk.com/ard/wdr/wdr2/rheinland/mp3/64/stream.mp3?aggregator=radio-de&cid=01FBS03TJ7KW307WSY5W0W4NYB&sid=2Y1aSor0GIqmhSTTwZ8Zq0QewJ3&token=SqEhhntmIK61MhionZMTzRwWVWbS9UY29qgpghqQuDU&tvf=hzndCbyblhdkMTMxLnJuZGZuay5jb20", "wdr2.png", ["EDM", "Techno", "Pop"], "music", Song("Losing it",["FISHER"]),isFavorite: true),
-      RadioStation("100,5 Hitradio", "https://dashitradio-stream26.radiohost.de/dashitradio_128?ref=radiode", "100_5_Hitradio.png",["EDM", "Techno", "Pop"], "music", Song("Losing it",["FISHER"])),
-      RadioStation("NDR2", "https://f131.rndfnk.com/ard/ndr/ndr2/niedersachsen/aac/64/stream.aac?aggregator=radio-de&cid=01FBQ2CWDYWJHGF4QAJ0SVV730&sid=2YD7gBUwRLayh8OYpst97SjILkk&token=BHZN-D06D0Zv588DYWO1hRac2JbxKYLgTXDjALCG4rY&tvf=uoKCg6nclxdmMTMxLnJuZGZuay5jb20", "ndr2.png", ["EDM", "Techno", "Pop"], "music", Song("Losing it",["FISHER"])),
+      RadioStation.namedParameter(
+          name: "Bremen Next",
+          streamUrl:
+              "https://d141.rndfnk.com/ard/rb/bremennext/live/mp3/128/stream.mp3?aggregator=radio-de&cid=01FC1W7JCTNQQ1J99JMF830D6A&sid=2Y1b9thMIxZmsLRLd0mghxOAa5z&token=8L1rIdBMw4oYbnQchWphgKG6nsUqmvHaE517v0H_HQ8&tvf=Mlde_guclhdkMTQxLnJuZGZuay5jb20",
+          logoUrl: "bremen_next.png",
+          genres: ["EDM", "Techno", "Pop"],
+          status: "add",
+          song: Song.namedParameter(name: "Losing it", artists: ["FISHER"]),
+          isFavorite: true),
+      RadioStation(
+          "1Live",
+          "https://d131.rndfnk.com/ard/wdr/1live/live/mp3/128/stream.mp3?cid=01FBRZTS1K1TCD4KA2YZ1ND8X3&sid=2XyxxkD71majarUcdiEln8KVqD5&token=O5zzKPieNrNpT5ppgEZzveXFuIIey1t9mxLvQqwTC3M&tvf=V9C7UtFSlhdkMTMxLnJuZGZuay5jb20",
+          "1Live.png",
+          ["EDM", "Techno", "Pop"],
+          "https://d131.rndfnk.com/ard/wdr/1live/live/mp3/128/stream.mp3?cid=01FBRZTS1K1TCD4KA2YZ1ND8X3&sid=2XyxxkD71majarUcdiEln8KVqD5&token=O5zzKPieNrNpT5ppgEZzveXFuIIey1t9mxLvQqwTC3M&tvf=V9C7UtFSlhdkMTMxLnJuZGZuay5jb20",
+          Song("Losing it", ["FISHER"])),
+      RadioStation(
+          "WDR2",
+          "https://d131.rndfnk.com/ard/wdr/wdr2/rheinland/mp3/64/stream.mp3?aggregator=radio-de&cid=01FBS03TJ7KW307WSY5W0W4NYB&sid=2Y1aSor0GIqmhSTTwZ8Zq0QewJ3&token=SqEhhntmIK61MhionZMTzRwWVWbS9UY29qgpghqQuDU&tvf=hzndCbyblhdkMTMxLnJuZGZuay5jb20",
+          "wdr2.png",
+          ["EDM", "Techno", "Pop"],
+          "music",
+          Song("Losing it", ["FISHER"]),
+          isFavorite: true),
+      RadioStation(
+          "100,5 Hitradio",
+          "https://dashitradio-stream26.radiohost.de/dashitradio_128?ref=radiode",
+          "100_5_Hitradio.png",
+          ["EDM", "Techno", "Pop"],
+          "music",
+          Song("Losing it", ["FISHER"])),
+      RadioStation(
+          "NDR2",
+          "https://f131.rndfnk.com/ard/ndr/ndr2/niedersachsen/aac/64/stream.aac?aggregator=radio-de&cid=01FBQ2CWDYWJHGF4QAJ0SVV730&sid=2YD7gBUwRLayh8OYpst97SjILkk&token=BHZN-D06D0Zv588DYWO1hRac2JbxKYLgTXDjALCG4rY&tvf=uoKCg6nclxdmMTMxLnJuZGZuay5jb20",
+          "ndr2.png",
+          ["EDM", "Techno", "Pop"],
+          "music",
+          Song("Losing it", ["FISHER"])),
     ];
 
     //to ensure that the code is only called after the build phase
     Future.microtask(() {
       final currentRadioProvider = context.read<CurrentRadioProvider>();
-      final filterRadioStationsProvider = context.read<FilterRadioStationsProvider>();
+      final filterRadioStationsProvider =
+          context.read<FilterRadioStationsProvider>();
       final radioStationsProvider = context.read<RadioStationsProvider>();
 
       radioStationsProvider.changeRadioStationList(radios: radioList);
@@ -47,35 +80,26 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: [
-        Column(
-          children: [
-            // headline (12% of body)
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.12,
-              child: const Headline(),
-            ),
-            // filter options (15% of body)
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.15,
-              child: const FilterOptions(),
-            ),
-            // radio list (32% of body)
-            const Expanded(
-              child: RadioList(),
-            ),
-          ],
+        // headline (12% of body)
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.12,
+          child: const Headline(),
+        ),
+        // filter options (15% of body)
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.15,
+          child: const FilterOptions(),
+        ),
+        // radio list (32% of body)
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.50,
+          child: const RadioList(),
         ),
         // fixed current Radio positioned at the bottom edge (10% of the body)
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: const CurrentRadio()),
-        ),
+        const Expanded(
+          child: CurrentRadio()),
       ],
     );
   }
