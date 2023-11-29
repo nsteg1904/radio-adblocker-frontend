@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:web_socket_channel/io.dart';
 
+import '../model/radioStation.dart';
+import '../model/song.dart';
 import 'apiConnectionService.dart';
 
 class RadioListService {
@@ -26,28 +28,54 @@ class RadioListService {
     _channel?.sink.add(message);
   }
 
-  Future<String?> getRadioList() async {
-    // Erstelle einen Completer, um das Future manuell zu beenden
-    Completer<String?> completer = Completer<String?>();
 
-    // Höre auf Nachrichten vom Server
-    var subscription = _channel?.stream.listen(
-          (event) {
-        completer.complete(event);
+  RadioStation _radioFromServer(Map<String, dynamic> radio) {
+    return RadioStation.namedParameter(
+      id: radio["id"] ?? 1,
+      name: radio["name"] ?? "name",
+      streamUrl: radio["stream_url"] ?? "stream_url",
+      logoUrl: radio["logo_url"] ?? "logo_url",
+      status: radio["status_id"]?.toString() ?? "2",
+      song: Song.namedParameter(
+        name: radio["currently_playing"] ?? "currently_playing",
+        artists: radio["current_interpret"].toList() ?? [],
+      ),
+    );
+  }
+
+  // Funktioniert noch nicht korrekt
+  Stream<List<RadioStation>> getRadioList() {
+    StreamController<List<RadioStation>> controller = StreamController<List<RadioStation>>();
+
+    _channel?.stream.listen(
+          (dynamic serverResponse) {
+        try {
+          Map<String, dynamic> responseData = json.decode(serverResponse);
+          // print(responseData["radios"][0].runtimeType);
+          List<RadioStation> rList = (responseData["radios"] as List<dynamic>)
+              .map((radio) => _radioFromServer(radio))
+              .toList();
+
+          controller.add(rList);
+        } catch (e) {
+          print('Error parsing json data: $e');
+        }
       },
       onDone: () {
-        completer
-            .complete(null); // Setze auf null, wenn der Stream geschlossen wird
+        print('Stream closed');
+        // closes streamController when the stream is closed
+        controller.close();
       },
+      onError: (error) {
+        print('Error receiving data from server: $error');
+        // close streamController with error
+        controller.addError(error);
+        controller.close();
+      },
+      cancelOnError: true,
     );
 
-    // Warte auf die Fertigstellung des Future
-    String? message = await completer.future;
-
-    // Beende das Abonnement, um Ressourcen freizugeben
-    await subscription?.cancel();
-
-    return message;
+    return controller.stream;
   }
 
   Future<void> close() async {
