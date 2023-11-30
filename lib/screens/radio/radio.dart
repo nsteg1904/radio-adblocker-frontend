@@ -5,6 +5,7 @@ import 'package:radio_adblocker/model/radioStation.dart';
 
 import '../../model/song.dart';
 
+//Class, that holds the whole RadioScreen
 class RadioScreen extends StatefulWidget {
   const RadioScreen({super.key});
 
@@ -13,6 +14,7 @@ class RadioScreen extends StatefulWidget {
 }
 
 class _RadioScreenState extends State<RadioScreen> {
+  //TestData, needs to be substituted with Api Data
   RadioStation currentRadio = RadioStation.namedParameter(
       id:1,
       name: "1Live",
@@ -24,6 +26,7 @@ class _RadioScreenState extends State<RadioScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //Holds all seperate Elements of this Screen
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -40,12 +43,13 @@ class _RadioScreenState extends State<RadioScreen> {
                   color: Colors.white)),
           ),
         ),
-        //Bild des Radios
+        //Image of the current Radio
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.3,
           child: Image.asset('assets/${currentRadio.logoUrl}'),
         ),
+        //Song description of the current Radio
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.2,
@@ -68,9 +72,11 @@ class _RadioScreenState extends State<RadioScreen> {
             ),
           ),
         ),
+        //TODO: Create a line that is visualizing the sound
         Container(
           //Create a line that is visualizing the sound
         ),
+        //Control Buttons (Play, forward, backwards)
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.2,
@@ -81,6 +87,7 @@ class _RadioScreenState extends State<RadioScreen> {
   }
 }
 
+//Control Buttons
 class Controls extends StatelessWidget {
   const Controls({super.key});
 

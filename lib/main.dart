@@ -8,6 +8,7 @@ import 'package:radio_adblocker/provider/radioStationsProvider.dart';
 import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/radio/radio.dart';
 import 'package:radio_adblocker/screens/settings/settings.dart';
+import 'package:radio_adblocker/services/api.dart';
 import 'package:radio_adblocker/shared/colors.dart';
 
 import 'model/radioStation.dart';
@@ -19,6 +20,10 @@ Future<void> main() async {
   // String? asdf = await radioListService.getRadioList();
   // print(asdf);
   runApp(const MyApp());
+  APIService api = APIService();
+  await api.initWebSocket();
+  List<RadioStation> radioStations = await api.getRadioStations();
+  print(radioStations[1].logoUrl);
 }
 
 class MyApp extends StatelessWidget {
