@@ -12,6 +12,10 @@ import '../../model/radioStation.dart';
 import '../../model/song.dart';
 import '../../provider/radioStationsProvider.dart';
 
+/// This class represents the home screen.
+///
+/// It is the first screen the user sees when opening the app.
+/// It contains the headline, the filter options, the radio list and the current radio.
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -84,8 +88,8 @@ class _HomeState extends State<Home> {
       radioStationsProvider.changeRadioStationList(radios: rList);
       filterRadioStationsProvider.changeRadioStationList(radios: rList);
 
-      currentRadioProvider.setRadio(radio: rList[0]);
-      currentRadioProvider.setAudioStream(url: rList[0].streamUrl);
+      currentRadioProvider.setCurrentRadio(radio: rList[0]);
+      // currentRadioProvider.setAudioStream(url: rList[0].streamUrl);
     });
   }
 

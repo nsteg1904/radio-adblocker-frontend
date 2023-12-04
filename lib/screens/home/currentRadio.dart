@@ -7,6 +7,9 @@ import 'package:radio_adblocker/shared/colors.dart';
 import '../../model/radioStation.dart';
 import '../../provider/currentRadioProvider.dart';
 
+/// This class represents the radio station that is currently playing.
+///
+/// It is used in [Home] to display the current radio station.
 class CurrentRadio extends StatelessWidget {
   const CurrentRadio({super.key});
 

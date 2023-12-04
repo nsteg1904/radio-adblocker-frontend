@@ -8,15 +8,16 @@ import 'package:radio_adblocker/provider/radioStationsProvider.dart';
 import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/radio/radio.dart';
 import 'package:radio_adblocker/screens/settings/settings.dart';
+import 'package:radio_adblocker/services/radioListService.dart';
 import 'package:radio_adblocker/shared/colors.dart';
 
 import 'model/radioStation.dart';
 import 'model/song.dart';
 
 Future<void> main() async {
-  // RadioListService radioListService = RadioListService();
-  // await radioListService.requestRadioList(1);
-  // String? asdf = await radioListService.getRadioList();
+  RadioListService radioListService = RadioListService();
+  await radioListService.requestRadioList(1);
+  // final asdf = await radioListService.getRadioList();
   // print(asdf);
   runApp(const MyApp());
 }

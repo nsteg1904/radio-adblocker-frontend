@@ -4,7 +4,11 @@ import '../../../model/radioStation.dart';
 import '../../../provider/currentRadioProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// This class represents a radio tile.
+///
+/// It is used in [RadioList] to display a radio tile.
 class RadioTile extends StatefulWidget {
+  /// The radio station that is displayed in the tile.
   final RadioStation radio;
 
   const RadioTile({super.key, required this.radio});
@@ -17,11 +21,25 @@ class _RadioTileState extends State<RadioTile> {
   @override
   Widget build(BuildContext context) {
 
+    /// The currently selected radio station.
     final currentRadioProvider = context.read<CurrentRadioProvider>();
 
-    void safeFavorites(int id, bool favorite) async {
+    /// Saves the favorite state of a radio station.
+    ///
+    /// This method is called in [toggleFavorite].
+    /// It takes [id] and [favorite] as parameters.
+    /// It uses the [SharedPreferences] package to persist the favorites.
+    /// It saves the favorites in the [SharedPreferences] with the key [id]
+    /// and the value [favorite].
+    void safeFavoriteState(int id, bool favorite) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool(id.toString(), favorite);
+    }
+
+    /// Toggles the favorite state of a radio station.
+    void toggleFavorite() {
+      setState(() => widget.radio.isFavorite = !widget.radio.isFavorite);
+      safeFavoriteState(widget.radio.id, widget.radio.isFavorite);
     }
 
 
@@ -29,8 +47,7 @@ class _RadioTileState extends State<RadioTile> {
       padding: const EdgeInsets.only(top: 8.0),
       child: InkWell(
         onTap: () {
-          currentRadioProvider.setRadio(radio: widget.radio);
-          currentRadioProvider.setAudioStream(url: widget.radio.streamUrl);
+          currentRadioProvider.setCurrentRadio(radio: widget.radio);
         },
         child: Card(
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0),
@@ -53,10 +70,7 @@ class _RadioTileState extends State<RadioTile> {
               ),
             ),
             trailing: IconButton(
-              onPressed: () {
-                setState(() => widget.radio.isFavorite = !widget.radio.isFavorite);
-                safeFavorites(widget.radio.id, widget.radio.isFavorite);
-              } ,
+              onPressed: toggleFavorite,
               icon: Icon(
                 Icons.favorite,
                 color: widget.radio.isFavorite ? Colors.red : const Color(0xff7b7b8b),

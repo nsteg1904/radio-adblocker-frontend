@@ -4,10 +4,19 @@ import 'package:flutter/material.dart';
 import '../../../model/radioStation.dart';
 import '../../../shared/colors.dart';
 
+/// This class represents a filter button.
+///
+/// It is used in [FilterOptions] to display the filter buttons.
+/// It contains the logic for changing the color of the button when it is pressed.
+/// It takes the name of the button, the filter query, the method to run the filter and the filter queries as parameters.
 class FilterButton extends StatefulWidget {
+  /// The name of the button.
   final String name;
+  /// The filter query.
   final bool Function(RadioStation) filterQuery;
+  /// The method to run the filter.
   final Function(List<bool Function(RadioStation)>) runFilter;
+  /// The filter queries.
   final List<bool Function(RadioStation)> filterQueries;
 
   const FilterButton({super.key, required this.name, required this.filterQuery, required this.runFilter, required this.filterQueries});
@@ -17,11 +26,18 @@ class FilterButton extends StatefulWidget {
 }
 
 class _FilterButtonState extends State<FilterButton> {
+  /// Whether the button is pressed or not.
   bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
 
+    /// Runs the Button Filter.
+    ///
+    /// The state of [isPressed] is changed.
+    /// If [isPressed] is true, the parameter [FilterQuery] is added to the list [filerQueries] from the class [FilterOptions].
+    /// If [isPressed] is false, the parameter [FilterQuery] is removed from the list [filerQueries] from the class [FilterOptions].
+    /// The method [runFilter] from the class [FilterOptions] is called with the parameter [filterQueries].
     void runButtonFilter(bool Function(RadioStation) filterQuery) {
       setState(() => isPressed = !isPressed);
 

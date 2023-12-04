@@ -4,7 +4,10 @@ import 'package:radio_adblocker/provider/filterRadioStationsProvider.dart';
 import 'package:radio_adblocker/screens/home/radioList/radioTile.dart';
 import '../../../model/radioStation.dart';
 
-
+/// This class represents the list of radios.
+///
+/// It is used in [Home] to display the list of radios
+/// and contains the logic for displaying the radios.
 class RadioList extends StatefulWidget {
   const RadioList({super.key});
 

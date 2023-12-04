@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 
 import '../../../model/radioStation.dart';
 
+/// This class represents the search bar.
+///
+/// It is used in [FilterOptions] to display the search bar.
+/// It contains the text filtering of the radios.
 class Search extends StatefulWidget {
+  /// The method to run the filter.
   final Function(List<bool Function(RadioStation)>) runFilter;
+  /// The list of filter queries.
   final List<bool Function(RadioStation)> filterQueries;
 
   const Search(
@@ -17,13 +23,23 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
-    //removes search filter queries
+
+    /// Removes expired filter queries.
+    ///
+    /// This method is called in [runSearchFilter].
     void removeExpiredFilterQueries(bool Function(RadioStation) filterQuery) {
       widget.filterQueries.removeWhere(
         (existingQuery) => existingQuery.toString() == filterQuery.toString(),
       );
     }
 
+    /// Runs the search filter.
+    ///
+    /// This method is called in [onChanged].
+    /// It takes [value] and [filterQuery] as parameters.
+    /// It runs the filter only if [value] is not empty.
+    /// If [value] is not empty, it removes the expired filter queries.
+    /// It removes the filter from the list if [value] is empty.
     void runSearchFilter(
         String value, bool Function(RadioStation) filterQuery) {
       //run filter only if value != empty
