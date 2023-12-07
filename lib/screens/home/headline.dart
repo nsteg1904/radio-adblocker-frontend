@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:radio_adblocker/shared/colors.dart';
 
+/// This class represents the headline of the home screen.
+///
+/// It is used in [Home] to display the headline.
 class Headline extends StatelessWidget {
   const Headline({super.key});
 

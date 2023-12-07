@@ -10,11 +10,24 @@ import 'apiConnectionService.dart';
 class RadioListService {
   IOWebSocketChannel? _channel;
 
+  /// Initializes the channel for the radio list.
+  ///
+  /// It gets the channel from the [ApiConnectionService].
   Future<void> _initChannel() async {
-    ApiConnectionService con = await ApiConnectionService.getInstance();
-    _channel = con.getChannel('radioList');
+    try {
+
+      _channel = await ApiConnectionService.getChannel('radioList');
+
+      _channel ??= throw Exception("RadioListService: Channel could not be initialized");
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
+
+  /// Sends a request to the server to get the radio list.
+  ///
+  /// The [updateCount] is the number of updates that should be requested.
   Future<void> requestRadioList(int updateCount) async {
     if(_channel == null){
       await _initChannel();
@@ -44,7 +57,7 @@ class RadioListService {
   }
 
   // Funktioniert noch nicht korrekt
-  Stream<List<RadioStation>> getRadioList() {
+  Future<Stream<List<RadioStation>>> getRadioList() async {
     StreamController<List<RadioStation>> controller = StreamController<List<RadioStation>>();
 
     _channel?.stream.listen(
