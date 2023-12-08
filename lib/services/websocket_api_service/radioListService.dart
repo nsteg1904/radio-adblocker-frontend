@@ -3,20 +3,20 @@ import 'dart:convert';
 
 import 'package:web_socket_channel/io.dart';
 
-import '../model/radioStation.dart';
-import '../model/song.dart';
-import 'apiConnectionService.dart';
+import '../../model/radioStation.dart';
+import '../../model/song.dart';
+import 'websocket_connection_service.dart';
 
 class RadioListService {
   IOWebSocketChannel? _channel;
 
   /// Initializes the channel for the radio list.
   ///
-  /// It gets the channel from the [ApiConnectionService].
+  /// It gets the channel from the [WebSocketConnectionService].
   Future<void> _initChannel() async {
     try {
 
-      _channel = await ApiConnectionService.getChannel('radioList');
+      _channel = await WebSocketConnectionService.getChannel('radioList');
 
       _channel ??= throw Exception("RadioListService: Channel could not be initialized");
     } catch (e) {
@@ -51,7 +51,7 @@ class RadioListService {
       status: radio["status_id"]?.toString() ?? "2",
       song: Song.namedParameter(
         name: radio["currently_playing"] ?? "currently_playing",
-        artists: radio["current_interpret"].toList() ?? [],
+        artist: radio["current_interpret"].toList() ?? [],
       ),
     );
   }

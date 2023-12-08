@@ -6,7 +6,7 @@ import 'package:web_socket_channel/io.dart';
 ///
 /// This service is used to establish a connection to the API
 /// and to get the channels for the different API endpoints.
-class ApiConnectionService {
+class WebSocketConnectionService {
 
   /// The socket
   static WebSocket? _socket;

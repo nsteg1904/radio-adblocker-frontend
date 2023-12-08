@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_adblocker/provider/currentRadioProvider.dart';
 import 'package:radio_adblocker/provider/filterRadioStationsProvider.dart';
 import 'package:radio_adblocker/screens/home/currentRadio.dart';
 import 'package:radio_adblocker/screens/home/filter/filter.dart';
@@ -40,7 +39,7 @@ class _HomeState extends State<Home> {
         logoUrl: "bremen_next.png",
         genres: ["EDM", "Techno", "Pop"],
         status: "add",
-        song: Song.namedParameter(name: "Losing it", artists: ["FISHER"]),
+        song: Song.namedParameter(name: "Losing it", artist: "FISHER"),
       ),
       RadioStation(
           2,
@@ -49,7 +48,7 @@ class _HomeState extends State<Home> {
           "1Live.png",
           ["EDM", "Techno", "Pop"],
           "https://d131.rndfnk.com/ard/wdr/1live/live/mp3/128/stream.mp3?cid=01FBRZTS1K1TCD4KA2YZ1ND8X3&sid=2XyxxkD71majarUcdiEln8KVqD5&token=O5zzKPieNrNpT5ppgEZzveXFuIIey1t9mxLvQqwTC3M&tvf=V9C7UtFSlhdkMTMxLnJuZGZuay5jb20",
-          Song("Losing it", ["FISHER"])),
+          Song("Losing it", "FISHER")),
       RadioStation(
         3,
         "WDR2",
@@ -57,7 +56,7 @@ class _HomeState extends State<Home> {
         "wdr2.png",
         ["EDM", "Techno", "Pop"],
         "music",
-        Song("Losing it", ["FISHER"]),
+        Song("Losing it", "FISHER"),
       ),
       RadioStation(
           4,
@@ -66,7 +65,7 @@ class _HomeState extends State<Home> {
           "100_5_Hitradio.png",
           ["EDM", "Techno", "Pop"],
           "music",
-          Song("Losing it", ["FISHER"])),
+          Song("Losing it", "FISHER")),
       RadioStation(
           5,
           "NDR2",
@@ -74,32 +73,47 @@ class _HomeState extends State<Home> {
           "ndr2.png",
           ["EDM", "Techno", "Pop"],
           "music",
-          Song("Losing it", ["FISHER"])),
+          Song("Losing it", "FISHER")),
     ];
-    final rList = await loadFavorites(radioList);
+
+    List<int> rList = await loadFavoriteRadioIds();
+
+    for(int id in rList){
+      radioList.where((radio) => radio.id == id).first.isFavorite = true;
+    }
 
     //to ensure that the code is only called after the build phase
     Future.microtask(() {
-      final currentRadioProvider = context.read<CurrentRadioProvider>();
       final filterRadioStationsProvider =
           context.read<FilterRadioStationsProvider>();
       final radioStationsProvider = context.read<RadioStationsProvider>();
 
-      radioStationsProvider.changeRadioStationList(radios: rList);
-      filterRadioStationsProvider.changeRadioStationList(radios: rList);
-
-      currentRadioProvider.setCurrentRadio(radio: rList[0]);
-      // currentRadioProvider.setAudioStream(url: rList[0].streamUrl);
+      radioStationsProvider.changeRadioStationList(radios: radioList);
+      filterRadioStationsProvider.changeRadioStationList(radios: radioList);
     });
   }
 
-  Future<List<RadioStation>> loadFavorites(List<RadioStation> radioList) async {
+  Future<List<int>> loadFavoriteRadioIds() async {
+    List<int> favoriteRadioIds = [];
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    for (RadioStation radio in radioList) {
-      radio.isFavorite = prefs.getBool(radio.id.toString()) ?? false;
-    }
-    return radioList;
+
+    favoriteRadioIds = prefs
+        .getStringList("favoriteRadioIds")
+        ?.map((id) => int.parse(id))
+        .toList()
+        ?? [];
+
+    return favoriteRadioIds;
   }
+
+  // Future<List<RadioStation>> loadFavorites(List<RadioStation> radioList) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   for (RadioStation radio in radioList) {
+  //     radio.isFavorite = prefs.getBool(radio.id.toString()) ?? false;
+  //   }
+  //   return radioList;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -124,13 +138,13 @@ class _HomeState extends State<Home> {
           ],
         ),
         // fixed current Radio positioned at the bottom edge (10% of the body)
-        Positioned(
+        const Positioned(
           bottom: 0,
           left: 0,
           right: 0,
           child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: const CurrentRadio()),
+              // height: MediaQuery.of(context).size.height * 0.1,
+              child: CurrentRadio(),),
         ),
       ],
     );

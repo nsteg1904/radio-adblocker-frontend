@@ -20,7 +20,7 @@ class _RadioScreenState extends State<RadioScreen> {
       logoUrl: "1Live.png",
       genres: ["EDM", "Techno", "Pop"],
       status: "music",
-      song: Song.namedParameter(name: "Losing it", artists: ["FISHER"]));
+      song: Song.namedParameter(name: "Losing it", artist: "FISHER"));
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class _RadioScreenState extends State<RadioScreen> {
                         fontWeight: FontWeight.bold,
                         color: Colors.white)),
                 Text(
-                    currentRadio.song.artists[0],
+                    currentRadio.song.artist[0],
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

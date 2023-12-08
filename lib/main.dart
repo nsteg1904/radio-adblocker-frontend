@@ -1,52 +1,36 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_adblocker/provider/currentRadioProvider.dart';
 import 'package:radio_adblocker/provider/filterRadioStationsProvider.dart';
 import 'package:radio_adblocker/provider/radioStationsProvider.dart';
 import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/radio/radio.dart';
 import 'package:radio_adblocker/screens/settings/settings.dart';
-import 'package:radio_adblocker/services/radioListService.dart';
+import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_stream_service.dart';
 import 'package:radio_adblocker/shared/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/radioStation.dart';
-import 'model/song.dart';
+import 'services/audio_player_radio_stream_service.dart';
 
 Future<void> main() async {
-  RadioListService radioListService = RadioListService();
-  await radioListService.requestRadioList(1);
-  // final asdf = await radioListService.getRadioList();
-  // print(asdf);
-  runApp(const MyApp());
+  // This ensures that the initialization is complete before the app starts its execution.
+  await WebSocketRadioStreamService.initChannel();
+  runApp(const RadioAdblocker());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Radio Adblocker',
-      home: MainScaffold(),
-    );
-  }
-}
-
-class MainScaffold extends StatefulWidget {
-  const MainScaffold({super.key});
-
+class RadioAdblocker extends StatefulWidget {
+  const RadioAdblocker({super.key});
 
   @override
-  State<MainScaffold> createState() => _MainScaffoldState();
+  State<RadioAdblocker> createState() => _RadioAdblockerState();
 }
 
-class _MainScaffoldState extends State<MainScaffold> {
+class _RadioAdblockerState extends State<RadioAdblocker> {
+
   int _selectedIndex = 0;
   final Color _selectedColor = selectedElementColor;
   final Color _unselectedColor = unSelectedElementColor;
+
   void _onTabTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -55,8 +39,6 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   @override
   Widget build(BuildContext context) {
-
-
     Widget page;
     switch (_selectedIndex) {
       case 0:
@@ -72,50 +54,105 @@ class _MainScaffoldState extends State<MainScaffold> {
         throw UnimplementedError('no widget for $_selectedIndex');
     }
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => FilterRadioStationsProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => RadioStationsProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => CurrentRadioProvider(RadioStation.namedParameter(id:1,name: "Bremen Next", streamUrl: "asdf", logoUrl: "bremen_next.png", genres: ["EDM", "Techno", "Pop"], status: "add", song: Song.namedParameter(name: "Losing it",artists: ["FISHER"]), isFavorite: true)),
-        ),
-      ],
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        //to ensure the the body starts after the status bar-
-        body: SafeArea(
-          child: page,
-        ),
-        bottomNavigationBar:BottomNavigationBar(
-          currentIndex: _selectedIndex,
+    return MaterialApp(
+      title: 'Radio Adblocker',
+      home: MultiProvider(
+        providers: [
+          StreamProvider<RadioStation?>.value(
+              value: WebSocketRadioStreamService.getStreamableRadio(),
+              initialData: null,
+          ),
+          ChangeNotifierProvider(
+            create: (context) => FilterRadioStationsProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => RadioStationsProvider(),
+          ),
+        ],
+        child: Scaffold(
           backgroundColor: backgroundColor,
-
-          onTap: _onTabTapped,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.radio),
-              label: 'Radio',
-
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-            ),
-          ],
-
-          selectedItemColor: _selectedColor,
-          unselectedItemColor: _unselectedColor,
+          //to ensure the the body starts after the status bar-
+          body: InitProvider(page: page),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            backgroundColor: backgroundColor,
+            onTap: _onTabTapped,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.radio),
+                label: 'Radio',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: 'Settings',
+              ),
+            ],
+            selectedItemColor: _selectedColor,
+            unselectedItemColor: _unselectedColor,
+          ),
         ),
       ),
     );
   }
 }
+
+class InitProvider extends StatefulWidget {
+  final Widget page;
+  const InitProvider({super.key, required this.page});
+
+  @override
+  State<InitProvider> createState() => _InitProviderState();
+}
+
+class _InitProviderState extends State<InitProvider> {
+  int? loadLastListenedRadio() {
+    ///TODO: load last listened radio id from shared preferences
+    return 1;
+  }
+
+  Future<List<int>> loadFavoriteRadioIds() async {
+    List<int> favoriteRadioIds = [];
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    favoriteRadioIds = prefs
+        .getStringList("favoriteRadioIds")
+        ?.map((id) => int.parse(id))
+        .toList()
+        ?? [];
+
+    return favoriteRadioIds;
+  }
+
+  Future<void> initStreamRequest() async {
+    int? lastListenedRadio = loadLastListenedRadio();
+    List<int> favoriteRadioIds = await loadFavoriteRadioIds();
+
+    await WebSocketRadioStreamService.streamRequest(lastListenedRadio, favoriteRadioIds);
+  }
+
+  @override
+  void initState() {
+    initStreamRequest();
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    final streamableRadio = Provider.of<RadioStation?>(context);
+    AudioPlayerRadioStreamManager().setRadioSource(streamableRadio?.streamUrl);
+    print('${streamableRadio?.id}, ${streamableRadio?.name}, ${streamableRadio?.streamUrl}, ${streamableRadio?.logoUrl}, ${streamableRadio?.genres}, ${streamableRadio?.status}, ${streamableRadio?.song.name}, ${streamableRadio?.song.artist}');
+
+
+    return SafeArea(
+      child: widget.page,
+    );
+  }
+}
+

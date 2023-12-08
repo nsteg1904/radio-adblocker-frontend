@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:web_socket_channel/io.dart';
 
-import '../model/radioStation.dart';
+import '../../model/radioStation.dart';
 
 class APIService {
   IOWebSocketChannel? channel;
