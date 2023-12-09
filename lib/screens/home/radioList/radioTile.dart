@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../model/radioStation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../services/client_data_storage_service.dart';
 import '../../../services/websocket_api_service/websocket_radio_stream_service.dart';
 
 /// This class represents a radio tile.
@@ -21,27 +21,11 @@ class _RadioTileState extends State<RadioTile> {
   @override
   Widget build(BuildContext context) {
 
-    /// Saves the favorite state of a radio station.
-    ///
-    /// This method is called in [toggleFavorite].
-    /// It takes [radioId] as parameter.
-    /// It uses the [SharedPreferences] package to persist the favorites..
-    void safeFavoriteState(int radioId) async {
-      String id = radioId.toString();
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      List<String> favorites = prefs.getStringList("favoriteRadioIds") ?? [];
-
-      favorites.contains(id) ? favorites.remove(id) : favorites.add(id);
-
-
-      prefs.setStringList("favoriteRadioIds", favorites);
-    }
 
     /// Toggles the favorite state of a radio station.
     void toggleFavorite() {
       setState(() => widget.radio.isFavorite = !widget.radio.isFavorite);
-      safeFavoriteState(widget.radio.id);
+      ClientDataStorageService().safeFavoriteState(widget.radio.id);
     }
 
     return Padding(

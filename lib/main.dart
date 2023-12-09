@@ -5,9 +5,9 @@ import 'package:radio_adblocker/provider/radioStationsProvider.dart';
 import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/radio/radio.dart';
 import 'package:radio_adblocker/screens/settings/settings.dart';
+import 'package:radio_adblocker/services/client_data_storage_service.dart';
 import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_stream_service.dart';
 import 'package:radio_adblocker/shared/colors.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/radioStation.dart';
 import 'services/audio_player_radio_stream_service.dart';
@@ -109,28 +109,11 @@ class InitProvider extends StatefulWidget {
 }
 
 class _InitProviderState extends State<InitProvider> {
-  int? loadLastListenedRadio() {
-    ///TODO: load last listened radio id from shared preferences
-    return 1;
-  }
-
-  Future<List<int>> loadFavoriteRadioIds() async {
-    List<int> favoriteRadioIds = [];
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    favoriteRadioIds = prefs
-        .getStringList("favoriteRadioIds")
-        ?.map((id) => int.parse(id))
-        .toList()
-        ?? [];
-
-    return favoriteRadioIds;
-  }
 
   Future<void> initStreamRequest() async {
-    int? lastListenedRadio = loadLastListenedRadio();
-    List<int> favoriteRadioIds = await loadFavoriteRadioIds();
+    final prefService = ClientDataStorageService();
+    int? lastListenedRadio = await prefService.loadLastListenedRadio();
+    List<int> favoriteRadioIds = await prefService.loadFavoriteRadioIds();
 
     await WebSocketRadioStreamService.streamRequest(lastListenedRadio, favoriteRadioIds);
   }
@@ -138,7 +121,6 @@ class _InitProviderState extends State<InitProvider> {
   @override
   void initState() {
     initStreamRequest();
-
     super.initState();
   }
 
