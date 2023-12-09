@@ -26,11 +26,9 @@ class RadioAdblocker extends StatefulWidget {
 }
 
 class _RadioAdblockerState extends State<RadioAdblocker> {
-
   int _selectedIndex = 0;
   final Color _selectedColor = selectedElementColor;
   final Color _unselectedColor = unSelectedElementColor;
-
   void _onTabTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -39,7 +37,9 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
 
   @override
   Widget build(BuildContext context) {
+    //Holds the current screen
     Widget page;
+    //Switches the current screen
     switch (_selectedIndex) {
       case 0:
         page = const Home();

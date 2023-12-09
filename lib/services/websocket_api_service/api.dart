@@ -4,7 +4,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:web_socket_channel/io.dart';
 
-import '../../model/radioStation.dart';
+import '../model/radioStation.dart';
+import '../model/song.dart';
 
 class APIService {
   IOWebSocketChannel? channel;
@@ -64,34 +65,39 @@ class APIService {
     channel?.sink.close();
   }
 
-/// Returns a List of Radiostations
+/// Returns a List of [RadioStations]
   Future<List<RadioStation>> getRadioStations() async {
-    //Warte auf Servermessage
     sendMessage(jsonEncode({
       "type": "search_request",
       "requested_updates": 1
     }));
+    //Warte auf Servermessage
     String? data = await getServerMessage();
     List<RadioStation> radioStationList = [];
     if (data != null) {
       print('correct');
       var dataDecoded = jsonDecode(data);
-      print('this is it: ' + dataDecoded['radios'][1]['id'].toString());
+      //print('this is it: ' + dataDecoded['radios'].toString());
 
+      //Transformiere Daten in RadioStation List
       int i = 0;
       for(var radio in dataDecoded['radios']){
-        radioStationList[i] = RadioStation.namedParameter(
-            id: radio['id'],
-            name: radio['name'],
-            streamUrl: radio['streamUrl'],
-            logoUrl: radio['logoUrl'],
-            genres: radio['genres'],
-            status: radio['status'],
-            song: radio['song']);
-
+        radioStationList.add(RadioStation.namedParameter(
+            id: radio['id'] ?? "",
+            name: radio['name'] ?? "",
+            streamUrl: radio['stream_url'] ?? "",
+            logoUrl: radio['logo_url'] ?? "",
+            genres: ['no value'], //[radio['genres'] ?? ""],
+            status: 'no value', //radio['status_id'] ?? "",
+            song: Song.namedParameter(name: radio['currently_playing'] ?? "", artists: [radio['current_interpret'] ?? ""])
+        ));
         i++;
       }
     }
+    else{
+      print('error getting data');
+    }
+    close();
     return radioStationList;
   }
 
