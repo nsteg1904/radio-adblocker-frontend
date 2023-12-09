@@ -5,7 +5,9 @@ import 'package:radio_adblocker/model/radioStation.dart';
 
 import '../../model/song.dart';
 
-//Class, that holds the whole RadioScreen
+///Covers the whole screen and shows the current Radio with all its information and controls.
+///
+///Displays the current Radio with its name, logo, songname, artistname and controls.
 class RadioScreen extends StatefulWidget {
   const RadioScreen({super.key});
 
@@ -87,7 +89,7 @@ class _RadioScreenState extends State<RadioScreen> {
   }
 }
 
-//Control Buttons
+///Displays the control buttons to navigate between Radios and Play / Pause.
 class Controls extends StatelessWidget {
   const Controls({super.key});
 

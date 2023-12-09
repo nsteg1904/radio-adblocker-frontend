@@ -47,6 +47,10 @@ class MainScaffold extends StatefulWidget {
   State<MainScaffold> createState() => _MainScaffoldState();
 }
 
+///The main Scaffold of the App.
+///
+///This Scaffold contains the bottom navigation bar and the body, which is the current screen.
+///It also holds the providers for the filter, radio stations and the current radio.
 class _MainScaffoldState extends State<MainScaffold> {
   int _selectedIndex = 0;
   final Color _selectedColor = selectedElementColor;
@@ -59,9 +63,9 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   @override
   Widget build(BuildContext context) {
-
-
+    //Holds the current screen
     Widget page;
+    //Switches the current screen
     switch (_selectedIndex) {
       case 0:
         page = const Home();
