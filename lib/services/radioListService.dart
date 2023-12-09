@@ -51,25 +51,34 @@ class RadioListService {
       status: radio["status_id"]?.toString() ?? "2",
       song: Song.namedParameter(
         name: radio["currently_playing"] ?? "currently_playing",
-        artists: radio["current_interpret"].toList() ?? [],
+        artists: [radio["current_interpret"] ?? ""],
       ),
     );
   }
 
+
   // Funktioniert noch nicht korrekt
-  Future<Stream<List<RadioStation>>> getRadioList() async {
+  Future<Stream<List<RadioStation>>> getRadioList(int updateCount) async {
+    requestRadioList(updateCount);
     StreamController<List<RadioStation>> controller = StreamController<List<RadioStation>>();
+
+    //(responseData["radios"] as List<dynamic>).map((radio) => _radioFromServer(radio)).toList();
 
     _channel?.stream.listen(
           (dynamic serverResponse) {
         try {
-          Map<String, dynamic> responseData = json.decode(serverResponse);
-          // print(responseData["radios"][0].runtimeType);
-          List<RadioStation> rList = (responseData["radios"] as List<dynamic>)
-              .map((radio) => _radioFromServer(radio))
-              .toList();
+          var responseData = json.decode(serverResponse);
+          print(responseData['radios'].toString() + "\n\n");
+          List<RadioStation> radioStationList = [];
 
-          controller.add(rList);
+          for(var radio in responseData['radios']){
+            radioStationList.add(
+                _radioFromServer(radio)
+            );
+          }
+
+          controller.add(radioStationList);
+          print("the List of Radios: " + radioStationList.toString());
         } catch (e) {
           print('Error parsing json data: $e');
         }

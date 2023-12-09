@@ -65,7 +65,7 @@ class APIService {
     channel?.sink.close();
   }
 
-/// Returns a List of Radiostations
+/// Returns a List of [RadioStations]
   Future<List<RadioStation>> getRadioStations() async {
     sendMessage(jsonEncode({
       "type": "search_request",
@@ -77,7 +77,7 @@ class APIService {
     if (data != null) {
       print('correct');
       var dataDecoded = jsonDecode(data);
-      print('this is it: ' + dataDecoded['radios'].toString());
+      //print('this is it: ' + dataDecoded['radios'].toString());
 
       //Transformiere Daten in RadioStation List
       int i = 0;
@@ -94,6 +94,10 @@ class APIService {
         i++;
       }
     }
+    else{
+      print('error getting data');
+    }
+    close();
     return radioStationList;
   }
 
