@@ -51,7 +51,7 @@ class RadioListService {
       status: radio["status_id"]?.toString() ?? "2",
       song: Song.namedParameter(
         name: radio["currently_playing"] ?? "currently_playing",
-        artists: [radio["current_interpret"] ?? ""],
+        artist: radio["current_interpret"] ?? "",
       ),
     );
   }
