@@ -77,7 +77,7 @@ class _HomeState extends State<Home> {
           Song("Losing it", ["FISHER"])),
     ];
     final rList = await loadFavorites(radioList);
-
+    final lastRadio = await loadLastListenedRadio();
     //to ensure that the code is only called after the build phase
     Future.microtask(() {
       final currentRadioProvider = context.read<CurrentRadioProvider>();
@@ -88,7 +88,17 @@ class _HomeState extends State<Home> {
       radioStationsProvider.changeRadioStationList(radios: rList);
       filterRadioStationsProvider.changeRadioStationList(radios: rList);
 
-      currentRadioProvider.setCurrentRadio(radio: rList[0]);
+      // Setzen der zuletzt gehörten Radio-Station, falls verfügbar
+      if (lastRadio != null) {
+        // Finden der zuletzt gehörten Radio-Station anhand der ID
+        final lastListenedRadio = rList.firstWhere(
+              (radio) => radio.id == lastRadio,
+          orElse: () => rList[0],  // Falls die Radio-Station nicht gefunden wird, wird die erste in der Liste verwendet
+        );
+        currentRadioProvider.setCurrentRadio(radio: lastListenedRadio);
+      } else {
+        currentRadioProvider.setCurrentRadio(radio: rList[0]);
+      }
       // currentRadioProvider.setAudioStream(url: rList[0].streamUrl);
     });
   }
@@ -99,6 +109,11 @@ class _HomeState extends State<Home> {
       radio.isFavorite = prefs.getBool(radio.id.toString()) ?? false;
     }
     return radioList;
+  }
+
+  Future<int?> loadLastListenedRadio() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('lastListenedRadio');
   }
 
   @override

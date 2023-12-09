@@ -42,12 +42,19 @@ class _RadioTileState extends State<RadioTile> {
       safeFavoriteState(widget.radio.id, widget.radio.isFavorite);
     }
 
+    void saveLastListenedRadio(int id) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setInt('lastListenedRadio',id);
+    }
+
 
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: InkWell(
         onTap: () {
           currentRadioProvider.setCurrentRadio(radio: widget.radio);
+          // Speichere die ID der zuletzt gehörten Radio-Station
+          saveLastListenedRadio(widget.radio.id);
         },
         child: Card(
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0),
