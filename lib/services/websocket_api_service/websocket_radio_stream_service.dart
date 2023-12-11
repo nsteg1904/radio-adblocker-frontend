@@ -16,7 +16,7 @@ class WebSocketRadioStreamService {
   /// It gets the channel from the [WebSocketConnectionService].
   static Future<void> initChannel() async {
     try {
-      _channel = await WebSocketConnectionService.getChannel('radioList');
+      _channel = await WebSocketConnectionService.getChannel('RadioStream');
 
       _channel ??=
           throw Exception("RadioListService: Channel could not be initialized");
