@@ -6,6 +6,7 @@ import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/radio/radio.dart';
 import 'package:radio_adblocker/screens/settings/settings.dart';
 import 'package:radio_adblocker/services/client_data_storage_service.dart';
+import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_list_service.dart';
 import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_stream_service.dart';
 import 'package:radio_adblocker/shared/colors.dart';
 
@@ -14,7 +15,11 @@ import 'services/audio_player_radio_stream_service.dart';
 
 Future<void> main() async {
   // This ensures that the initialization is complete before the app starts its execution.
+  await WebSocketRadioListService.requestRadioList(10);
   await WebSocketRadioStreamService.initChannel();
+  // WebSocketRadioListService.getRadioList().listen((event) {
+  //   print(event.length);
+  // });
   runApp(const RadioAdblocker());
 }
 
@@ -67,6 +72,16 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
           ),
           ChangeNotifierProvider(
             create: (context) => RadioStationsProvider(),
+            child: RadioAdblocker(),
+          ),
+          // StreamProvider<List<RadioStation>>(
+          //   create: (context) => WebSocketRadioListService.getRadioList(),
+          //   initialData: const [],
+          // ),
+          StreamProvider<List<RadioStation>>.value(
+              value: WebSocketRadioListService.getRadioList(),
+              initialData: [],
+              //child: RadioAdblocker(),
           ),
         ],
         child: Scaffold(
@@ -116,6 +131,7 @@ class _InitProviderState extends State<InitProvider> {
     List<int> favoriteRadioIds = await prefService.loadFavoriteRadioIds();
 
     await WebSocketRadioStreamService.streamRequest(lastListenedRadio, favoriteRadioIds);
+
   }
 
   @override
@@ -126,10 +142,22 @@ class _InitProviderState extends State<InitProvider> {
 
   @override
   Widget build(BuildContext context) {
+    final radioStationsProvider = Provider.of<List<RadioStation>>(context);
+    for (var radio in radioStationsProvider) {
+      print("RadiostationsProvider: , $radio");
+      print("RadiostationsProvider: , ${radio.id}");
+      print("RadiostationsProvider: , ${radio.name}");
+      print("RadiostationsProvider: , ${radio.streamUrl}");
+      print("RadiostationsProvider: , ${radio.logoUrl}");
+      print("RadiostationsProvider: , ${radio.status}");
+      print("RadiostationsProvider: , ${radio.song.artist}");
+      print("RadiostationsProvider: , ${radio.song.name}");
+    }
 
     final streamableRadio = Provider.of<RadioStation?>(context);
     AudioPlayerRadioStreamManager().setRadioSource(streamableRadio?.streamUrl);
     print('${streamableRadio?.id}, ${streamableRadio?.name}, ${streamableRadio?.streamUrl}, ${streamableRadio?.logoUrl}, ${streamableRadio?.genres}, ${streamableRadio?.status}, ${streamableRadio?.song.name}, ${streamableRadio?.song.artist}');
+
 
 
     return SafeArea(

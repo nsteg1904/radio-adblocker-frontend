@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_list_service.dart';
 
 import '../model/radioStation.dart';
 
@@ -20,7 +21,9 @@ class RadioStationsProvider extends ChangeNotifier {
   void changeRadioStationList({
     required List<RadioStation> radios,
   }) {
-    this.radios = radios;
+    WebSocketRadioListService.getRadioList().listen((event) {
+      this.radios = event;
+    });
     notifyListeners();
   }
 }

@@ -42,7 +42,7 @@ class _RadioTileState extends State<RadioTile> {
           child: ListTile(
               leading: CircleAvatar(
                 radius: 25.0,
-                backgroundImage: AssetImage('assets/${widget.radio.logoUrl}'),
+                backgroundImage: NetworkImage('${widget.radio.logoUrl}'),
               ),
               title: Text(
                 widget.radio.name,
