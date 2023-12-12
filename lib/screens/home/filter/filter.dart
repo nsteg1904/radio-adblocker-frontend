@@ -27,7 +27,8 @@ class _FilterOptionsState extends State<FilterOptions> {
   @override
   Widget build(BuildContext context) {
     /// The list of all available radios.
-    List<RadioStation> radios = context.watch<RadioStationsProvider>().radios;  //all available radios
+    //List<RadioStation> radios = context.watch<RadioStationsProvider>().radios;  //all available radios
+    List<RadioStation> radios = Provider.of<List<RadioStation>>(context);
 
     /// Sets the radios in the [FilterRadioStationsProvider].
     ///

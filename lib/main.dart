@@ -34,6 +34,7 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
   int _selectedIndex = 0;
   final Color _selectedColor = selectedElementColor;
   final Color _unselectedColor = unSelectedElementColor;
+
   void _onTabTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -64,8 +65,8 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
       home: MultiProvider(
         providers: [
           StreamProvider<RadioStation?>.value(
-              value: WebSocketRadioStreamService.getStreamableRadio(),
-              initialData: null,
+            value: WebSocketRadioStreamService.getStreamableRadio(),
+            initialData: null,
           ),
           ChangeNotifierProvider(
             create: (context) => FilterRadioStationsProvider(),
@@ -79,9 +80,9 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
           //   initialData: const [],
           // ),
           StreamProvider<List<RadioStation>>.value(
-              value: WebSocketRadioListService.getRadioList(),
-              initialData: [],
-              //child: RadioAdblocker(),
+            value: WebSocketRadioListService.getRadioList(),
+            initialData: [],
+            //child: RadioAdblocker(),
           ),
         ],
         child: Scaffold(
@@ -117,6 +118,7 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
 
 class InitProvider extends StatefulWidget {
   final Widget page;
+
   const InitProvider({super.key, required this.page});
 
   @override
@@ -124,19 +126,29 @@ class InitProvider extends StatefulWidget {
 }
 
 class _InitProviderState extends State<InitProvider> {
-
   Future<void> initStreamRequest() async {
     final prefService = ClientDataStorageService();
     int? lastListenedRadio = await prefService.loadLastListenedRadio();
     List<int> favoriteRadioIds = await prefService.loadFavoriteRadioIds();
 
-    await WebSocketRadioStreamService.streamRequest(lastListenedRadio, favoriteRadioIds);
+    await WebSocketRadioStreamService.streamRequest(
+        lastListenedRadio, favoriteRadioIds);
+  }
 
+  void initializeData() async {
+    //to ensure that the code is only called after the build phase
+    Future.microtask(() {
+      final radioList = Provider.of<List<RadioStation>>(context);
+      final filterRadioStationsProvider =
+          context.read<FilterRadioStationsProvider>();
+      filterRadioStationsProvider.changeRadioStationList(radios: radioList);
+    });
   }
 
   @override
   void initState() {
     initStreamRequest();
+    initializeData();
     super.initState();
   }
 
@@ -156,13 +168,11 @@ class _InitProviderState extends State<InitProvider> {
 
     final streamableRadio = Provider.of<RadioStation?>(context);
     AudioPlayerRadioStreamManager().setRadioSource(streamableRadio?.streamUrl);
-    print('${streamableRadio?.id}, ${streamableRadio?.name}, ${streamableRadio?.streamUrl}, ${streamableRadio?.logoUrl}, ${streamableRadio?.genres}, ${streamableRadio?.status}, ${streamableRadio?.song.name}, ${streamableRadio?.song.artist}');
-
-
+    print(
+        '${streamableRadio?.id}, ${streamableRadio?.name}, ${streamableRadio?.streamUrl}, ${streamableRadio?.logoUrl}, ${streamableRadio?.genres}, ${streamableRadio?.status}, ${streamableRadio?.song.name}, ${streamableRadio?.song.artist}');
 
     return SafeArea(
       child: widget.page,
     );
   }
 }
-
