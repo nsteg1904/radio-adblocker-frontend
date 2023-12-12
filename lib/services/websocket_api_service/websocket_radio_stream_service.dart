@@ -19,7 +19,7 @@ class WebSocketRadioStreamService {
       _channel = await WebSocketConnectionService.getChannel('RadioStream');
 
       _channel ??=
-          throw Exception("RadioListService: Channel could not be initialized");
+          throw Exception("RadioStreamService: Channel could not be initialized");
     } catch (e) {
       print(e.toString());
     }

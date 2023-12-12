@@ -142,17 +142,17 @@ class _InitProviderState extends State<InitProvider> {
 
   @override
   Widget build(BuildContext context) {
-    final radioStationsProvider = Provider.of<List<RadioStation>>(context);
-    for (var radio in radioStationsProvider) {
-      print("RadiostationsProvider: , $radio");
-      print("RadiostationsProvider: , ${radio.id}");
-      print("RadiostationsProvider: , ${radio.name}");
-      print("RadiostationsProvider: , ${radio.streamUrl}");
-      print("RadiostationsProvider: , ${radio.logoUrl}");
-      print("RadiostationsProvider: , ${radio.status}");
-      print("RadiostationsProvider: , ${radio.song.artist}");
-      print("RadiostationsProvider: , ${radio.song.name}");
-    }
+    // final radioStationsProvider = Provider.of<List<RadioStation>>(context);
+    // for (var radio in radioStationsProvider) {
+    //   print("RadiostationsProvider: , $radio");
+    //   print("RadiostationsProvider: , ${radio.id}");
+    //   print("RadiostationsProvider: , ${radio.name}");
+    //   print("RadiostationsProvider: , ${radio.streamUrl}");
+    //   print("RadiostationsProvider: , ${radio.logoUrl}");
+    //   print("RadiostationsProvider: , ${radio.status}");
+    //   print("RadiostationsProvider: , ${radio.song.artist}");
+    //   print("RadiostationsProvider: , ${radio.song.name}");
+    // }
 
     final streamableRadio = Provider.of<RadioStation?>(context);
     AudioPlayerRadioStreamManager().setRadioSource(streamableRadio?.streamUrl);

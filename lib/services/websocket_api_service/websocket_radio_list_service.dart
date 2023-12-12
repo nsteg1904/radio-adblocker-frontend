@@ -1,42 +1,24 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:web_socket_channel/io.dart';
-import 'dart:io';
 import '../../model/radioStation.dart';
 import '../../model/song.dart';
 import 'websocket_connection_service.dart';
 
 class WebSocketRadioListService {
-  static WebSocket? _socket;
   static IOWebSocketChannel? _channel;
   static final StreamController<List<RadioStation>> _controller = StreamController<List<RadioStation>>();
-
-  static Future<void> _initWebSocket() async {
-    try {
-      _socket = await WebSocket.connect('ws://185.233.107.253:5000/api')
-          .timeout(const Duration(seconds: 20));
-
-      _socket ??= throw Exception("ApiConnectionService: Socket could not be initialized");
-
-    } catch (e) {
-      if (e is TimeoutException) {
-        print('ApiConnectionService: Connection Error: Connection timed out');
-      } else {
-        print('ApiConnectionService: Connection Error: ${e.toString()}');
-      }
-    }
-  }
+  static int remainingUpdates = 0;
 
   /// Initializes the channel for the radio list.
   ///
   /// It gets the channel from the [WebSocketConnectionService].
-  static Future<void> _initChannel() async {
+  static Future<void> initChannel() async {
     try {
-      await _initWebSocket();
-      _channel = IOWebSocketChannel(_socket!);
-      //_channel = await WebSocketConnectionService.getChannel('radioList');
+      _channel = await WebSocketConnectionService.getChannel('RadioList');
 
-      _channel ??= throw Exception("RadioListService: Channel could not be initialized");
+      _channel ??=
+      throw Exception("RadioListService: Channel could not be initialized");
     } catch (e) {
       print(e.toString());
     }
@@ -48,13 +30,15 @@ class WebSocketRadioListService {
   /// The [updateCount] is the number of updates that should be requested.
   static Future<void> requestRadioList(int updateCount) async {
     if(_channel == null){
-      await _initChannel();
+      await initChannel();
     }
 
     final message = jsonEncode({
       "type": "search_request",
       "requested_updates": updateCount
     });
+
+    remainingUpdates = updateCount;
 
     _channel?.sink.add(message);
   }
@@ -85,9 +69,14 @@ class WebSocketRadioListService {
       _channel?.stream.listen(
             (dynamic serverResponse) {
           var responseData = json.decode(serverResponse);
-          print(responseData['radios'].toString() + "\n\n");
-          List<RadioStation> radioStationList = [];
+          //print("Remaining Updates for List: " + responseData['remaining_updates'].toString() + "\n\n");
 
+          //Save Remaining Updates
+          remainingUpdates = responseData['remaining_updates'];
+          print("Remaining Updates for List: " + remainingUpdates.toString());
+
+          //Extract RadioStations
+          List<RadioStation> radioStationList = [];
           if (responseData['radios'] != null) {
             for (var radio in responseData['radios']) {
               if (radio != null) {
@@ -97,7 +86,6 @@ class WebSocketRadioListService {
               }
             }
           }
-          print(radioStationList.toString() + "\n\n");
           _controller.add(radioStationList);
         },
         onDone: () {
