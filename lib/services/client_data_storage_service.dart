@@ -3,6 +3,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// This class is responsible for loading and saving data to the device.
 class ClientDataStorageService {
 
+  /// The id of the favorite radio stations.
+  static List<int> favoriteRadioIds = [];
+
+  /// Maps a list of strings to a list of integers.
+  List<int> mapIds(List<String>? ids) {
+    return ids?.map((id) => int.parse(id)).toList() ?? [];
+  }
+
   /// Loads the id of the last listened radio station.
   int? loadLastListenedRadio() {
     ///TODO: load last listened radio id from shared preferences
@@ -11,15 +19,9 @@ class ClientDataStorageService {
 
   /// Loads the ids of the favorite radio stations.
   Future<List<int>> loadFavoriteRadioIds() async {
-    List<int> favoriteRadioIds = [];
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    favoriteRadioIds = prefs
-        .getStringList("favoriteRadioIds")
-        ?.map((id) => int.parse(id))
-        .toList()
-        ?? [];
+    favoriteRadioIds = mapIds(prefs.getStringList("favoriteRadioIds"));
 
     return favoriteRadioIds;
   }
@@ -29,7 +31,7 @@ class ClientDataStorageService {
   /// This method is called in [toggleFavorite].
   /// It takes [radioId] as parameter.
   /// It uses the [SharedPreferences] package to persist the favorites..
-  void safeFavoriteState(int radioId) async {
+  Future<void> safeFavoriteState(int radioId) async {
     String id = radioId.toString();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -37,8 +39,16 @@ class ClientDataStorageService {
 
     favorites.contains(id) ? favorites.remove(id) : favorites.add(id);
 
+    favoriteRadioIds = mapIds(favorites);
 
     prefs.setStringList("favoriteRadioIds", favorites);
+  }
+
+  bool isFavoriteRadio(int radioId) {
+
+    bool isFavorite = favoriteRadioIds.contains(radioId);
+
+    return isFavorite;
   }
 
 

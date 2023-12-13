@@ -18,23 +18,23 @@ class RadioTile extends StatefulWidget {
 }
 
 class _RadioTileState extends State<RadioTile> {
+
   @override
   Widget build(BuildContext context) {
 
+    bool isFavorite = ClientDataStorageService().isFavoriteRadio(widget.radio.id);
 
     /// Toggles the favorite state of a radio station.
-    void toggleFavorite() {
+    void toggleFavorite() async {
       setState(() => widget.radio.isFavorite = !widget.radio.isFavorite);
-      ClientDataStorageService().safeFavoriteState(widget.radio.id);
+      await ClientDataStorageService().safeFavoriteState(widget.radio.id);
     }
 
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: InkWell(
         onTap: () async {
-          // Change the current radio station.
           await WebSocketRadioStreamService.streamRequest(widget.radio.id, []);
-          // currentRadioProvider.setCurrentRadio(radio: widget.radio);
         },
         child: Card(
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0),
@@ -42,7 +42,7 @@ class _RadioTileState extends State<RadioTile> {
           child: ListTile(
               leading: CircleAvatar(
                 radius: 25.0,
-                backgroundImage: NetworkImage('${widget.radio.logoUrl}'),
+                backgroundImage: NetworkImage(widget.radio.logoUrl),
               ),
               title: Text(
                 widget.radio.name,
@@ -60,7 +60,7 @@ class _RadioTileState extends State<RadioTile> {
                 onPressed: toggleFavorite,
                 icon: Icon(
                   Icons.favorite,
-                  color: widget.radio.isFavorite
+                  color: isFavorite
                       ? Colors.red
                       : const Color(0xff7b7b8b),
                 ),

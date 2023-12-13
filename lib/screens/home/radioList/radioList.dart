@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:radio_adblocker/screens/home/radioList/radioTile.dart';
 import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_list_service.dart';
 import '../../../model/radioStation.dart';
-import '../../../provider/filterRadioStationsProvider.dart';
 
 /// This class represents the list of radios.
 ///
@@ -23,7 +22,8 @@ class _RadioListState extends State<RadioList> {
     if (WebSocketRadioListService.remainingUpdates == 0) {
       WebSocketRadioListService.requestRadioList(10);
     }
-    List<RadioStation> radioList = context.watch<FilterRadioStationsProvider>().radios;
+    // List<RadioStation> radioList = context.watch<FilterRadioStationsProvider>().radios;
+    final radioList = Provider.of<List<RadioStation>>(context);
 
     return ListView.builder(
       itemCount: radioList.length,

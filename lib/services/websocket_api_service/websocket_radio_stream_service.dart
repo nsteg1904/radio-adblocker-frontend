@@ -25,7 +25,11 @@ class WebSocketRadioStreamService {
     }
   }
 
-  static List<int> _createStreamRequestIds(int? requestedRadioId, List<int> favoriteRadioIds) {
+  static List<int> _createStreamRequestIds(int? reqRadioId, List<int> favRadioIds) {
+    int? requestedRadioId = reqRadioId;
+    // The favorite radio ids are copied to a new list.
+    List<int> favoriteRadioIds = List.from(favRadioIds);
+
     // The stream request ids are the ids of the radios that are requested from the server.
     List<int> streamRequestIds = [];
 

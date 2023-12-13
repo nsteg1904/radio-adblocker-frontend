@@ -137,12 +137,12 @@ class _InitProviderState extends State<InitProvider> {
 
   void initializeData() async {
     //to ensure that the code is only called after the build phase
-    Future.microtask(() {
-      final radioList = Provider.of<List<RadioStation>>(context);
-      final filterRadioStationsProvider =
-          context.read<FilterRadioStationsProvider>();
-      filterRadioStationsProvider.changeRadioStationList(radios: radioList);
-    });
+    // Future.microtask(() {
+    //   final radioList = Provider.of<List<RadioStation>>(context);
+    //   final filterRadioStationsProvider =
+    //       context.read<FilterRadioStationsProvider>();
+    //   filterRadioStationsProvider.changeRadioStationList(radios: radioList);
+    // });
   }
 
   @override
@@ -168,8 +168,7 @@ class _InitProviderState extends State<InitProvider> {
 
     final streamableRadio = Provider.of<RadioStation?>(context);
     AudioPlayerRadioStreamManager().setRadioSource(streamableRadio?.streamUrl);
-    print(
-        '${streamableRadio?.id}, ${streamableRadio?.name}, ${streamableRadio?.streamUrl}, ${streamableRadio?.logoUrl}, ${streamableRadio?.genres}, ${streamableRadio?.status}, ${streamableRadio?.song.name}, ${streamableRadio?.song.artist}');
+    print('${streamableRadio?.id}, ${streamableRadio?.name}, ${streamableRadio?.streamUrl}, ${streamableRadio?.logoUrl}, ${streamableRadio?.genres}, ${streamableRadio?.status}, ${streamableRadio?.song.name}, ${streamableRadio?.song.artist}');
 
     return SafeArea(
       child: widget.page,
