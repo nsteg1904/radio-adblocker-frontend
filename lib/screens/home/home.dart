@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
         // headline (12% of body)
         SizedBox(
@@ -35,9 +35,7 @@ class _HomeState extends State<Home> {
           height: MediaQuery.of(context).size.height * 0.50,
           child: const RadioList(),
         ),
-        // fixed current Radio positioned at the bottom edge (10% of the body)
-        const Expanded(
-          child: CurrentRadio()),
+        const CurrentRadio(),
       ],
     );
   }
