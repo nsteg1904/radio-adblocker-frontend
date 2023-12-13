@@ -72,35 +72,26 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: [
-        Column(
-          children: [
-            // headline (12% of body)
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.12,
-              child: const Headline(),
-            ),
-            // filter options (15% of body)
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.15,
-              child: const FilterOptions(),
-            ),
-            // radio list (32% of body)
-            const Expanded(
-              child: RadioList(),
-            ),
-          ],
+        // headline (12% of body)
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.12,
+          child: const Headline(),
+        ),
+        // filter options (15% of body)
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.15,
+          child: const FilterOptions(),
+        ),
+        // radio list (32% of body)
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.50,
+          child: const RadioList(),
         ),
         // fixed current Radio positioned at the bottom edge (10% of the body)
-        const Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: SizedBox(
-              // height: MediaQuery.of(context).size.height * 0.1,
-              child: CurrentRadio(),),
-        ),
+        const Expanded(
+          child: CurrentRadio()),
       ],
     );
   }
