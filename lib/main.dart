@@ -73,15 +73,11 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
           ),
           ChangeNotifierProvider(
             create: (context) => RadioStationsProvider(),
-            child: RadioAdblocker(),
+            child: const RadioAdblocker(),
           ),
-          // StreamProvider<List<RadioStation>>(
-          //   create: (context) => WebSocketRadioListService.getRadioList(),
-          //   initialData: const [],
-          // ),
           StreamProvider<List<RadioStation>>.value(
             value: WebSocketRadioListService.getRadioList(),
-            initialData: [],
+            initialData: const [],
             //child: RadioAdblocker(),
           ),
         ],
@@ -155,6 +151,9 @@ class _InitProviderState extends State<InitProvider> {
   @override
   Widget build(BuildContext context) {
     // final radioStationsProvider = Provider.of<List<RadioStation>>(context);
+    // final radioList = Provider.of<List<RadioStation>>(context);
+    // final filterRadioStationsProvider = context.read<FilterRadioStationsProvider>();
+    // filterRadioStationsProvider.changeRadioStationList(radios: radioList);
     // for (var radio in radioStationsProvider) {
     //   print("RadiostationsProvider: , $radio");
     //   print("RadiostationsProvider: , ${radio.id}");
