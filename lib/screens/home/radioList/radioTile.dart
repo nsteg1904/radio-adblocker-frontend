@@ -34,7 +34,8 @@ class _RadioTileState extends State<RadioTile> {
       padding: const EdgeInsets.only(top: 8.0),
       child: InkWell(
         onTap: () async {
-          await WebSocketRadioStreamService.streamRequest(widget.radio.id, []);
+          List<int> favIds = await ClientDataStorageService().loadFavoriteRadioIds();
+          await WebSocketRadioStreamService.streamRequest(widget.radio.id, favIds);
         },
         child: Card(
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0),

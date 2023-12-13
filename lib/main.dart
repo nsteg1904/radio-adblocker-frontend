@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_adblocker/provider/filterRadioStationsProvider.dart';
-import 'package:radio_adblocker/provider/radioStationsProvider.dart';
+import 'package:radio_adblocker/provider/filter_Queries_Provider.dart';
 import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/radio/radio.dart';
 import 'package:radio_adblocker/screens/settings/settings.dart';
@@ -68,17 +67,13 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
             value: WebSocketRadioStreamService.getStreamableRadio(),
             initialData: null,
           ),
-          ChangeNotifierProvider(
-            create: (context) => FilterRadioStationsProvider(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => RadioStationsProvider(),
-            child: const RadioAdblocker(),
-          ),
           StreamProvider<List<RadioStation>>.value(
             value: WebSocketRadioListService.getRadioList(),
             initialData: const [],
             //child: RadioAdblocker(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => FilterQueriesProvider(),
           ),
         ],
         child: Scaffold(
@@ -131,29 +126,15 @@ class _InitProviderState extends State<InitProvider> {
         lastListenedRadio, favoriteRadioIds);
   }
 
-  void initializeData() async {
-    //to ensure that the code is only called after the build phase
-    // Future.microtask(() {
-    //   final radioList = Provider.of<List<RadioStation>>(context);
-    //   final filterRadioStationsProvider =
-    //       context.read<FilterRadioStationsProvider>();
-    //   filterRadioStationsProvider.changeRadioStationList(radios: radioList);
-    // });
-  }
-
   @override
   void initState() {
     initStreamRequest();
-    initializeData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     // final radioStationsProvider = Provider.of<List<RadioStation>>(context);
-    // final radioList = Provider.of<List<RadioStation>>(context);
-    // final filterRadioStationsProvider = context.read<FilterRadioStationsProvider>();
-    // filterRadioStationsProvider.changeRadioStationList(radios: radioList);
     // for (var radio in radioStationsProvider) {
     //   print("RadiostationsProvider: , $radio");
     //   print("RadiostationsProvider: , ${radio.id}");
