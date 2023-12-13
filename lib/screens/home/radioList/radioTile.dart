@@ -36,6 +36,7 @@ class _RadioTileState extends State<RadioTile> {
         onTap: () async {
           List<int> favIds = await ClientDataStorageService().loadFavoriteRadioIds();
           await WebSocketRadioStreamService.streamRequest(widget.radio.id, favIds);
+          ClientDataStorageService().saveLastListenedRadio(widget.radio.id);
         },
         child: Card(
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0),
