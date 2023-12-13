@@ -12,9 +12,10 @@ class ClientDataStorageService {
   }
 
   /// Loads the id of the last listened radio station.
-  int? loadLastListenedRadio() {
-    ///TODO: load last listened radio id from shared preferences
-    return 1;
+  Future<int?> loadLastListenedRadio() async{
+    /// load last listened radio id from shared preferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('lastListenedRadio');
   }
 
   /// Loads the ids of the favorite radio stations.
@@ -50,6 +51,9 @@ class ClientDataStorageService {
 
     return isFavorite;
   }
-
-
+  /// Methode zum Speichern der ID der zuletzt gehörten Radio-Station in shared prefrences
+  void saveLastListenedRadio(int id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('lastListenedRadio',id);
+  }
 }
