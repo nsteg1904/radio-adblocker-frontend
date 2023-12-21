@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:radio_adblocker/model/radioStation.dart';
 
 import '../../model/song.dart';
+import '../../shared/colors.dart';
+import '../../shared/radioStreamControlButton.dart';
 
 ///Covers the whole screen and shows the current Radio with all its information and controls.
 ///
@@ -90,33 +92,45 @@ class _RadioScreenState extends State<RadioScreen> {
 }
 
 ///Displays the control buttons to navigate between Radios and Play / Pause.
-class Controls extends StatelessWidget {
+class Controls extends StatefulWidget {
+  static const double size = 2;
   const Controls({super.key});
 
+  @override
+  State<Controls> createState() => _ControlsState();
+}
+
+class _ControlsState extends State<Controls> {
   @override
   Widget build(BuildContext context) {
     //Make the buttons bigger and in the center of the row
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        IconButton(
-          icon: const Icon(Icons.skip_previous),
-          iconSize: 80,
-          color: Colors.white,
-          onPressed: () {},
+        CircleAvatar(
+          radius: 27.0 * Controls.size, // to scale Widget size
+          backgroundColor: backgroundColor,
+          child: IconButton(
+            icon: const Icon(Icons.skip_previous),
+            iconSize: 35 * Controls.size,
+            color: Colors.white,
+            onPressed: () {},
+          )
         ),
-        IconButton.outlined(
-          icon: const Icon(Icons.play_arrow),
-          selectedIcon: const Icon(Icons.pause),
-          iconSize: 80,
-          color: Colors.white,
-          onPressed: () {},
+        const RadioStreamControlButton(
+          //gives the size of widget as a parameter to scale the widget
+          size: Controls.size,
         ),
-        IconButton(
-          icon: const Icon(Icons.skip_next),
-          iconSize: 80,
-          color: Colors.white,
-          onPressed: () {},
+        CircleAvatar(
+            radius: 27.0 * Controls.size, // to scale Widget size
+            backgroundColor: backgroundColor,
+            child: IconButton(
+              icon: const Icon(Icons.skip_next,),
+              iconSize: 35 * Controls.size,
+              color: Colors.white,
+              onPressed: () {},
+            )
         ),
       ],);
   }
