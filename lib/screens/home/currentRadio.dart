@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:radio_adblocker/shared/auto_scrolling_text.dart';
 import 'package:radio_adblocker/shared/radioStreamControlButton.dart';
 import 'package:radio_adblocker/shared/colors.dart';
 
@@ -22,20 +23,29 @@ class CurrentRadio extends StatelessWidget {
           ? ListTile(
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(currentRadio.logoUrl,
+                child: Image.network(
+                  currentRadio.logoUrl,
                   width: 50.0,
                   height: 50.0,
                   fit: BoxFit.cover,
                 ),
               ),
-              title: Text(
-                currentRadio.song.name,
-                style: const TextStyle(color: defaultFontColor),
+              title: Container(
+                color: Colors.blue,
+                child: const AutoScrollingText(
+                  caller: "CurrentRadio",
+                  text: "Das ist ein sehrrrrrrxxxxxx",
+                  style: TextStyle(
+                    color: defaultFontColor,
+                    // overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ),
-              subtitle: Text(
-                currentRadio.song.artist,
-                style: const TextStyle(color: defaultFontColor),
-              ),
+              subtitle: Text("Hallo"),
+              // AutoScrollingText(
+              //   text: currentRadio.song.artist,
+              //   style: const TextStyle(color: defaultFontColor),
+              // ),
               trailing: const RadioStreamControlButton(
                 size: 1.0,
               ),
