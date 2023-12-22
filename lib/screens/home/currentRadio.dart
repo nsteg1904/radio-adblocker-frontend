@@ -6,6 +6,7 @@ import 'package:radio_adblocker/shared/radioStreamControlButton.dart';
 import 'package:radio_adblocker/shared/colors.dart';
 
 import '../../model/radioStation.dart';
+import '../../shared/custom_list_tile.dart';
 
 /// This class represents the radio station that is currently playing.
 ///
@@ -18,34 +19,33 @@ class CurrentRadio extends StatelessWidget {
     RadioStation? currentRadio = Provider.of<RadioStation?>(context);
 
     return Card(
+      margin: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 5.0),
       color: const Color(0xff1d1d30),
       child: currentRadio != null
-          ? ListTile(
+          ? CustomListTile(
+              padding: 14,
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.network(
                   currentRadio.logoUrl,
-                  width: 50.0,
-                  height: 50.0,
                   fit: BoxFit.cover,
                 ),
               ),
-              title: Container(
-                color: Colors.blue,
-                child: const AutoScrollingText(
-                  caller: "CurrentRadio",
-                  text: "Das ist ein sehrrrrrrxxxxxx",
-                  style: TextStyle(
-                    color: defaultFontColor,
-                    // overflow: TextOverflow.ellipsis,
-                  ),
+              title: AutoScrollingText(
+                text: currentRadio.song.name,
+                style: const TextStyle(
+                  color: defaultFontColor,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              subtitle: Text("Hallo"),
-              // AutoScrollingText(
-              //   text: currentRadio.song.artist,
-              //   style: const TextStyle(color: defaultFontColor),
-              // ),
+              subtitle: AutoScrollingText(
+                text: currentRadio.song.artist,
+                style: const TextStyle(
+                  color: defaultFontColor,
+                  fontSize: 16.0,
+                ),
+              ),
               trailing: const RadioStreamControlButton(
                 size: 1.0,
               ),

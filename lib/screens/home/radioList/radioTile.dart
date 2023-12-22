@@ -52,17 +52,15 @@ class _RadioTileState extends State<RadioTile> {
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.network(
                   widget.radio.logoUrl,
-                  width: 50.0,
-                  height: 50.0,
                   fit: BoxFit.cover,
                 ),
               ),
               title: AutoScrollingText(
-                caller: "RadioTile",
                 text: widget.radio.name,
                 style: const TextStyle(
                   color: defaultFontColor,
-                  fontSize: 18.0,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               subtitle: AutoScrollingText(
@@ -83,59 +81,12 @@ class _RadioTileState extends State<RadioTile> {
               ),
               trailing: Icon(
                 widget.radio.status != "1" ? Icons.music_note : Icons.block,
-                color: Colors.white,
+                color: selectedElementColor,
               ),
             ),
-
-            // ListTile(
-            //   leading: ClipRRect(
-            //     borderRadius: BorderRadius.circular(8.0),
-            //     child: Image.network(
-            //       widget.radio.logoUrl,
-            //       width: 50.0,
-            //       height: 50.0,
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            //   title: AutoScrollingText(
-            //     caller: "RadioTile",
-            //     text: widget.radio.name,
-            //     style: const TextStyle(
-            //       color: defaultFontColor,
-            //       fontSize: 18.0,
-            //     ),
-            //   ),
-            //   subtitle: Padding(
-            //     padding: const EdgeInsets.only(left: 10.0),
-            //     child: Text("Hallo"),
-            //     // AutoScrollingText(
-            //     //   text: widget.radio.status == "1" ? "Werbung" : "Musik",
-            //     //   style: const TextStyle(
-            //     //     color: defaultFontColor,
-            //     //     fontSize: 12.0,
-            //     //   ),
-            //     // ),
-            //   ),
-            //   trailing: IconButton(
-            //     onPressed: toggleFavorite,
-            //     icon: Icon(
-            //       Icons.favorite,
-            //       color: isFavorite
-            //           ? selectedFavIconColor
-            //           : unSelectedFavIconColor,
-            //     ),
-            //   ),
-            // ),
           ),
         ),
       ),
     );
-    // child: Text(
-    //   widget.radio.name,
-    //   style: const TextStyle(
-    //     color: defaultFontColor,
-    //     fontSize: 20.0,
-    //   ),
-    // ),
   }
 }
