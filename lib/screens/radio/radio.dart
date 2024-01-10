@@ -4,11 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_adblocker/model/radioStation.dart';
 
-import '../../model/song.dart';
-import '../../services/client_data_storage_service.dart';
-import '../../services/websocket_api_service/websocket_radio_stream_service.dart';
-import '../../shared/colors.dart';
-import '../../shared/radioStreamControlButton.dart';
+import 'controls.dart';
 
 ///Covers the whole screen and shows the current Radio with all its information and controls.
 ///
@@ -81,69 +77,12 @@ class _RadioScreenState extends State<RadioScreen> {
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.2,
-          child: Controls(),
+          child: const Controls(),
         ),
       ],
     );
   }
 }
 
-///Displays the control buttons to navigate between Radios and Play / Pause.
-class Controls extends StatefulWidget {
-  static const double size = 2;
-  const Controls({super.key});
 
-  @override
-  State<Controls> createState() => _ControlsState();
-}
-
-class _ControlsState extends State<Controls> {
-  @override
-  Widget build(BuildContext context) {
-    //Make the buttons bigger and in the center of the row
-    return Row(
-      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        CircleAvatar(
-          radius: 27.0 * Controls.size, // to scale Widget size
-          backgroundColor: backgroundColor,
-          child: IconButton(
-            icon: const Icon(Icons.skip_previous),
-            iconSize: 35 * Controls.size,
-            color: Colors.white,
-            onPressed: () {},
-          )
-        ),
-        const RadioStreamControlButton(
-          //gives the size of widget as a parameter to scale the widget
-          size: Controls.size,
-        ),
-        CircleAvatar(
-            radius: 27.0 * Controls.size, // to scale Widget size
-            backgroundColor: backgroundColor,
-            child: IconButton(
-              icon: const Icon(Icons.skip_next,),
-              iconSize: 35 * Controls.size,
-              color: Colors.white,
-              onPressed: () async {
-                //Get ID of current Radio
-                final int currentRadioId = Provider.of<RadioStation?>(context, listen: false)!.id;
-                //Get List of all Radios
-                final List<RadioStation> radioList = Provider.of<List<RadioStation>>(context, listen: false);
-                //Get the index of the current Radio in the List
-                final int currentRadioIndex = radioList.indexWhere((element) => element.id == currentRadioId);
-                print("Current Radio Index: $currentRadioIndex");
-                //Request the next Radio
-                //TODO: Delete current Radio from Favorite List
-                List<int> favIds = await ClientDataStorageService().loadFavoriteRadioIds();
-                print("Next Radio Index: ${(currentRadioIndex + 1) % radioList.length}");
-                print("Next Radio ID: ${radioList[(currentRadioIndex + 1) % radioList.length].id}");
-                await WebSocketRadioStreamService.streamRequest(radioList[(currentRadioIndex + 1) % radioList.length].id, favIds);
-              },
-            )
-        ),
-      ],);
-  }
-}
 
