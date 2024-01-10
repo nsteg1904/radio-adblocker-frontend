@@ -22,6 +22,8 @@ class _RadioStreamControlButtonState extends State<RadioStreamControlButton> {
   @override
   Widget build(BuildContext context) {
     AudioPlayerRadioStreamManager streamManager = AudioPlayerRadioStreamManager();
+    //Frage Zustand des Streams ab, um Play/Pause Button zu aktualisieren
+    setState(() => isPlaying = streamManager.isPlaying);
 
     /// Toggle the radio stream between play and pause.
     Future<void> togglePlayPause() async {
