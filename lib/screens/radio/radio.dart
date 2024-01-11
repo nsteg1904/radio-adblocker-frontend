@@ -17,9 +17,6 @@ class RadioScreen extends StatefulWidget {
 }
 
 class _RadioScreenState extends State<RadioScreen> {
-  //TestData, needs to be substituted with Api Data
-
-
   @override
   Widget build(BuildContext context) {
     RadioStation? currentRadio = Provider.of<RadioStation?>(context);
