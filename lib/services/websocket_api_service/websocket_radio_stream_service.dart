@@ -115,7 +115,8 @@ class WebSocketRadioStreamService {
       _channel?.stream.listen(
             (dynamic serverResponse) {
           RadioStation radio = _extractRadioFromServerResponse(serverResponse);
-          // print(radio);
+          //print("Print this Radiostation: ");
+           //print(serverResponse);
           _controller.add(radio);
         },
         onDone: () {
