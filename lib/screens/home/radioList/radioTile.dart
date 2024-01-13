@@ -34,6 +34,11 @@ class _RadioTileState extends State<RadioTile> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        Future.delayed(const Duration(seconds: 5), () {
+          if (Navigator.of(context).canPop()) {
+            Navigator.of(context).pop(true);
+          }
+        });
         return AlertDialog(
           backgroundColor: backgroundColor ,
           title: Text(
