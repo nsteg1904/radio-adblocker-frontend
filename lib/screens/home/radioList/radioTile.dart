@@ -30,7 +30,7 @@ class _RadioTileState extends State<RadioTile> {
       await ClientDataStorageService().safeFavoriteState(widget.radio.id);
     }
     /// Shows a dialog if the radio station is currently playing an ad.
-  void showRadioStationDialog() {
+  void showRadioStationDialog() async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
