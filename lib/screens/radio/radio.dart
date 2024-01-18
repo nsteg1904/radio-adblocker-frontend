@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_adblocker/model/radioStation.dart';
+import '../../../shared/auto_scrolling_text.dart';
 
 import 'controls.dart';
 
@@ -50,14 +51,14 @@ class _RadioScreenState extends State<RadioScreen> {
           child: Center(
             child: Column(
               children: [
-                Text(
-                    currentRadio.song.name,
+                 AutoScrollingText(
+                    text: currentRadio.song.name,
                     style: const TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
                         color: Colors.white)),
-                Text(
-                    currentRadio.song.artist,
+                AutoScrollingText(
+                    text: currentRadio.song.artist,
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -65,10 +66,6 @@ class _RadioScreenState extends State<RadioScreen> {
               ],
             ),
           ),
-        ),
-        //TODO: Create a line that is visualizing the sound
-        Container(
-          //Create a line that is visualizing the sound
         ),
         //Control Buttons (Play, forward, backwards)
         Container(
