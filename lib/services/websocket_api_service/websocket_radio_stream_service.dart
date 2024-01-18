@@ -30,6 +30,9 @@ class WebSocketRadioStreamService {
     // The favorite radio ids are copied to a new list.
     List<int> favoriteRadioIds = List.from(favRadioIds);
 
+    //TODO: ID 5 entfernen, da temporär nicht verfügbar
+    favoriteRadioIds.remove(5);
+
     // The stream request ids are the ids of the radios that are requested from the server.
     List<int> streamRequestIds = [];
 

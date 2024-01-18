@@ -42,6 +42,7 @@ class _RadioTileState extends State<RadioTile> {
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0),
           color: const Color(0xff0b0b15),
           child: ListTile(
+              //key: ValueKey(widget.radio.id),
               leading: CircleAvatar(
                 radius: 25.0,
                 backgroundImage: NetworkImage(widget.radio.logoUrl),
@@ -58,17 +59,23 @@ class _RadioTileState extends State<RadioTile> {
                   color: Colors.white,
                 ),
               ),
-              trailing: IconButton(
-                onPressed: toggleFavorite,
-                icon: Icon(
-                  Icons.favorite,
-                  color: isFavorite
-                      ? Colors.red
-                      : const Color(0xff7b7b8b),
-                ),
-              )),
+              trailing: ReorderableDragStartListener(
+                index: widget.radio.id,
+                child: const Icon(Icons.drag_handle),
+          ),
+          ),
         ),
       ),
     );
   }
 }
+
+// IconButton(
+// onPressed: toggleFavorite,
+// icon: Icon(
+// Icons.favorite,
+// color: isFavorite
+// ? Colors.red
+//     : const Color(0xff7b7b8b),
+// ),
+// )

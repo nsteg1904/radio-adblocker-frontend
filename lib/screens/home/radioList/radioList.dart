@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_adblocker/screens/home/radioList/radioTile.dart';
 import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_list_service.dart';
@@ -26,6 +26,7 @@ class _RadioListState extends State<RadioList> {
 
     final radioList = Provider.of<List<RadioStation>>(context);
     final filterQueries = Provider.of<FilterQueriesProvider>(context).filterQueries;
+    print(filterQueries.toString());
 
     List<RadioStation> runFilter(List<bool Function(RadioStation)> filterQueries, List<RadioStation> radios) {
       List<RadioStation> filteredRadios = radios;
@@ -40,11 +41,44 @@ class _RadioListState extends State<RadioList> {
     List<RadioStation> rList = runFilter(filterQueries, radioList);
     rList.isNotEmpty ? rList.sort((a, b) => a.id.compareTo(b.id)) : rList = [];
 
-    return ListView.builder(
-      itemCount: rList.length,
-      itemBuilder: (context, index) {
-        return RadioTile(radio: rList[index]);
-      },
+    // return ListView.builder(
+    //   itemCount: rList.length,
+    //   itemBuilder: (context, index) {
+    //     return RadioTile(radio: rList[index]);
+    //   },
+    // );
+
+
+    return ReorderableListView.builder(
+        itemBuilder: (context, index) {
+          return RadioTile(radio: rList[index], key: ValueKey('$index'));
+        },
+        itemCount: rList.length,
+        onReorder: (int oldIndex, int newIndex) {
+          setState(() {
+            if (newIndex > oldIndex) {
+              newIndex -= 1;
+            }
+            final RadioStation item = rList.removeAt(oldIndex);
+            rList.insert(newIndex, item);
+          });
+        },
     );
+
+    // return ReorderableListView(
+    //   children: <Widget>[
+    //     for (final radio in rList)
+    //       RadioTile(radio: radio, key: ValueKey(radio.id)),
+    //   ],
+    //   onReorder: (int oldIndex, int newIndex) {
+    //     setState(() {
+    //       if (newIndex > oldIndex) {
+    //         newIndex -= 1;
+    //       }
+    //       final RadioStation item = rList.removeAt(oldIndex);
+    //       rList.insert(newIndex, item);
+    //     });
+    //   },
+    // );
   }
 }
