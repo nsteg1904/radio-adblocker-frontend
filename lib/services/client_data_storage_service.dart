@@ -62,14 +62,20 @@ class ClientDataStorageService {
   /// 0 is the highest priority
   Future<void> safeRadioPriorities(List<RadioStation> rList) async {
     rList.sort((a, b) => a.priority.compareTo(b.priority));
-    List<int> priorities = [];
-    rList.map((e) => priorities.add(e.id));
-    List<String> priosString = [];
-    priorities.map((e) => priosString.add(e.toString()));
+    List<int> prioritiesInt = [];
+    for (final radio in rList) {
+      prioritiesInt.add(radio.id);
+    }
+    RadioPriorities = prioritiesInt;
+
+    List<String> priorities = [];
+    for (final radio in rList) {
+      priorities.add(radio.name.toString());
+    }
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setStringList("RadioPriorities", priosString);
-    print("Priorities saved: $priosString");
+    prefs.setStringList("RadioPriorities", priorities);
   }
 
   bool isFavoriteRadio(int radioId) {
