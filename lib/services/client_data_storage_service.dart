@@ -1,10 +1,14 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:radio_adblocker/model/radioStation.dart';
 
 /// This class is responsible for loading and saving data to the device.
 class ClientDataStorageService {
 
   /// The id of the favorite radio stations.
   static List<int> favoriteRadioIds = [];
+
+  /// The priorities of the radio stations. <radioId, priority>
+  static List<int> RadioPriorities = [];
 
   /// Maps a list of strings to a list of integers.
   List<int> mapIds(List<String>? ids) {
@@ -27,6 +31,14 @@ class ClientDataStorageService {
     return favoriteRadioIds;
   }
 
+  Future<List<int>> loadRadioPriorities() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    RadioPriorities = mapIds(prefs.getStringList("RadioPriorities"));
+
+    return RadioPriorities;
+  }
+
   /// Saves the favorite state of a radio station.
   ///
   /// This method is called in [toggleFavorite].
@@ -45,6 +57,21 @@ class ClientDataStorageService {
     prefs.setStringList("favoriteRadioIds", favorites);
   }
 
+  /// Saves the priority of a radio station.
+  /// Index is the priority, value is the radioId
+  /// 0 is the highest priority
+  Future<void> safeRadioPriorities(List<RadioStation> rList) async {
+    rList.sort((a, b) => a.priority.compareTo(b.priority));
+    List<int> priorities = [];
+    rList.map((e) => priorities.add(e.id));
+    List<String> priosString = [];
+    priorities.map((e) => priosString.add(e.toString()));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setStringList("RadioPriorities", priosString);
+    print("Priorities saved: $priosString");
+  }
+
   bool isFavoriteRadio(int radioId) {
 
     bool isFavorite = favoriteRadioIds.contains(radioId);
@@ -56,4 +83,11 @@ class ClientDataStorageService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('lastListenedRadio',id);
   }
+
+  /// Methode zum Laden der Priorität einer Radio-Station
+  int getPriority(int radioId) {
+    int priority = RadioPriorities.indexOf(radioId);
+    return priority;
+  }
 }
+
