@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../model/radioStation.dart';
-
+import '../../../shared/colors.dart';
 import '../../../services/client_data_storage_service.dart';
 import '../../../services/websocket_api_service/websocket_radio_stream_service.dart';
 
@@ -29,6 +29,48 @@ class _RadioTileState extends State<RadioTile> {
       setState(() => widget.radio.isFavorite = !widget.radio.isFavorite);
       await ClientDataStorageService().safeFavoriteState(widget.radio.id);
     }
+    /// Shows a dialog if the radio station is currently playing an ad.
+  void showRadioStationDialog() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(const Duration(seconds: 5), () {
+          if (Navigator.of(context).canPop()) {
+            Navigator.of(context).pop(true);
+          }
+        });
+        return AlertDialog(
+          backgroundColor: backgroundColor ,
+          title: Text(
+            widget.radio.name,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: const Text(
+            'Es laüft gerade Werbung auf diesem Sender und kann deshalb nicht abgespielt werden.',
+            style: TextStyle(
+              color: defaultFontColor,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: selectedElementColor,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
@@ -37,6 +79,9 @@ class _RadioTileState extends State<RadioTile> {
           List<int> favIds = await ClientDataStorageService().loadFavoriteRadioIds();
           await WebSocketRadioStreamService.streamRequest(widget.radio.id, favIds);
           ClientDataStorageService().saveLastListenedRadio(widget.radio.id);
+          if (widget.radio.status == "1") {
+            showRadioStationDialog();
+          }
         },
         child: Card(
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0),
