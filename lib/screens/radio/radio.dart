@@ -1,9 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:radio_adblocker/model/radioStation.dart';
+import '../../../shared/auto_scrolling_text.dart';
 
-import '../../model/song.dart';
+import 'controls.dart';
 
 ///Covers the whole screen and shows the current Radio with all its information and controls.
 ///
@@ -16,18 +18,9 @@ class RadioScreen extends StatefulWidget {
 }
 
 class _RadioScreenState extends State<RadioScreen> {
-  //TestData, needs to be substituted with Api Data
-  RadioStation currentRadio = RadioStation.namedParameter(
-      id:1,
-      name: "1Live",
-      streamUrl: "asdf",
-      logoUrl: "1Live.png",
-      genres: ["EDM", "Techno", "Pop"],
-      status: "music",
-      song: Song.namedParameter(name: "Losing it", artist: "FISHER"));
-
   @override
   Widget build(BuildContext context) {
+    RadioStation? currentRadio = Provider.of<RadioStation?>(context);
     //Holds all seperate Elements of this Screen
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -38,7 +31,7 @@ class _RadioScreenState extends State<RadioScreen> {
           height: MediaQuery.of(context).size.height * 0.12,
           child: Center(
             child: Text(
-              currentRadio.name,
+              currentRadio!.name,
               style: const TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
@@ -46,10 +39,10 @@ class _RadioScreenState extends State<RadioScreen> {
           ),
         ),
         //Image of the current Radio
-        Container(
+        SizedBox(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.3,
-          child: Image.asset('assets/${currentRadio.logoUrl}'),
+          child: Image.network(currentRadio.logoUrl, scale: 0.5),
         ),
         //Song description of the current Radio
         Container(
@@ -58,14 +51,14 @@ class _RadioScreenState extends State<RadioScreen> {
           child: Center(
             child: Column(
               children: [
-                Text(
-                    currentRadio.song.name,
+                 AutoScrollingText(
+                    text: currentRadio.song.name,
                     style: const TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
                         color: Colors.white)),
-                Text(
-                    currentRadio.song.artist[0],
+                AutoScrollingText(
+                    text: currentRadio.song.artist,
                     style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -74,51 +67,16 @@ class _RadioScreenState extends State<RadioScreen> {
             ),
           ),
         ),
-        //TODO: Create a line that is visualizing the sound
-        Container(
-          //Create a line that is visualizing the sound
-        ),
         //Control Buttons (Play, forward, backwards)
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.2,
-          child: Controls(),
+          child: const Controls(),
         ),
       ],
     );
   }
 }
 
-///Displays the control buttons to navigate between Radios and Play / Pause.
-class Controls extends StatelessWidget {
-  const Controls({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    //Make the buttons bigger and in the center of the row
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        IconButton(
-          icon: const Icon(Icons.skip_previous),
-          iconSize: 80,
-          color: Colors.white,
-          onPressed: () {},
-        ),
-        IconButton.outlined(
-          icon: const Icon(Icons.play_arrow),
-          selectedIcon: const Icon(Icons.pause),
-          iconSize: 80,
-          color: Colors.white,
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: const Icon(Icons.skip_next),
-          iconSize: 80,
-          color: Colors.white,
-          onPressed: () {},
-        ),
-      ],);
-  }
-}
 
