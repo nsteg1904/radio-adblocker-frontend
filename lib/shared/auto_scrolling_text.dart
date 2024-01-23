@@ -41,7 +41,7 @@ class _AutoScrollingTextState extends State<AutoScrollingText> {
 
       if (textWidth > containerWidth) {
         return SizedBox(
-          height: 20,
+          height: widget.style.fontSize! + 5,
           child: Marquee(
             text: widget.text,
             style: widget.style,
