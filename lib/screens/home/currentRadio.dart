@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_adblocker/shared/auto_scrolling_text.dart';
 import 'package:radio_adblocker/shared/radioStreamControlButton.dart';
 import 'package:radio_adblocker/shared/colors.dart';
 
@@ -31,16 +30,16 @@ class CurrentRadio extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              title: AutoScrollingText(
-                text: currentRadio.song.name,
+              title: Text (
+                currentRadio.name,
                 style: const TextStyle(
                   color: defaultFontColor,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              subtitle: AutoScrollingText(
-                text: currentRadio.song.artist,
+              subtitle: Text(
+                currentRadio.song.artist,
                 style: const TextStyle(
                   color: defaultFontColor,
                   fontSize: 16.0,

@@ -4,8 +4,6 @@ import '../../../model/radioStation.dart';
 import '../../../shared/colors.dart';
 import '../../../services/client_data_storage_service.dart';
 import '../../../services/websocket_api_service/websocket_radio_stream_service.dart';
-import '../../../shared/auto_scrolling_text.dart';
-import '../../../shared/colors.dart';
 
 /// This class represents a radio tile.
 ///
@@ -100,21 +98,30 @@ class _RadioTileState extends State<RadioTile> {
                   fit: BoxFit.cover,
                 ),
               ),
-              title: AutoScrollingText(
-                text: widget.radio.name,
+              title: Text (
+                widget.radio.name,
                 style: const TextStyle(
                   color: defaultFontColor,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              subtitle: AutoScrollingText(
-                text: '${widget.radio.song.artist} - ${widget.radio.song.name}',
+
+              subtitle: Text(
+                '${widget.radio.song.artist} - ${widget.radio.song.name}',
                 style: const TextStyle(
                   color: defaultFontColor,
                   fontSize: 12.0,
                 ),
               ),
+
+              // AutoScrollingText(
+              //   text: '${widget.radio.song.artist} - ${widget.radio.song.name}',
+              //   style: const TextStyle(
+              //     color: defaultFontColor,
+              //     fontSize: 12.0,
+              //   ),
+              // ),
               trailing2: IconButton(
                 onPressed: toggleFavorite,
                 icon: Icon(
