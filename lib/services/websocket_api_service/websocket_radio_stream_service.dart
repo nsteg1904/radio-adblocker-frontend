@@ -29,6 +29,8 @@ class WebSocketRadioStreamService {
     int? requestedRadioId = reqRadioId;
     // The favorite radio ids are copied to a new list.
     List<int> favoriteRadioIds = List.from(favRadioIds);
+    //TODO: ID 5 entfernen, da temporär nicht verfügbar
+    favoriteRadioIds.remove(5);
 
     //TODO: ID 5 entfernen, da temporär nicht verfügbar
     favoriteRadioIds.remove(5);
@@ -118,7 +120,8 @@ class WebSocketRadioStreamService {
       _channel?.stream.listen(
             (dynamic serverResponse) {
           RadioStation radio = _extractRadioFromServerResponse(serverResponse);
-          // print(radio);
+          //print("Print this Radiostation: ");
+           //print(serverResponse);
           _controller.add(radio);
         },
         onDone: () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_adblocker/provider/filter_Queries_Provider.dart';
 import 'package:radio_adblocker/screens/home/home.dart';
@@ -8,6 +9,7 @@ import 'package:radio_adblocker/services/client_data_storage_service.dart';
 import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_list_service.dart';
 import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_stream_service.dart';
 import 'package:radio_adblocker/shared/colors.dart';
+
 
 import 'model/radioStation.dart';
 import 'services/audio_player_radio_stream_service.dart';
@@ -59,7 +61,7 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
         throw UnimplementedError('no widget for $_selectedIndex');
     }
 
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Radio Adblocker',
       home: MultiProvider(
         providers: [
@@ -102,6 +104,7 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
             unselectedItemColor: _unselectedColor,
           ),
         ),
+
       ),
     );
   }

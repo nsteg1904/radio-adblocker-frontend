@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:radio_adblocker/shared/custom_list_tile.dart';
 import '../../../model/radioStation.dart';
-
+import '../../../shared/colors.dart';
 import '../../../services/client_data_storage_service.dart';
 import '../../../services/websocket_api_service/websocket_radio_stream_service.dart';
 
@@ -18,64 +19,126 @@ class RadioTile extends StatefulWidget {
 }
 
 class _RadioTileState extends State<RadioTile> {
-
   @override
   Widget build(BuildContext context) {
-
-    bool isFavorite = ClientDataStorageService().isFavoriteRadio(widget.radio.id);
+    bool isFavorite =
+    ClientDataStorageService().isFavoriteRadio(widget.radio.id);
 
     /// Toggles the favorite state of a radio station.
     void toggleFavorite() async {
       setState(() => widget.radio.isFavorite = !widget.radio.isFavorite);
       await ClientDataStorageService().safeFavoriteState(widget.radio.id);
     }
+    /// Shows a dialog if the radio station is currently playing an ad.
+  void showRadioStationDialog() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(const Duration(seconds: 5), () {
+          if (Navigator.of(context).canPop()) {
+            Navigator.of(context).pop(true);
+          }
+        });
+        return AlertDialog(
+          backgroundColor: backgroundColor ,
+          title: Text(
+            widget.radio.name,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: const Text(
+            'Es laüft gerade Werbung auf diesem Sender und kann deshalb nicht abgespielt werden.',
+            style: TextStyle(
+              color: defaultFontColor,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: selectedElementColor,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: InkWell(
         onTap: () async {
-          List<int> favIds = await ClientDataStorageService().loadFavoriteRadioIds();
-          await WebSocketRadioStreamService.streamRequest(widget.radio.id, favIds);
+          List<int> favIds =
+          await ClientDataStorageService().loadFavoriteRadioIds();
+          await WebSocketRadioStreamService.streamRequest(
+              widget.radio.id, favIds);
           ClientDataStorageService().saveLastListenedRadio(widget.radio.id);
+          if (widget.radio.status == "1") {
+            showRadioStationDialog();
+          }
         },
         child: Card(
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0),
-          color: const Color(0xff0b0b15),
-          child: ListTile(
-              //key: ValueKey(widget.radio.id),
-              leading: CircleAvatar(
-                radius: 25.0,
-                backgroundImage: NetworkImage(widget.radio.logoUrl),
+          color: radioTileBackground,
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: CustomListTile(
+              leading: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.network(
+                  widget.radio.logoUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
-              title: Text(
+              title: Text (
                 widget.radio.name,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: defaultFontColor,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
+
               subtitle: Text(
-                widget.radio.song.name,
+                '${widget.radio.song.artist} - ${widget.radio.song.name}',
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: defaultFontColor,
+                  fontSize: 12.0,
                 ),
               ),
-              trailing: ReorderableDragStartListener(
-                index: widget.radio.id,
-                child: const Icon(Icons.drag_handle),
-          ),
+
+              // AutoScrollingText(
+              //   text: '${widget.radio.song.artist} - ${widget.radio.song.name}',
+              //   style: const TextStyle(
+              //     color: defaultFontColor,
+              //     fontSize: 12.0,
+              //   ),
+              // ),
+              trailing2: IconButton(
+                onPressed: toggleFavorite,
+                icon: Icon(
+                  Icons.favorite,
+                  color: isFavorite
+                      ? selectedFavIconColor
+                      : unSelectedFavIconColor,
+                ),
+              ),
+              trailing: Icon(
+                widget.radio.status != "1" ? Icons.music_note : Icons.block,
+                color: selectedElementColor,
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-// IconButton(
-// onPressed: toggleFavorite,
-// icon: Icon(
-// Icons.favorite,
-// color: isFavorite
-// ? Colors.red
-//     : const Color(0xff7b7b8b),
-// ),
-// )

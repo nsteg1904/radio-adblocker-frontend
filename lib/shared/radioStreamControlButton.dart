@@ -22,6 +22,8 @@ class _RadioStreamControlButtonState extends State<RadioStreamControlButton> {
   @override
   Widget build(BuildContext context) {
     AudioPlayerRadioStreamManager streamManager = AudioPlayerRadioStreamManager();
+    //Frage Zustand des Streams ab, um Play/Pause Button zu aktualisieren
+    setState(() => isPlaying = streamManager.isPlaying);
 
     /// Toggle the radio stream between play and pause.
     Future<void> togglePlayPause() async {
@@ -33,15 +35,15 @@ class _RadioStreamControlButtonState extends State<RadioStreamControlButton> {
 
     return CircleAvatar(
       radius: 27.0 * widget.size, // to scale Widget size
-      backgroundColor: playButtonBackground,
+      backgroundColor: backgroundColor,
       child: IconButton(
         padding: EdgeInsets.zero,
         visualDensity: VisualDensity.compact,
         onPressed: togglePlayPause,
+        iconSize: 35 * widget.size,
         icon: Icon(
           isPlaying ? Icons.pause : Icons.play_arrow,
           color: playButton,
-          size: 35.0 * widget.size, // to scale Widget size
         ),
       ),
     );

@@ -22,12 +22,12 @@ class _HomeState extends State<Home> {
       children: [
         // headline (12% of body)
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.12,
+          height: MediaQuery.of(context).size.height * 0.1,
           child: const Headline(),
         ),
         // filter options (15% of body)
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.15,
+          height: MediaQuery.of(context).size.height * 0.13,
           child: const FilterOptions(),
         ),
         // radio list (32% of body)
