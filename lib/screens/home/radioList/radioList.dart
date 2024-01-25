@@ -4,6 +4,7 @@ import 'package:radio_adblocker/screens/home/radioList/radioTile.dart';
 import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_list_service.dart';
 import '../../../model/radioStation.dart';
 import '../../../provider/filter_Queries_Provider.dart';
+import '../../../provider/filterNamesProvider.dart';
 import '../../../services/client_data_storage_service.dart';
 
 /// This class represents the list of radios.
@@ -60,10 +61,13 @@ class _RadioListState extends State<RadioList> {
     //   },
     // );
 
+    final List<String> filterNames = Provider.of<FilterNamesProvider>(context).filterNames;
 
-    return ReorderableListView.builder(
+    if (filterNames.contains("Fluchtradios")) {
+      print("Filter: Fluchtradios");
+      return ReorderableListView.builder(
         itemBuilder: (context, index) {
-          return RadioTile(radio: rList[index], key: ValueKey('$index'));
+          return RadioTile(radio: rList[index], key: ValueKey('$index'), reorderable: true);
         },
         itemCount: rList.length,
         onReorder: (int oldIndex, int newIndex) async {
@@ -82,6 +86,17 @@ class _RadioListState extends State<RadioList> {
           //Persistieren der neuen Reihenfolge
           await ClientDataStorageService().safeRadioPriorities(rList);
         },
-    );
+      );
+    }
+    else {
+      print("Filter: Kein Filter aktiv");
+      return ListView.builder(
+        itemCount: rList.length,
+        itemBuilder: (context, index) {
+          return RadioTile(radio: rList[index], key: ValueKey('$index'), reorderable: false);
+        },
+      );
+    }
   }
+
 }
