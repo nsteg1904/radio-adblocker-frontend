@@ -28,6 +28,10 @@ class ClientDataStorageService {
 
     favoriteRadioIds = mapIds(prefs.getStringList("favoriteRadioIds"));
 
+    ///Order favorite radios by priority
+    loadRadioPriorities();
+    favoriteRadioIds.sort((a, b) => RadioPriorities.indexOf(a).compareTo(RadioPriorities.indexOf(b)));
+
     return favoriteRadioIds;
   }
 
