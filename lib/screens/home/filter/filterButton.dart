@@ -12,14 +12,22 @@ import '../../../shared/colors.dart';
 class FilterButton extends StatefulWidget {
   /// The name of the button.
   final String name;
+
   /// The filter query.
   final bool Function(RadioStation) filterQuery;
+
   /// The method to run the filter.
   final Function(List<bool Function(RadioStation)>) runFilter;
+
   /// The filter queries.
   final List<bool Function(RadioStation)> filterQueries;
 
-  const FilterButton({super.key, required this.name, required this.filterQuery, required this.runFilter, required this.filterQueries});
+  const FilterButton(
+      {super.key,
+      required this.name,
+      required this.filterQuery,
+      required this.runFilter,
+      required this.filterQueries});
 
   @override
   State<FilterButton> createState() => _FilterButtonState();
@@ -31,7 +39,6 @@ class _FilterButtonState extends State<FilterButton> {
 
   @override
   Widget build(BuildContext context) {
-
     /// Runs the Button Filter.
     ///
     /// The state of [isPressed] is changed.
@@ -41,24 +48,35 @@ class _FilterButtonState extends State<FilterButton> {
     void runButtonFilter(bool Function(RadioStation) filterQuery) {
       setState(() => isPressed = !isPressed);
 
-      if(isPressed){
+      if (isPressed) {
         widget.filterQueries.add(filterQuery);
         widget.runFilter(widget.filterQueries);
       } else {
         widget.filterQueries.remove(filterQuery);
         widget.runFilter(widget.filterQueries);
       }
-
     }
 
-    return  ElevatedButton(
-      onPressed: () => runButtonFilter(widget.filterQuery),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isPressed
-            ? selectedElementColor
-            : areaColor,
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, right: 8),
+      child: ElevatedButton(
+        onPressed: () => runButtonFilter(widget.filterQuery),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isPressed ? selectedElementColor : areaColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+          // visualDensity: const VisualDensity(vertical: 0),
+        ),
+        child: Text(
+          widget.name,
+          style: const TextStyle(
+            color: defaultFontColor,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
       ),
-      child: Text(widget.name),
     );
   }
 }

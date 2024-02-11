@@ -1,4 +1,9 @@
+import 'package:get/get.dart';
+import 'dart:io' show Platform;
+import 'package:window_manager/window_manager.dart';
+
 import 'package:flutter/material.dart';
+
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_adblocker/provider/filter_Queries_Provider.dart';
@@ -18,9 +23,16 @@ Future<void> main() async {
   // This ensures that the initialization is complete before the app starts its execution.
   await WebSocketRadioListService.requestRadioList(10);
   await WebSocketRadioStreamService.initChannel();
-  // WebSocketRadioListService.getRadioList().listen((event) {
-  //   print(event.length);
-  // });
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Set the window size for Windows
+  if (Platform.isWindows) {
+    WindowManager.instance.setMaximumSize(const Size(400, 800));
+    WindowManager.instance.setMinimumSize(const Size(400, 800));
+    WindowManager.instance.setTitle('Radio Adblocker');
+  }
+
   runApp(const RadioAdblocker());
 }
 

@@ -18,7 +18,7 @@ class CurrentRadio extends StatelessWidget {
     RadioStation? currentRadio = Provider.of<RadioStation?>(context);
 
     return Card(
-      margin: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 5.0),
+      margin: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
       color: const Color(0xff1d1d30),
       child: currentRadio != null
           ? CustomListTile(
@@ -39,10 +39,11 @@ class CurrentRadio extends StatelessWidget {
                 ),
               ),
               subtitle: Text(
-                currentRadio.song.artist,
+                '${currentRadio.song.name} - ${currentRadio.song.artist}',
                 style: const TextStyle(
                   color: defaultFontColor,
                   fontSize: 16.0,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               trailing: const RadioStreamControlButton(

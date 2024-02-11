@@ -32,29 +32,32 @@ class _FilterOptionsState extends State<FilterOptions> {
       context.read<FilterQueriesProvider>().filterQueries = filterQueries;
     }
 
-    return Column(
-      children: [
-        Search(
-          runFilter: setFilterQueriesProvider,
-          filterQueries: filterQueries,
-        ),
-        Row(
-          children: [
-            FilterButton(
-              name: "Fluchtradios",
-              filterQuery: (radio) => ClientDataStorageService().isFavoriteRadio(radio.id),
-              runFilter: setFilterQueriesProvider,
-              filterQueries: filterQueries,
-            ),
-            FilterButton(
-              name: "Aktuell werbefrei",
-              filterQuery: (radio) => radio.status != "1",
-              runFilter: setFilterQueriesProvider,
-              filterQueries: filterQueries,
-            ),
-          ],
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          Search(
+            runFilter: setFilterQueriesProvider,
+            filterQueries: filterQueries,
+          ),
+          Row(
+            children: [
+              FilterButton(
+                name: "Fluchtradios",
+                filterQuery: (radio) => ClientDataStorageService().isFavoriteRadio(radio.id),
+                runFilter: setFilterQueriesProvider,
+                filterQueries: filterQueries,
+              ),
+              FilterButton(
+                name: "Aktuell werbefrei",
+                filterQuery: (radio) => radio.status != "1",
+                runFilter: setFilterQueriesProvider,
+                filterQueries: filterQueries,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

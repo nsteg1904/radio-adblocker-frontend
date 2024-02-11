@@ -49,7 +49,7 @@ class _RadioTileState extends State<RadioTile> {
             ),
           ),
           content: const Text(
-            'Es laüft gerade Werbung auf diesem Sender und kann deshalb nicht abgespielt werden.',
+            'Es läuft gerade Werbung auf diesem Sender und kann deshalb nicht abgespielt werden.',
             style: TextStyle(
               color: defaultFontColor,
             ),
@@ -108,7 +108,7 @@ class _RadioTileState extends State<RadioTile> {
               ),
 
               subtitle: Text(
-                '${widget.radio.song.artist} - ${widget.radio.song.name}',
+                '${widget.radio.song.name} - ${widget.radio.song.artist}',
                 style: const TextStyle(
                   color: defaultFontColor,
                   fontSize: 12.0,
