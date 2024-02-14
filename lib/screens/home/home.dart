@@ -18,25 +18,24 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        // headline (12% of body)
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.1,
-          child: const Headline(),
-        ),
-        // filter options (15% of body)
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.13,
-          child: const FilterOptions(),
-        ),
-        // radio list (32% of body)
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.50,
-          child: const RadioList(),
-        ),
-        const CurrentRadio(),
-      ],
-    );
+    return const Column(
+        children: [
+          // headline (12% of body)
+          SizedBox(
+            height: 80,
+            child: Headline(),
+          ),
+          // filter options (15% of body)
+          SizedBox(
+            height: 110,
+            child: FilterOptions(),
+          ),
+          // radio list (32% of body)
+          Expanded(
+            child: RadioList(),
+          ),
+          CurrentRadio(),
+        ],
+      );
   }
 }

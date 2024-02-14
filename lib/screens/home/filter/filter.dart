@@ -40,7 +40,9 @@ class _FilterOptionsState extends State<FilterOptions> {
       context.read<FilterNamesProvider>().filterNames = filterNames;
     }
 
-    return Column(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
       children: [
         Search(
           runFilter: setFilterQueriesProvider,

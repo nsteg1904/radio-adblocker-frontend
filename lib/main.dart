@@ -1,4 +1,9 @@
+import 'package:get/get.dart';
+import 'dart:io' show Platform;
+import 'package:window_manager/window_manager.dart';
+
 import 'package:flutter/material.dart';
+
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_adblocker/provider/filterNamesProvider.dart';
@@ -19,10 +24,28 @@ Future<void> main() async {
   // This ensures that the initialization is complete before the app starts its execution.
   await WebSocketRadioListService.requestRadioList(10);
   await WebSocketRadioStreamService.initChannel();
-  // WebSocketRadioListService.getRadioList().listen((event) {
-  //   print(event.length);
-  // });
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await initStreamRequest();
+
+  // Set the window size for Windows
+  if (Platform.isWindows) {
+    WindowManager.instance.setMaximumSize(const Size(400, 800));
+    WindowManager.instance.setMinimumSize(const Size(400, 800));
+    WindowManager.instance.setTitle('Radio Adblocker');
+  }
+
   runApp(const RadioAdblocker());
+}
+
+Future<void> initStreamRequest() async {
+  final prefService = ClientDataStorageService();
+  int? lastListenedRadio = await prefService.loadLastListenedRadio();
+  List<int> favoriteRadioIds = await prefService.loadFavoriteRadioIds();
+
+  await WebSocketRadioStreamService.streamRequest(
+      lastListenedRadio, favoriteRadioIds);
 }
 
 class RadioAdblocker extends StatefulWidget {
@@ -124,20 +147,6 @@ class InitProvider extends StatefulWidget {
 }
 
 class _InitProviderState extends State<InitProvider> {
-  Future<void> initStreamRequest() async {
-    final prefService = ClientDataStorageService();
-    int? lastListenedRadio = await prefService.loadLastListenedRadio();
-    List<int> favoriteRadioIds = await prefService.loadFavoriteRadioIds();
-
-    await WebSocketRadioStreamService.streamRequest(
-        lastListenedRadio, favoriteRadioIds);
-  }
-
-  @override
-  void initState() {
-    initStreamRequest();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
