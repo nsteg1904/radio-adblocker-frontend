@@ -24,9 +24,15 @@ class _RadioListState extends State<RadioList> {
       WebSocketRadioListService.requestRadioList(10);
     }
 
+    /// List of radios
     final radioList = Provider.of<List<RadioStation>>(context);
+    /// List of filter queries
     final filterQueries = Provider.of<FilterQueriesProvider>(context).filterQueries;
 
+    /// Filters the radios based on the filter queries.
+    ///
+    /// The filter queries are a list of functions that take a [RadioStation] and return a boolean.
+    /// The radios are filtered by applying each filter query to the list of radios.
     List<RadioStation> runFilter(List<bool Function(RadioStation)> filterQueries, List<RadioStation> radios) {
       List<RadioStation> filteredRadios = radios;
 
@@ -37,6 +43,7 @@ class _RadioListState extends State<RadioList> {
       return filteredRadios;
     }
 
+    /// Sorts the radios by their id.
     List<RadioStation> rList = runFilter(filterQueries, radioList);
     rList.isNotEmpty ? rList.sort((a, b) => a.id.compareTo(b.id)) : rList = [];
 

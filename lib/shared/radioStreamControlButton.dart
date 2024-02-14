@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../services/audio_player_radio_stream_service.dart';
@@ -16,14 +18,39 @@ class RadioStreamControlButton extends StatefulWidget {
 }
 
 class _RadioStreamControlButtonState extends State<RadioStreamControlButton> {
-  /// Used to toggle the play/pause icon.
+
+  /// The stream manager to control the radio stream.
+  late AudioPlayerRadioStreamManager streamManager;
+
+  /// Listen to the stream status to update the play/pause button.
+  late StreamSubscription<bool> _streamSubscription;
+
+  /// Used to toggle the play/pause icon.;
   bool isPlaying = false;
 
   @override
+  void initState() {
+    super.initState();
+
+    /// Initialize the stream manager.
+    streamManager = AudioPlayerRadioStreamManager();
+
+    /// Get the current stream status.
+    isPlaying = streamManager.isPlaying;
+
+    /// Listen to the stream status to update the play/pause button.
+    _streamSubscription = streamManager.isPlayingStream
+        .listen((playing) => setState(() => isPlaying = playing));
+  }
+
+  @override
+  void dispose() {
+    _streamSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    AudioPlayerRadioStreamManager streamManager = AudioPlayerRadioStreamManager();
-    //Frage Zustand des Streams ab, um Play/Pause Button zu aktualisieren
-    setState(() => isPlaying = streamManager.isPlaying);
 
     /// Toggle the radio stream between play and pause.
     Future<void> togglePlayPause() async {

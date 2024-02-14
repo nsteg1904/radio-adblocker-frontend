@@ -30,7 +30,7 @@ class CurrentRadio extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              title: Text (
+              title: Text(
                 currentRadio.name,
                 style: const TextStyle(
                   color: defaultFontColor,
@@ -50,7 +50,16 @@ class CurrentRadio extends StatelessWidget {
                 size: 1.0,
               ),
             )
-          : const Text("Kein Radio ausgewählt"),
+          : const Padding(
+            padding: EdgeInsets.all(12.0),
+            child: Text(
+                "Keine Internetverbindung!",
+                style: TextStyle(
+                  color: defaultFontColor,
+                  fontSize: 16.0,
+                ),
+              ),
+          ),
     );
   }
 }
