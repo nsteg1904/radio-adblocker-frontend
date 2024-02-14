@@ -44,7 +44,7 @@ dependencies:
   js: ^0.6.7
   marquee: ^2.2.3
   window_manager: ^0.3.8
-
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -59,6 +59,10 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_icons:
+  android: true
+  image_path: "assets/icon/radio.png"
 
 # The following section is specific to Flutter packages.
 flutter:
