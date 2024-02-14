@@ -26,6 +26,8 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  await initStreamRequest();
+
   // Set the window size for Windows
   if (Platform.isWindows) {
     WindowManager.instance.setMaximumSize(const Size(400, 800));
@@ -34,6 +36,15 @@ Future<void> main() async {
   }
 
   runApp(const RadioAdblocker());
+}
+
+Future<void> initStreamRequest() async {
+  final prefService = ClientDataStorageService();
+  int? lastListenedRadio = await prefService.loadLastListenedRadio();
+  List<int> favoriteRadioIds = await prefService.loadFavoriteRadioIds();
+
+  await WebSocketRadioStreamService.streamRequest(
+      lastListenedRadio, favoriteRadioIds);
 }
 
 class RadioAdblocker extends StatefulWidget {
@@ -132,20 +143,6 @@ class InitProvider extends StatefulWidget {
 }
 
 class _InitProviderState extends State<InitProvider> {
-  Future<void> initStreamRequest() async {
-    final prefService = ClientDataStorageService();
-    int? lastListenedRadio = await prefService.loadLastListenedRadio();
-    List<int> favoriteRadioIds = await prefService.loadFavoriteRadioIds();
-
-    await WebSocketRadioStreamService.streamRequest(
-        lastListenedRadio, favoriteRadioIds);
-  }
-
-  @override
-  void initState() {
-    initStreamRequest();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
