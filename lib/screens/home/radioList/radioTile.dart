@@ -13,8 +13,9 @@ import '../../../services/websocket_api_service/websocket_radio_stream_service.d
 class RadioTile extends StatefulWidget {
   /// The radio station that is displayed in the tile.
   final RadioStation radio;
+  final bool reorderable;
 
-  const RadioTile({super.key, required this.radio});
+  const RadioTile({super.key, required this.radio, required this.reorderable});
 
   @override
   State<RadioTile> createState() => _RadioTileState();
@@ -30,6 +31,26 @@ class _RadioTileState extends State<RadioTile> {
     void toggleFavorite() async {
       setState(() => widget.radio.isFavorite = !widget.radio.isFavorite);
       await ClientDataStorageService().safeFavoriteState(widget.radio.id);
+    }
+
+    Widget trailing2() {
+      if (widget.reorderable) {
+        return ReorderableDragStartListener(
+          index: widget.radio.id,
+          child: const Icon(Icons.drag_handle),
+        );
+      }
+      else {
+        return IconButton(
+          onPressed: toggleFavorite,
+          icon: Icon(
+            Icons.favorite,
+            color: isFavorite
+                ? selectedFavIconColor
+                : unSelectedFavIconColor,
+          ),
+        );
+      }
     }
 
     /// Shows a dialog if the radio station is currently playing an ad.
@@ -147,15 +168,7 @@ class _RadioTileState extends State<RadioTile> {
               //     fontSize: 12.0,
               //   ),
               // ),
-              trailing2: IconButton(
-                onPressed: toggleFavorite,
-                icon: Icon(
-                  Icons.favorite,
-                  color: isFavorite
-                      ? selectedFavIconColor
-                      : unSelectedFavIconColor,
-                ),
-              ),
+              trailing2: trailing2(),
               trailing: Icon(
                 widget.radio.status != "1" ? Icons.music_note : Icons.block,
                 color: selectedElementColor,

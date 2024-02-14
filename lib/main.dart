@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
+import 'package:radio_adblocker/provider/filterNamesProvider.dart';
 import 'package:radio_adblocker/provider/filter_Queries_Provider.dart';
 import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/radio/radio.dart';
@@ -98,6 +99,9 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
           ),
           ChangeNotifierProvider(
             create: (context) => FilterQueriesProvider(),
+          ),
+          ChangeNotifierProvider(
+              create: (context) => FilterNamesProvider(),
           ),
         ],
         child: Scaffold(

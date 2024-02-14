@@ -1,10 +1,14 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:radio_adblocker/model/radioStation.dart';
 
 /// This class is responsible for loading and saving data to the device.
 class ClientDataStorageService {
 
   /// The id of the favorite radio stations.
   static List<int> favoriteRadioIds = [];
+
+  /// The priorities of the radio stations. <radioId, priority>
+  static List<int> RadioPriorities = [];
 
   /// Maps a list of strings to a list of integers.
   List<int> mapIds(List<String>? ids) {
@@ -24,7 +28,19 @@ class ClientDataStorageService {
 
     favoriteRadioIds = mapIds(prefs.getStringList("favoriteRadioIds"));
 
+    ///Order favorite radios by priority
+    loadRadioPriorities();
+    favoriteRadioIds.sort((a, b) => RadioPriorities.indexOf(a).compareTo(RadioPriorities.indexOf(b)));
+
     return favoriteRadioIds;
+  }
+
+  Future<List<int>> loadRadioPriorities() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    RadioPriorities = mapIds(prefs.getStringList("RadioPriorities"));
+
+    return RadioPriorities;
   }
 
   /// Saves the favorite state of a radio station.
@@ -45,6 +61,27 @@ class ClientDataStorageService {
     prefs.setStringList("favoriteRadioIds", favorites);
   }
 
+  /// Saves the priority of a radio station.
+  /// Index is the priority, value is the radioId
+  /// 0 is the highest priority
+  Future<void> safeRadioPriorities(List<RadioStation> rList) async {
+    rList.sort((a, b) => a.priority.compareTo(b.priority));
+    List<int> prioritiesInt = [];
+    for (final radio in rList) {
+      prioritiesInt.add(radio.id);
+    }
+    RadioPriorities = prioritiesInt;
+
+    List<String> priorities = [];
+    for (final radio in rList) {
+      priorities.add(radio.name.toString());
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setStringList("RadioPriorities", priorities);
+  }
+
   bool isFavoriteRadio(int radioId) {
 
     bool isFavorite = favoriteRadioIds.contains(radioId);
@@ -56,4 +93,11 @@ class ClientDataStorageService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('lastListenedRadio',id);
   }
+
+  /// Methode zum Laden der Priorität einer Radio-Station
+  int getPriority(int radioId) {
+    int priority = RadioPriorities.indexOf(radioId);
+    return priority;
+  }
 }
+

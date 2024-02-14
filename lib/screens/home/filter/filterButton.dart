@@ -12,6 +12,10 @@ import '../../../shared/colors.dart';
 class FilterButton extends StatefulWidget {
   /// The name of the button.
   final String name;
+  ///The filter names.
+  final List<String> filterNames;
+  /// The method to provide the filter names.
+  final Function(List<String> names) provideNames;
 
   /// The filter query.
   final bool Function(RadioStation) filterQuery;
@@ -24,10 +28,12 @@ class FilterButton extends StatefulWidget {
 
   const FilterButton(
       {super.key,
-      required this.name,
-      required this.filterQuery,
-      required this.runFilter,
-      required this.filterQueries});
+        required this.name,
+        required this.filterQuery,
+        required this.runFilter,
+        required this.filterQueries,
+        required this.filterNames,
+        required this.provideNames});
 
   @override
   State<FilterButton> createState() => _FilterButtonState();
@@ -51,9 +57,16 @@ class _FilterButtonState extends State<FilterButton> {
       if (isPressed) {
         widget.filterQueries.add(filterQuery);
         widget.runFilter(widget.filterQueries);
+
+        widget.filterNames.add(widget.name);
+        widget.provideNames(widget.filterNames);
+
       } else {
         widget.filterQueries.remove(filterQuery);
         widget.runFilter(widget.filterQueries);
+
+        widget.filterNames.remove(widget.name);
+        widget.provideNames(widget.filterNames);
       }
     }
 

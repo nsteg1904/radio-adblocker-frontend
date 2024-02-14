@@ -20,9 +20,11 @@ class RadioStation { //RadioStation because Radio has name conflicts with packag
   final Song song;
   /// Whether the radio station is a favorite or not.
   bool isFavorite;
+  /// The priority of the radio station.
+  int priority;
 
   /// Constructors for a radio station.
-  RadioStation.namedParameter ({required this.id, required this.name, required this.streamUrl, required this.logoUrl, required this.status, required this.song, this.isFavorite = false, this.genres = const []});
-  RadioStation (this.id,this.name, this.streamUrl, this.logoUrl, this.genres, this.status, this.song, {this.isFavorite = false});
+  RadioStation.namedParameter ({required this.id, required this.name, required this.streamUrl, required this.logoUrl, required this.status, required this.song, this.isFavorite = false, this.genres = const [], this.priority = 0});
+  RadioStation (this.id,this.name, this.streamUrl, this.logoUrl, this.genres, this.status, this.song, {this.isFavorite = false, this.priority = 0});
 
 }
