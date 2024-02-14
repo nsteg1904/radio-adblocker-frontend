@@ -69,6 +69,7 @@ class _FilterOptionsState extends State<FilterOptions> {
           ],
         ),
       ],
+    )
     );
   }
 }
