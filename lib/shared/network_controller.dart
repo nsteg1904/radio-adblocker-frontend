@@ -20,7 +20,7 @@ class NetworkController extends GetxController {
     if (connectivityResult == ConnectivityResult.none) {
       Get.rawSnackbar(
           messageText: const Text(
-              'Keine Internetverbindung. Bitte verbinden Sie sich mit dem Internet.
+              'Keine Internetverbindung!',
               style: TextStyle(
                   color: defaultFontColor,
                   fontSize: 14
