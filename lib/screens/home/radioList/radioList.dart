@@ -41,7 +41,6 @@ class _RadioListState extends State<RadioList> {
 
 
     final filterQueries = Provider.of<FilterQueriesProvider>(context).filterQueries;
-    //TODO: Filterqueries abgleichen, um zu identifizieren, welcher Filter aktiv ist
 
     /// Filters the radios based on the filter queries.
     ///
@@ -61,12 +60,6 @@ class _RadioListState extends State<RadioList> {
     List<RadioStation> rList = runFilter(filterQueries, sortedRadioList);
     rList.isNotEmpty ? rList.sort((a, b) => a.priority.compareTo(b.priority)) : rList = [];
 
-    // return ListView.builder(
-    //   itemCount: rList.length,
-    //   itemBuilder: (context, index) {
-    //     return RadioTile(radio: rList[index]);
-    //   },
-    // );
 
     final List<String> filterNames = Provider.of<FilterNamesProvider>(context).filterNames;
 

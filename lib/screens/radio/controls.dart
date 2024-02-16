@@ -41,7 +41,7 @@ class _ControlsState extends State<Controls> {
       await WebSocketRadioStreamService.streamRequest(radioList[(currentRadioIndex - 1) % radioList.length].id, favIds);
     }
 
-    //Make the buttons bigger and in the center of the row
+    //Returns
     return Row(
       //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisAlignment: MainAxisAlignment.spaceAround,

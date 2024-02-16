@@ -37,7 +37,7 @@ class _RadioTileState extends State<RadioTile> {
       if (widget.reorderable) {
         return ReorderableDragStartListener(
           index: widget.radio.id,
-          child: const Icon(Icons.drag_handle),
+          child: const Icon(Icons.drag_handle, color: Colors.white),
         );
       }
       else {
