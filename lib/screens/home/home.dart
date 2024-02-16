@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:radio_adblocker/screens/home/currentRadio.dart';
+import 'package:radio_adblocker/screens/home/current_radio.dart';
 import 'package:radio_adblocker/screens/home/filter/filter.dart';
 import 'package:radio_adblocker/screens/home/headline.dart';
-import 'package:radio_adblocker/screens/home/radioList/radioList.dart';
+import 'package:radio_adblocker/screens/home/radio_list/radio_list.dart';
 
 /// This class represents the home screen.
 ///

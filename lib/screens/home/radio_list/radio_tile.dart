@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:radio_adblocker/shared/custom_list_tile.dart';
 import 'dart:io' show Platform;
-import '../../../model/radioStation.dart';
+import '../../../model/radio_station.dart';
 import '../../../services/audio_player_radio_stream_service.dart';
 import '../../../shared/colors.dart';
 import '../../../services/client_data_storage_service.dart';

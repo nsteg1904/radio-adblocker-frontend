@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:radio_adblocker/model/radioStation.dart';
+import 'package:radio_adblocker/model/radio_station.dart';
 
 /// This class is responsible for loading and saving data to the device.
 class ClientDataStorageService {

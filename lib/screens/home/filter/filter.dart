@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_adblocker/model/radioStation.dart';
+import 'package:radio_adblocker/model/radio_station.dart';
 import 'package:radio_adblocker/screens/home/filter/search.dart';
 
-import '../../../provider/filterNamesProvider.dart';
-import '../../../provider/filter_Queries_Provider.dart';
+import '../../../provider/filter_names_provider.dart';
+import '../../../provider/filter_queries_provider.dart';
 import '../../../services/client_data_storage_service.dart';
-import 'filterButton.dart';
+import 'filter_button.dart';
 
 /// This class represents the filter options.
 ///

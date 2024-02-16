@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_adblocker/model/radioStation.dart';
+import 'package:radio_adblocker/model/radio_station.dart';
 import '../../../shared/auto_scrolling_text.dart';
 
 import 'controls.dart';

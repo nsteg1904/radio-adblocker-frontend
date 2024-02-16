@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../model/radioStation.dart';
+import '../model/radio_station.dart';
 
 class FilterQueriesProvider with ChangeNotifier {
   List<bool Function(RadioStation)> _filterQueries = [];

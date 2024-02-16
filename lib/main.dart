@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_adblocker/provider/filterNamesProvider.dart';
-import 'package:radio_adblocker/provider/filter_Queries_Provider.dart';
+import 'package:radio_adblocker/provider/filter_names_provider.dart';
+import 'package:radio_adblocker/provider/filter_queries_provider.dart';
 import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/radio/radio.dart';
 import 'package:radio_adblocker/screens/settings/settings.dart';
@@ -16,7 +16,7 @@ import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_s
 import 'package:radio_adblocker/shared/colors.dart';
 
 
-import 'model/radioStation.dart';
+import 'model/radio_station.dart';
 import 'services/audio_player_radio_stream_service.dart';
 
 Future<void> main() async {

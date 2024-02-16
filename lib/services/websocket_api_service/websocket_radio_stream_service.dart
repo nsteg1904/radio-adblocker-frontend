@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:web_socket_channel/io.dart';
 
-import '../../model/radioStation.dart';
+import '../../model/radio_station.dart';
 import '../../model/song.dart';
 import 'websocket_connection_service.dart';
 

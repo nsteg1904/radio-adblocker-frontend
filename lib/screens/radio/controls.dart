@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/radioStation.dart';
+import '../../model/radio_station.dart';
 import '../../services/client_data_storage_service.dart';
 import '../../services/websocket_api_service/websocket_radio_stream_service.dart';
 import '../../shared/colors.dart';
-import '../../shared/radioStreamControlButton.dart';
+import '../../shared/radio_stream_control_button.dart';
 
 ///Displays the control buttons to navigate between Radios and Play / Pause.
 class Controls extends StatefulWidget {

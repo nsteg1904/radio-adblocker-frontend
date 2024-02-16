@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/radioStation.dart';
+import '../../../model/radio_station.dart';
 import '../../../shared/colors.dart';
 
 /// This class represents a filter button.

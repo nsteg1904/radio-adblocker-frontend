@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:radio_adblocker/shared/colors.dart';
 
-import '../../../model/radioStation.dart';
+import '../../../model/radio_station.dart';
 
 /// This class represents the search bar.
 ///
