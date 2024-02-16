@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'dart:io' show Platform;
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_adblocker/provider/filter_names_provider.dart';
@@ -14,7 +14,7 @@ import 'package:radio_adblocker/services/client_data_storage_service.dart';
 import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_list_service.dart';
 import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_stream_service.dart';
 import 'package:radio_adblocker/shared/colors.dart';
-
+import 'package:radio_adblocker/shared/dependency_injection.dart';
 
 import 'model/radio_station.dart';
 import 'services/audio_player_radio_stream_service.dart';
@@ -36,6 +36,7 @@ Future<void> main() async {
   }
 
   runApp(const RadioAdblocker());
+  DependencyInjection.init();
 }
 
 Future<void> initStreamRequest() async {
@@ -85,6 +86,7 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
     }
 
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Radio Adblocker',
       home: MultiProvider(
         providers: [
@@ -130,7 +132,6 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
             unselectedItemColor: _unselectedColor,
           ),
         ),
-
       ),
     );
   }
