@@ -72,14 +72,9 @@ class ClientDataStorageService {
     }
     RadioPriorities = prioritiesInt;
 
-    List<String> priorities = [];
-    for (final radio in rList) {
-      priorities.add(radio.name.toString());
-    }
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setStringList("RadioPriorities", priorities);
+    prefs.setStringList("RadioPriorities", prioritiesInt.map((e) => e.toString()).toList());
   }
 
   bool isFavoriteRadio(int radioId) {

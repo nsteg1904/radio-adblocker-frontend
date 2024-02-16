@@ -67,13 +67,10 @@ class _RadioListState extends State<RadioList> {
       print("Filter: Fluchtradios");
       return ReorderableListView.builder(
         itemBuilder: (context, index) {
-          return RadioTile(radio: rList[index], key: ValueKey('$index'), reorderable: true);
+          return RadioTile(radio: rList[index], key: ValueKey('$index'), reorderable: true, index: index);
         },
         itemCount: rList.length,
         onReorder: (int oldIndex, int newIndex) async {
-          if (oldIndex > rList.length && newIndex > rList.length) {
-            print("oldIndex: $oldIndex, newIndex: $newIndex");
-          }
           setState(() {
             if (newIndex > oldIndex) {
               newIndex -= 1;
@@ -89,11 +86,11 @@ class _RadioListState extends State<RadioList> {
       );
     }
     else {
-      print("Filter: Kein Filter aktiv");
+      print("list length: ${rList.length}");
       return ListView.builder(
         itemCount: rList.length,
         itemBuilder: (context, index) {
-          return RadioTile(radio: rList[index], key: ValueKey('$index'), reorderable: false);
+          return RadioTile(radio: rList[index], key: ValueKey('$index'), reorderable: false, index: index);
         },
       );
     }

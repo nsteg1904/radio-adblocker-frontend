@@ -14,8 +14,9 @@ class RadioTile extends StatefulWidget {
   /// The radio station that is displayed in the tile.
   final RadioStation radio;
   final bool reorderable;
+  final index;
 
-  const RadioTile({super.key, required this.radio, required this.reorderable});
+  const RadioTile({super.key, required this.radio, required this.reorderable, required this.index});
 
   @override
   State<RadioTile> createState() => _RadioTileState();
@@ -36,7 +37,7 @@ class _RadioTileState extends State<RadioTile> {
     Widget trailing2() {
       if (widget.reorderable) {
         return ReorderableDragStartListener(
-          index: widget.radio.id,
+          index: widget.index,
           child: const Icon(Icons.drag_handle, color: Colors.white),
         );
       }
