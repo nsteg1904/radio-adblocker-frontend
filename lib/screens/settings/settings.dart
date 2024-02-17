@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:radio_adblocker/shared/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:radio_adblocker/provider/theme_provider.dart';
+import 'package:provider/provider.dart';
 class Settings extends StatefulWidget {
   const Settings({super.key});
 
@@ -21,6 +23,7 @@ class _SettingState extends State<Settings>{
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ThemeProvider>(context);
     return Container(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -57,6 +60,7 @@ class _SettingState extends State<Settings>{
                 onChanged: (bool value) {
                   setState(() {
                     dunkelModus = value;
+                    provider.toggleTheme();
                     saveSettings();
                   });
                 },

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
+import 'package:radio_adblocker/provider/theme_provider.dart';
 import 'dart:io' show Platform;
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -85,54 +85,61 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
         throw UnimplementedError('no widget for $_selectedIndex');
     }
 
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Radio Adblocker',
-      home: MultiProvider(
-        providers: [
-          StreamProvider<RadioStation?>.value(
-            value: WebSocketRadioStreamService.getStreamableRadio(),
-            initialData: null,
-          ),
-          StreamProvider<List<RadioStation>>.value(
-            value: WebSocketRadioListService.getRadioList(),
-            initialData: const [],
-            //child: RadioAdblocker(),
-          ),
-          ChangeNotifierProvider(
-            create: (context) => FilterQueriesProvider(),
-          ),
-          ChangeNotifierProvider(
-              create: (context) => FilterNamesProvider(),
-          ),
-        ],
-        child: Scaffold(
-          backgroundColor: backgroundColor,
-          //to ensure the the body starts after the status bar-
-          body: InitProvider(page: page),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            backgroundColor: backgroundColor,
-            onTap: _onTabTapped,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.radio),
-                label: 'Radio',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: 'Settings',
-              ),
-            ],
-            selectedItemColor: _selectedColor,
-            unselectedItemColor: _unselectedColor,
-          ),
+
+    return MultiProvider(
+      providers: [
+        StreamProvider<RadioStation?>.value(
+          value: WebSocketRadioStreamService.getStreamableRadio(),
+          initialData: null,
         ),
-      ),
+        StreamProvider<List<RadioStation>>.value(
+          value: WebSocketRadioListService.getRadioList(),
+          initialData: const [],
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FilterQueriesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FilterNamesProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ThemeProvider(),
+        ),
+      ],
+      builder: (context, child) {
+        final provider = Provider.of<ThemeProvider>(context);
+        return GetMaterialApp(
+
+          debugShowCheckedModeBanner: false,
+          theme: provider.theme,
+          title: 'Radio Adblocker',
+          home: Scaffold(
+            backgroundColor: backgroundColor,
+            body: InitProvider(page: page),
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              backgroundColor: backgroundColor,
+              onTap: _onTabTapped,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.radio),
+                  label: 'Radio',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Settings',
+                ),
+              ],
+              selectedItemColor: _selectedColor,
+              unselectedItemColor: _unselectedColor,
+            ),
+          ),
+        );
+      },
     );
   }
 }
