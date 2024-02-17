@@ -114,23 +114,23 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
           theme: provider.theme,
           title: 'Radio Adblocker',
           home: Scaffold(
-            backgroundColor: backgroundColor,
+
             body: InitProvider(page: page),
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: _selectedIndex,
-              backgroundColor: backgroundColor,
+              backgroundColor: ThemeProvider().theme.primaryColorDark,
               onTap: _onTabTapped,
-              items: const [
+              items:  [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.radio),
+                  icon: Icon(Icons.radio,),
                   label: 'Radio',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
+                  icon: Icon(Icons.settings,color: ThemeProvider().theme.primaryIconTheme.color,),
                   label: 'Settings',
                 ),
               ],
