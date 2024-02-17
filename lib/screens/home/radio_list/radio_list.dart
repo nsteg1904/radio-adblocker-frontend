@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_adblocker/screens/home/radio_list/radio_tile.dart';
 import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_list_service.dart';
+import 'package:radio_adblocker/shared/colors.dart';
 import '../../../model/radio_station.dart';
 import '../../../provider/filter_queries_provider.dart';
 import '../../../provider/filter_names_provider.dart';
@@ -63,9 +66,28 @@ class _RadioListState extends State<RadioList> {
 
     final List<String> filterNames = Provider.of<FilterNamesProvider>(context).filterNames;
 
+    Widget proxyDecorator(
+        Widget child, int index, Animation<double> animation) {
+      return AnimatedBuilder(
+        animation: animation,
+        builder: (BuildContext context, Widget? child) {
+          final double animValue = Curves.easeInOut.transform(animation.value);
+          final double elevation = lerpDouble(0, 6, animValue)!;
+          return Material(
+            elevation: elevation,
+            color: backgroundColor,
+            shadowColor: backgroundColor,
+            child: child,
+          );
+        },
+        child: child,
+      );
+    }
+
     if (filterNames.contains("Fluchtradios")) {
       print("Filter: Fluchtradios");
       return ReorderableListView.builder(
+        proxyDecorator: proxyDecorator,
         itemBuilder: (context, index) {
           return RadioTile(radio: rList[index], key: ValueKey('$index'), reorderable: true, index: index);
         },
