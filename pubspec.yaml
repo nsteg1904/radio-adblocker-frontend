@@ -45,6 +45,10 @@ dependencies:
   marquee: ^2.2.3
   window_manager: ^0.3.8
   flutter_launcher_icons: ^0.13.1
+  just_audio: ^0.9.36
+  just_audio_background: ^0.0.1-beta.11
+
+
 
 dev_dependencies:
   flutter_test:

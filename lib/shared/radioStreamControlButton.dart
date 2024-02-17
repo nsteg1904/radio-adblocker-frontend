@@ -54,10 +54,12 @@ class _RadioStreamControlButtonState extends State<RadioStreamControlButton> {
 
     /// Toggle the radio stream between play and pause.
     Future<void> togglePlayPause() async {
-      streamManager.isPlaying
+      bool playing = streamManager.isPlaying;
+      setState(() => isPlaying = !isPlaying);
+      playing
           ? await streamManager.stopRadio()
           : await streamManager.playRadio();
-      setState(() => isPlaying = streamManager.isPlaying);
+
     }
 
     return CircleAvatar(

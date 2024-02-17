@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:flutter/services.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 /// This class is responsible for managing the radio stream.
 ///
@@ -36,7 +37,7 @@ class AudioPlayerRadioStreamManager {
   }
 
   /// Whether the radio stream is currently playing.
-  bool get isPlaying => _audioPlayer.state == PlayerState.playing;
+  bool get isPlaying => _audioPlayer.playing;
 
   /// Sets the radio stream source to the given URL.
   ///
@@ -44,7 +45,18 @@ class AudioPlayerRadioStreamManager {
   Future<void> setRadioSource(String? url) async {
     if (url == null || streamUrl == url) return;
 
-    await _audioPlayer.setSourceUrl(url);
+    // await _audioPlayer.setUrl(url);
+    await _audioPlayer.setAudioSource(AudioSource.uri(
+      Uri.parse('https://wdr-wdr2-rheinland.icecastssl.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3'),
+      tag: MediaItem(
+        // Specify a unique ID for each media item:
+        id: '1',
+        // Metadata to display in the notification:
+        album: "Album name",
+        title: "Song name",
+        artUri: Uri.parse('https://www.radio.de/images/broadcasts/96/67/2279/1/c100.png'),
+      ),
+    ));
     streamUrl = url;
     print("Set radio source");
   }
@@ -53,9 +65,9 @@ class AudioPlayerRadioStreamManager {
   Future<void> playRadio() async {
     /// If the radio stream is already playing, nothing happens.
     try {
-      await _audioPlayer.resume();
+      _isPlayingController.add(true);
+      await _audioPlayer.play();
       print("Start radio");
-      _isPlayingController.add(isPlaying);
     } on PlatformException catch (e) { // PlatformException is thrown when the radio stream is already playing
       print('Error occurred: $e');
     }
@@ -63,9 +75,9 @@ class AudioPlayerRadioStreamManager {
 
   /// Pauses the radio stream.
   Future<void> stopRadio() async {
+    _isPlayingController.add(false);
     await _audioPlayer.pause();
     print("Stop radio");
-    _isPlayingController.add(isPlaying);
   }
 
   void dispose() {
