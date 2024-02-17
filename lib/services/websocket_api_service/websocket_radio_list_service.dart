@@ -43,7 +43,9 @@ class WebSocketRadioListService {
     _channel?.sink.add(message);
   }
 
-
+  /// Creates a [RadioStation] from the given map.
+  ///
+  /// The map [radio] contains the data of the radio station.
   static RadioStation _radioFromServer(Map<String, dynamic> radio) {
     return RadioStation.namedParameter(
       id: radio["id"] ?? 1,
@@ -59,10 +61,10 @@ class WebSocketRadioListService {
   }
 
 
-  // Funktioniert noch nicht korrekt
+  /// Returns a stream of the radio list from the Server.
+  ///
+  /// The stream contains a list of [RadioStation]s.
   static Stream<List<RadioStation>> getRadioList() {
-    print("getRadioList");
-
     try {
       _channel ??= throw Exception("Channel not initialized");
       print(_channel);
@@ -73,8 +75,6 @@ class WebSocketRadioListService {
 
           //Save Remaining Updates
           remainingUpdates = responseData['remaining_updates'];
-          print("Remaining Updates for List: " + remainingUpdates.toString());
-
           //Extract RadioStations
           List<RadioStation> radioStationList = [];
           if (responseData['radios'] != null) {
@@ -112,7 +112,4 @@ class WebSocketRadioListService {
     await Future.delayed(const Duration(seconds: 5));
     _channel?.sink.close();
   }
-
-
-
 }

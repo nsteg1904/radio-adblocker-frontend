@@ -61,8 +61,6 @@ class _RadioListState extends State<RadioList> {
 
     /// Sorts the radios by their id.
     List<RadioStation> rList = runFilter(filterQueries, sortedRadioList);
-    rList.isNotEmpty ? rList.sort((a, b) => a.priority.compareTo(b.priority)) : rList = [];
-
 
     final List<String> filterNames = Provider.of<FilterNamesProvider>(context).filterNames;
 
@@ -85,7 +83,7 @@ class _RadioListState extends State<RadioList> {
     }
 
     if (filterNames.contains("Fluchtradios")) {
-      print("Filter: Fluchtradios");
+      rList.isNotEmpty ? rList.sort((a, b) => a.priority.compareTo(b.priority)) : rList = [];
       return ReorderableListView.builder(
         proxyDecorator: proxyDecorator,
         itemBuilder: (context, index) {
@@ -108,7 +106,7 @@ class _RadioListState extends State<RadioList> {
       );
     }
     else {
-      print("list length: ${rList.length}");
+      rList.isNotEmpty ? rList.sort((a, b) => a.id.compareTo(b.id)) : rList = [];
       return ListView.builder(
         itemCount: rList.length,
         itemBuilder: (context, index) {

@@ -46,7 +46,6 @@ class AudioPlayerRadioStreamManager {
 
     await _audioPlayer.setSourceUrl(url);
     streamUrl = url;
-    print("Set radio source");
   }
 
   /// Starts the radio stream.
@@ -54,7 +53,6 @@ class AudioPlayerRadioStreamManager {
     /// If the radio stream is already playing, nothing happens.
     try {
       await _audioPlayer.resume();
-      print("Start radio");
       _isPlayingController.add(isPlaying);
     } on PlatformException catch (e) { // PlatformException is thrown when the radio stream is already playing
       print('Error occurred: $e');
@@ -64,7 +62,6 @@ class AudioPlayerRadioStreamManager {
   /// Pauses the radio stream.
   Future<void> stopRadio() async {
     await _audioPlayer.pause();
-    print("Stop radio");
     _isPlayingController.add(isPlaying);
   }
 

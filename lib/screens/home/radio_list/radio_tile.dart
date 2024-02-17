@@ -161,14 +161,6 @@ class _RadioTileState extends State<RadioTile> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-
-              // AutoScrollingText(
-              //   text: '${widget.radio.song.artist} - ${widget.radio.song.name}',
-              //   style: const TextStyle(
-              //     color: defaultFontColor,
-              //     fontSize: 12.0,
-              //   ),
-              // ),
               trailing2: trailing2(),
               trailing: Icon(
                 widget.radio.status != "1" ? Icons.music_note : Icons.block,

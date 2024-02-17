@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'dart:io' show Platform;
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -97,7 +96,6 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
           StreamProvider<List<RadioStation>>.value(
             value: WebSocketRadioListService.getRadioList(),
             initialData: const [],
-            //child: RadioAdblocker(),
           ),
           ChangeNotifierProvider(
             create: (context) => FilterQueriesProvider(),
@@ -150,21 +148,9 @@ class _InitProviderState extends State<InitProvider> {
 
   @override
   Widget build(BuildContext context) {
-    // final radioStationsProvider = Provider.of<List<RadioStation>>(context);
-    // for (var radio in radioStationsProvider) {
-    //   print("RadiostationsProvider: , $radio");
-    //   print("RadiostationsProvider: , ${radio.id}");
-    //   print("RadiostationsProvider: , ${radio.name}");
-    //   print("RadiostationsProvider: , ${radio.streamUrl}");
-    //   print("RadiostationsProvider: , ${radio.logoUrl}");
-    //   print("RadiostationsProvider: , ${radio.status}");
-    //   print("RadiostationsProvider: , ${radio.song.artist}");
-    //   print("RadiostationsProvider: , ${radio.song.name}");
-    // }
 
     final streamableRadio = Provider.of<RadioStation?>(context);
     AudioPlayerRadioStreamManager().setRadioSource(streamableRadio?.streamUrl);
-    print('${streamableRadio?.id}, ${streamableRadio?.name}, ${streamableRadio?.streamUrl}, ${streamableRadio?.logoUrl}, ${streamableRadio?.genres}, ${streamableRadio?.status}, ${streamableRadio?.song.name}, ${streamableRadio?.song.artist}');
 
     return SafeArea(
       child: widget.page,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:radio_adblocker/shared/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+/// This class represents the settings screen.
+/// Here the user can change the settings of the app.
 class Settings extends StatefulWidget {
   const Settings({super.key});
 

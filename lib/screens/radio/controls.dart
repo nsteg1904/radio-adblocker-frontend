@@ -19,7 +19,7 @@ class Controls extends StatefulWidget {
 class _ControlsState extends State<Controls> {
   @override
   Widget build(BuildContext context) {
-    //Request next Radio
+    //Returns the next radio in the list of radios
     void nextRadio() async {
       List<int> favIds = await ClientDataStorageService().loadFavoriteRadioIds();
       final int currentRadioId = Provider.of<RadioStation?>(context, listen: false)!.id;
@@ -30,7 +30,7 @@ class _ControlsState extends State<Controls> {
       await WebSocketRadioStreamService.streamRequest(radioList[(currentRadioIndex + 1) % radioList.length].id, favIds);
     }
 
-    //Request previous Radio
+    //Request the previous radio in the list of radios
     void previousRadio() async {
       final int currentRadioId = Provider.of<RadioStation?>(context, listen: false)!.id;
       //Get List of all Radios
@@ -41,7 +41,7 @@ class _ControlsState extends State<Controls> {
       await WebSocketRadioStreamService.streamRequest(radioList[(currentRadioIndex - 1) % radioList.length].id, favIds);
     }
 
-    //Returns
+    //Returns the control buttons to navigate between Radios and Play / Pause.
     return Row(
       //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisAlignment: MainAxisAlignment.spaceAround,

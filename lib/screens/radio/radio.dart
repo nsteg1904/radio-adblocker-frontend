@@ -25,7 +25,7 @@ class _RadioScreenState extends State<RadioScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        //Überschrift des Radios
+        //Title of the current Radio
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.12,

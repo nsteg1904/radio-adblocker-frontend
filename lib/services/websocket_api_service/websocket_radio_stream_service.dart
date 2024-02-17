@@ -25,6 +25,9 @@ class WebSocketRadioStreamService {
     }
   }
 
+  /// Creates the list of radio ids that are requested from the server.
+  /// 
+  /// The list contains the id of the requested radio and the favorite radios.
   static List<int> _createStreamRequestIds(int? reqRadioId, List<int> favRadioIds) {
     int? requestedRadioId = reqRadioId;
     // The favorite radio ids are copied to a new list.
@@ -50,10 +53,11 @@ class WebSocketRadioStreamService {
 
     return streamRequestIds;
   }
-
+  /// Sends a request to the server to get the radio stream.
+  ///
+  /// The request contains the id of the requested radio and the favorite radios.
   static Future<bool> streamRequest(int? requestedRadioId, List<int> favoriteRadioIds) async {
     List<int> streamRequestIds = _createStreamRequestIds(requestedRadioId, favoriteRadioIds);
-    print(streamRequestIds);
 
     if (_channel == null) {
       await initChannel();
@@ -81,7 +85,10 @@ class WebSocketRadioStreamService {
 
   }
 
-  /// TODO: Find out when and why the following exception occurs: Unhandled Exception: Exception: type 'String' is not a subtype of type 'List<String>
+  /// Extracts the radio from the server response.
+  ///
+  /// The server response is a json string. The radio is extracted from the json string.
+  /// If the response contains an error, an exception is thrown.
   static RadioStation _extractRadioFromServerResponse(String serverResponse){
     try {
       Map<String, dynamic> responseData = json.decode(serverResponse);
@@ -109,16 +116,16 @@ class WebSocketRadioStreamService {
     }
   }
 
+  /// Returns a stream of radios.
+  ///
+  /// The stream is created from the channel. The radios are extracted from the server response.
   static Stream<RadioStation> getStreamableRadio() {
-
     try {
       _channel ??= throw Exception("Channel not initialized");
 
       _channel?.stream.listen(
             (dynamic serverResponse) {
           RadioStation radio = _extractRadioFromServerResponse(serverResponse);
-          //print("Print this Radiostation: ");
-           //print(serverResponse);
           _controller.add(radio);
         },
         onDone: () {
