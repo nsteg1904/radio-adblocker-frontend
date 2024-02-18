@@ -23,7 +23,7 @@ const unSelectedFavIconColor = Color(0xff7b7b8b);
    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
      backgroundColor: Color(0xFF191925),
      selectedItemColor: Color(0xfffb6580),
-     unselectedItemColor: Colors.grey,
+     unselectedItemColor: Color(0xff7b7b8b),
    ),
 
    dialogBackgroundColor: Colors.black,
@@ -32,20 +32,29 @@ const unSelectedFavIconColor = Color(0xff7b7b8b);
    ),
    colorScheme: const ColorScheme.dark(
      background: Color(0xFF191925),
-     primary:Colors.grey,
-     secondary: Colors.grey,
+     onBackground: Colors.white,
+     primary:Color(0xff191925),
+     onPrimary: Color(0xff1d1d30),
+     secondary: Color(0xff2d2c3c),
+     onSecondary: Color(0xfffb6580),
    ),
+   textTheme: const TextTheme(
+     bodyLarge: TextStyle(color: Colors.white),
+     bodyMedium: TextStyle(color: Colors.white),
+   ),
+   iconTheme: const IconThemeData(color: Colors.grey),
+
  );
 
 ThemeData lighttheme = ThemeData(
   cardTheme: const CardTheme(
-    color: const Color(0xff0b0b15),
+    color: Color(0xfffb6580),
   ),
   brightness: Brightness.light,
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    backgroundColor: Color(0xFF191925),
-    selectedItemColor: Color(0xfffb6580),
-    unselectedItemColor: Colors.grey,
+    backgroundColor: Colors.grey,
+    selectedItemColor: Colors.red,
+    unselectedItemColor: Colors.white,
   ),
   scaffoldBackgroundColor: Colors.white,
   appBarTheme: const AppBarTheme(
@@ -53,12 +62,19 @@ ThemeData lighttheme = ThemeData(
   ),
   colorScheme: const ColorScheme.light(
     background: Colors.white70,
+    onBackground: Colors.black,
     primary:Colors.black,
-    secondary: Colors.black,
+    onPrimary: Colors.grey,
+    secondary: Color(0xffe3667b),
   ),
   iconTheme: const IconThemeData(color: Colors.black),
   textTheme: const TextTheme(
     bodyLarge: TextStyle(color: Colors.black),
     bodyMedium: TextStyle(color: Colors.black),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+    ),
   ),
 );

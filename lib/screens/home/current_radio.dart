@@ -19,7 +19,7 @@ class CurrentRadio extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 0),
-      color: const Color(0xff1d1d30),
+      color: Theme.of(context).colorScheme.onPrimary,
       child: currentRadio != null
           ? CustomListTile(
               padding: 14,
@@ -50,16 +50,7 @@ class CurrentRadio extends StatelessWidget {
                 size: 1.0,
               ),
             )
-          : const Padding(
-            padding: EdgeInsets.all(12.0),
-            child: Text(
-                "Keine Internetverbindung!",
-                style: TextStyle(
-                  color: defaultFontColor,
-                  fontSize: 16.0,
-                ),
-              ),
-          ),
+          : null,
     );
   }
 }

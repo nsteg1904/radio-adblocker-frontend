@@ -172,7 +172,7 @@ class _RadioTileState extends State<RadioTile> {
               trailing2: trailing2(),
               trailing: Icon(
                 widget.radio.status != "1" ? Icons.music_note : Icons.block,
-                color: selectedElementColor,
+                color: Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
               ),
             ),
           ),

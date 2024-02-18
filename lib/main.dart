@@ -58,8 +58,8 @@ class RadioAdblocker extends StatefulWidget {
 
 class _RadioAdblockerState extends State<RadioAdblocker> {
   int _selectedIndex = 0;
-  final Color _selectedColor = selectedElementColor;
-  final Color _unselectedColor = unSelectedElementColor;
+  //final Color _selectedColor = selectedElementColor;
+ // final Color _unselectedColor = unSelectedElementColor;
 
   void _onTabTapped(int index) {
     setState(() {
@@ -120,11 +120,11 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
             body: InitProvider(page: page),
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: _selectedIndex,
-             // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+             backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
               onTap: _onTabTapped,
               items:  [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+                  icon: Icon(Icons.home,),
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
@@ -136,8 +136,8 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
                   label: 'Settings',
                 ),
               ],
-              selectedItemColor: _selectedColor,
-              unselectedItemColor: _unselectedColor,
+              selectedItemColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
+              unselectedItemColor: Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
             ),
           ),
         );

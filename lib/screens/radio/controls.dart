@@ -48,11 +48,11 @@ class _ControlsState extends State<Controls> {
       children: [
         CircleAvatar(
             radius: 27.0 * Controls.size, // to scale Widget size
-            backgroundColor: backgroundColor,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             child: IconButton(
               icon: const Icon(Icons.skip_previous),
               iconSize: 35 * Controls.size,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onBackground,
               onPressed: () {
                 previousRadio();
               },
@@ -64,11 +64,11 @@ class _ControlsState extends State<Controls> {
         ),
         CircleAvatar(
             radius: 27.0 * Controls.size, // to scale Widget size
-            backgroundColor: backgroundColor,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             child: IconButton(
               icon: const Icon(Icons.skip_next,),
               iconSize: 35 * Controls.size,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onBackground,
               onPressed: () {
                 nextRadio();
               },

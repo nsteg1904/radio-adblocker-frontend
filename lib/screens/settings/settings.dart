@@ -9,16 +9,16 @@ class Settings extends StatefulWidget {
   @override
   State<Settings> createState() => _SettingState();
 }
-
+/// This class represents the settings.
 class _SettingState extends State<Settings>{
   bool dunkelModus = false;
-
+/// Initializes the state of the settings.
   @override
   void initState() {
     super.initState();
     loadSettings();
   }
-
+/// Builds the settings.
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ThemeProvider>(context);
@@ -30,13 +30,13 @@ class _SettingState extends State<Settings>{
         children: <Widget>[
           const SizedBox(height: 24.0),
            Padding(
-            padding: EdgeInsets.only(left: 8.0), // Added padding to shift the text
+            padding: const EdgeInsets.only(left: 8.0), // Added padding to shift the text
             child: Text(
               'Settings',
               style: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
-                fontSize: 38.0,
-                fontWeight: FontWeight.normal,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
+                fontSize: 32.0,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -47,7 +47,7 @@ class _SettingState extends State<Settings>{
               const SizedBox(width: 8.0),
                Text(
                 'Dunkel/Hell',
-                style: TextStyle(color: Theme.of(context).colorScheme.secondary ,fontSize: 20.0),
+                style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color ,fontSize: 20.0),
               ),
               const Spacer(),
               Switch(
@@ -70,10 +70,12 @@ class _SettingState extends State<Settings>{
       ),
     );
   }
+  /// Saves the settings to the shared preferences.
   void saveSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('switch1', dunkelModus);
   }
+  /// Loads the settings from the shared preferences.
   void loadSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {

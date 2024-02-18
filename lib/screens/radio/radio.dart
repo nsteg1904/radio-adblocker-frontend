@@ -35,7 +35,7 @@ class _RadioScreenState extends State<RadioScreen> {
               style:  TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.secondary)),
+                  color: Theme.of(context).textTheme.bodyLarge?.color)),
           ),
         ),
         //Image of the current Radio
@@ -56,13 +56,13 @@ class _RadioScreenState extends State<RadioScreen> {
                     style:  TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.secondary)),
+                        color: Theme.of(context).textTheme.bodyMedium?.color)),
                 AutoScrollingText(
                     text: currentRadio.song.artist,
                     style:  TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.secondary)),
+                        color: Theme.of(context).textTheme.bodyMedium?.color)),
               ],
             ),
           ),

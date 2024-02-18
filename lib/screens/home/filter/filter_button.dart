@@ -75,7 +75,7 @@ class _FilterButtonState extends State<FilterButton> {
       child: ElevatedButton(
         onPressed: () => runButtonFilter(widget.filterQuery),
         style: ElevatedButton.styleFrom(
-          backgroundColor: isPressed ? selectedElementColor : areaColor,
+          backgroundColor: isPressed ? Theme.of(context).colorScheme.onSecondary : Theme.of(context).colorScheme.secondary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
