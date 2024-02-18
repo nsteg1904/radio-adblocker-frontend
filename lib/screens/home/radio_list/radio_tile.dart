@@ -133,7 +133,7 @@ class _RadioTileState extends State<RadioTile> {
         },
         child: Card(
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0),
-          color: radioTileBackground,
+          color: Theme.of(context).cardTheme.color,
           child: Padding(
             padding: const EdgeInsets.all(6.0),
             child: CustomListTile(

@@ -16,7 +16,7 @@ class ThemeProvider extends ChangeNotifier {
   }
 }*/
 
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 
 class ThemeProvider extends ChangeNotifier {
   final ThemeData _lightTheme = ThemeData.light().copyWith(
@@ -53,3 +53,16 @@ class ThemeProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+*/
+
+ import 'package:flutter/material.dart';
+ class ThemeProvider with ChangeNotifier {
+   bool _isDarkMode = false;
+
+   bool get isDarkMode => _isDarkMode;
+
+   void toggleTheme() {
+     _isDarkMode = !_isDarkMode;
+     notifyListeners();
+   }
+ }

@@ -28,6 +28,7 @@ Future<void> main() async {
 
   await initStreamRequest();
 
+
   // Set the window size for Windows
   if (Platform.isWindows) {
     WindowManager.instance.setMaximumSize(const Size(400, 800));
@@ -109,16 +110,17 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
       builder: (context, child) {
         final provider = Provider.of<ThemeProvider>(context);
         return GetMaterialApp(
-
           debugShowCheckedModeBanner: false,
-          theme: provider.theme,
+          theme: lighttheme,
+          darkTheme: darktheme,
+          themeMode:  provider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
           title: 'Radio Adblocker',
           home: Scaffold(
-
+            //backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             body: InitProvider(page: page),
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: _selectedIndex,
-              backgroundColor: ThemeProvider().theme.primaryColorDark,
+             // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               onTap: _onTabTapped,
               items:  [
                 BottomNavigationBarItem(
@@ -130,7 +132,7 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
                   label: 'Radio',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.settings,color: ThemeProvider().theme.primaryIconTheme.color,),
+                  icon: Icon(Icons.settings,),
                   label: 'Settings',
                 ),
               ],
