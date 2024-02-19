@@ -32,10 +32,10 @@ class _RadioScreenState extends State<RadioScreen> {
           child: Center(
             child: Text(
               currentRadio!.name,
-              style: const TextStyle(
+              style:  TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white)),
+                  color: Theme.of(context).textTheme.bodyLarge?.color)),
           ),
         ),
         //Image of the current Radio
@@ -53,16 +53,16 @@ class _RadioScreenState extends State<RadioScreen> {
               children: [
                  AutoScrollingText(
                     text: currentRadio.song.name,
-                    style: const TextStyle(
+                    style:  TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white)),
+                        color: Theme.of(context).textTheme.bodyMedium?.color)),
                 AutoScrollingText(
                     text: currentRadio.song.artist,
-                    style: const TextStyle(
+                    style:  TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white)),
+                        color: Theme.of(context).textTheme.bodyMedium?.color)),
               ],
             ),
           ),
