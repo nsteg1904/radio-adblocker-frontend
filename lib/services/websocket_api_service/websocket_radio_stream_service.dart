@@ -5,6 +5,7 @@ import 'package:web_socket_channel/io.dart';
 
 import '../../model/radio_station.dart';
 import '../../model/song.dart';
+import '../client_data_storage_service.dart';
 import 'websocket_connection_service.dart';
 
 class WebSocketRadioStreamService {
@@ -17,6 +18,7 @@ class WebSocketRadioStreamService {
   static Future<void> initChannel() async {
     try {
       _channel = await WebSocketConnectionService.getChannel('RadioStream');
+      listenForStreamableRadio();
 
       _channel ??=
           throw Exception("RadioStreamService: Channel could not be initialized");
@@ -32,8 +34,6 @@ class WebSocketRadioStreamService {
     int? requestedRadioId = reqRadioId;
     // The favorite radio ids are copied to a new list.
     List<int> favoriteRadioIds = List.from(favRadioIds);
-    //TODO: ID 5 entfernen, da temporär nicht verfügbar
-    favoriteRadioIds.remove(5);
 
     // The stream request ids are the ids of the radios that are requested from the server.
     List<int> streamRequestIds = [];
@@ -116,10 +116,14 @@ class WebSocketRadioStreamService {
     }
   }
 
+  static Stream<RadioStation> getStreamableRadio() {
+    return _controller.stream;
+  }
+
   /// Returns a stream of radios.
   ///
   /// The stream is created from the channel. The radios are extracted from the server response.
-  static Stream<RadioStation> getStreamableRadio() {
+  static void listenForStreamableRadio() {
     try {
       _channel ??= throw Exception("Channel not initialized");
 
@@ -130,25 +134,39 @@ class WebSocketRadioStreamService {
         },
         onDone: () {
           print('Stream closed');
-          // closes streamController when the stream is closed
-          _controller.close();
+          reconnect();
         },
         onError: (error) {
           print('Error receiving data from server: $error');
-          // close streamController with error
           _controller.addError(error);
-          _controller.close();
+          reconnect();
         },
         cancelOnError: true,
       );
-
-      return _controller.stream;
     } catch (e) {
       print(e.toString());
     }
-
-    return _controller.stream;
   }
+
+  /// Reconnects to the WebSocket server after a delay.
+  static void reconnect() {
+    Timer(const Duration(seconds: 5), () async {
+      print('Trying to reconnect...');
+      await initChannel();
+      await initStreamRequest();
+    });
+  }
+
+  static Future<void> initStreamRequest() async {
+    final prefService = ClientDataStorageService();
+    int? lastListenedRadio = await prefService.loadLastListenedRadio();
+    List<int> favoriteRadioIds = await prefService.loadFavoriteRadioIds();
+
+    await WebSocketRadioStreamService.streamRequest(
+        lastListenedRadio, favoriteRadioIds);
+  }
+
+
 
   static void closeStream(){
     _channel?.sink.close();

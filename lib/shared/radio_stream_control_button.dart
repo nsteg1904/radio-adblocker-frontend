@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../services/audio_player_radio_stream_service.dart';
-import 'colors.dart';
+
 
 /// A button to control the radio stream.
 class RadioStreamControlButton extends StatefulWidget {
@@ -62,7 +62,7 @@ class _RadioStreamControlButtonState extends State<RadioStreamControlButton> {
 
     return CircleAvatar(
       radius: 27.0 * widget.size, // to scale Widget size
-      backgroundColor: backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       child: IconButton(
         padding: EdgeInsets.zero,
         visualDensity: VisualDensity.compact,
@@ -70,7 +70,7 @@ class _RadioStreamControlButtonState extends State<RadioStreamControlButton> {
         iconSize: 35 * widget.size,
         icon: Icon(
           isPlaying ? Icons.pause : Icons.play_arrow,
-          color: playButton,
+          color: Theme.of(context).colorScheme.onBackground,
         ),
       ),
     );
