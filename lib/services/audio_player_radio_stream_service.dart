@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/services.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 
 /// This class is responsible for managing the radio stream.
 ///
@@ -45,18 +44,7 @@ class AudioPlayerRadioStreamManager {
   Future<void> setRadioSource(String? url) async {
     if (url == null || streamUrl == url) return;
 
-    // await _audioPlayer.setUrl(url);
-    await _audioPlayer.setAudioSource(AudioSource.uri(
-      Uri.parse('https://wdr-wdr2-rheinland.icecastssl.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3'),
-      tag: MediaItem(
-        // Specify a unique ID for each media item:
-        id: '1',
-        // Metadata to display in the notification:
-        album: "Album name",
-        title: "Song name",
-        artUri: Uri.parse('https://www.radio.de/images/broadcasts/96/67/2279/1/c100.png'),
-      ),
-    ));
+    await _audioPlayer.setUrl(url);
     streamUrl = url;
     print("Set radio source");
   }
