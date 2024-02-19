@@ -56,6 +56,7 @@ class ThemeProvider extends ChangeNotifier {
 */
 
  import 'package:flutter/material.dart';
+ /// A provider that manages the theme of the app.
  class ThemeProvider with ChangeNotifier {
    bool _isDarkMode = true;
 

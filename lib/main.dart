@@ -122,7 +122,7 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
               currentIndex: _selectedIndex,
              backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
               onTap: _onTabTapped,
-              items:  [
+              items:  const [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home,),
                   label: 'Home',

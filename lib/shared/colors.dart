@@ -14,11 +14,12 @@ const radioTileBackground = Color(0xff0b0b15);
 const selectedFavIconColor = Colors.red;
 const unSelectedFavIconColor = Color(0xff7b7b8b);
 
+/// The default theme of the app.
  ThemeData darktheme = ThemeData(
    brightness: Brightness.dark,
    scaffoldBackgroundColor: const Color(0xFF191925),
    cardTheme: const CardTheme(
-     color: const Color(0xff0b0b15),
+     color:  Color(0xff0b0b15),
    ),
    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
      backgroundColor: Color(0xFF191925),
@@ -45,14 +46,14 @@ const unSelectedFavIconColor = Color(0xff7b7b8b);
    iconTheme: const IconThemeData(color: Colors.grey),
 
  );
-
+/// The light theme of the app.
 ThemeData lighttheme = ThemeData(
   cardTheme: const CardTheme(
     color: Color(0xfffb6580),
   ),
   brightness: Brightness.light,
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    backgroundColor: Colors.grey,
+    backgroundColor: Colors.blueGrey,
     selectedItemColor: Colors.red,
     unselectedItemColor: Colors.white,
   ),
