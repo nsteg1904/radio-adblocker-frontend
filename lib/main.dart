@@ -57,9 +57,6 @@ class RadioAdblocker extends StatefulWidget {
 
 class _RadioAdblockerState extends State<RadioAdblocker> {
   int _selectedIndex = 0;
-  //final Color _selectedColor = selectedElementColor;
- // final Color _unselectedColor = unSelectedElementColor;
-
   void _onTabTapped(int index) {
     setState(() {
       _selectedIndex = index;
