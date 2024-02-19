@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_adblocker/model/radio_station.dart';
+import 'package:radio_adblocker/shared/colors.dart';
 import '../../../shared/auto_scrolling_text.dart';
 
 import 'controls.dart';
@@ -20,6 +21,7 @@ class RadioScreen extends StatefulWidget {
 class _RadioScreenState extends State<RadioScreen> {
   @override
   Widget build(BuildContext context) {
+    try {
     RadioStation? currentRadio = Provider.of<RadioStation?>(context);
     //Holds all seperate Elements of this Screen
     return Column(
@@ -75,6 +77,23 @@ class _RadioScreenState extends State<RadioScreen> {
         ),
       ],
     );
+  } catch (e) {
+      return const Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          AlertDialog(
+            backgroundColor: backgroundColor,
+            title: Text(
+                'Error',
+                style: TextStyle(color: defaultFontColor)
+            ),
+            content: Text(
+                'Ein Fehler ist aufgetreten.\nBitte verbinden sie sich mit dem Internet und starten die App neu.',
+                style: TextStyle(color: defaultFontColor)
+            ),
+          ),
+    ]);
+    }
   }
 }
 
