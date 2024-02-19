@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/radioStation.dart';
+import '../../model/radio_station.dart';
 import '../../services/client_data_storage_service.dart';
 import '../../services/websocket_api_service/websocket_radio_stream_service.dart';
 import '../../shared/colors.dart';
-import '../../shared/radioStreamControlButton.dart';
+import '../../shared/radio_stream_control_button.dart';
 
 ///Displays the control buttons to navigate between Radios and Play / Pause.
 class Controls extends StatefulWidget {
@@ -19,7 +19,7 @@ class Controls extends StatefulWidget {
 class _ControlsState extends State<Controls> {
   @override
   Widget build(BuildContext context) {
-    //Request next Radio
+    //Returns the next radio in the list of radios
     void nextRadio() async {
       List<int> favIds = await ClientDataStorageService().loadFavoriteRadioIds();
       final int currentRadioId = Provider.of<RadioStation?>(context, listen: false)!.id;
@@ -30,7 +30,7 @@ class _ControlsState extends State<Controls> {
       await WebSocketRadioStreamService.streamRequest(radioList[(currentRadioIndex + 1) % radioList.length].id, favIds);
     }
 
-    //Request previous Radio
+    //Request the previous radio in the list of radios
     void previousRadio() async {
       final int currentRadioId = Provider.of<RadioStation?>(context, listen: false)!.id;
       //Get List of all Radios
@@ -41,18 +41,18 @@ class _ControlsState extends State<Controls> {
       await WebSocketRadioStreamService.streamRequest(radioList[(currentRadioIndex - 1) % radioList.length].id, favIds);
     }
 
-    //Make the buttons bigger and in the center of the row
+    //Returns the control buttons to navigate between Radios and Play / Pause.
     return Row(
       //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         CircleAvatar(
             radius: 27.0 * Controls.size, // to scale Widget size
-            backgroundColor: backgroundColor,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             child: IconButton(
               icon: const Icon(Icons.skip_previous),
               iconSize: 35 * Controls.size,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onBackground,
               onPressed: () {
                 previousRadio();
               },
@@ -64,11 +64,11 @@ class _ControlsState extends State<Controls> {
         ),
         CircleAvatar(
             radius: 27.0 * Controls.size, // to scale Widget size
-            backgroundColor: backgroundColor,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             child: IconButton(
               icon: const Icon(Icons.skip_next,),
               iconSize: 35 * Controls.size,
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.onBackground,
               onPressed: () {
                 nextRadio();
               },

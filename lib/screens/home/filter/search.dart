@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:radio_adblocker/shared/colors.dart';
 
-import '../../../model/radioStation.dart';
+import '../../../model/radio_station.dart';
 
 /// This class represents the search bar.
 ///
@@ -64,18 +64,18 @@ class _SearchState extends State<Search> {
           (radio) => radio.name.toLowerCase().contains(value.toLowerCase())),
       //filter query
 
-      decoration: const InputDecoration(
+      decoration:  InputDecoration(
         // labelText: 'Suche nach Radio...',
-        border: UnderlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        border: const UnderlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0),),
         ),
-        prefixIcon: Icon(Icons.search, color: defaultFontColor, ),
+        prefixIcon: const Icon(Icons.search, color: defaultFontColor, ),
         hintText: 'Suche nach Radio...',
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
           color: Colors.white,
         ),
         filled: true,
-        fillColor: Color(0xff2d2c3c),
+        fillColor: Theme.of(context).colorScheme.secondary,
       ),
       style: const TextStyle(
         color: defaultFontColor,

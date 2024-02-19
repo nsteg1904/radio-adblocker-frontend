@@ -2,7 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:radio_adblocker/model/radioStation.dart';
+import 'package:radio_adblocker/model/radio_station.dart';
+import 'package:radio_adblocker/shared/colors.dart';
 import '../../../shared/auto_scrolling_text.dart';
 
 import 'controls.dart';
@@ -20,22 +21,23 @@ class RadioScreen extends StatefulWidget {
 class _RadioScreenState extends State<RadioScreen> {
   @override
   Widget build(BuildContext context) {
+    try {
     RadioStation? currentRadio = Provider.of<RadioStation?>(context);
     //Holds all seperate Elements of this Screen
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        //Überschrift des Radios
+        //Title of the current Radio
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.12,
           child: Center(
             child: Text(
               currentRadio!.name,
-              style: const TextStyle(
+              style:  TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white)),
+                  color: Theme.of(context).textTheme.bodyLarge?.color)),
           ),
         ),
         //Image of the current Radio
@@ -53,16 +55,16 @@ class _RadioScreenState extends State<RadioScreen> {
               children: [
                  AutoScrollingText(
                     text: currentRadio.song.name,
-                    style: const TextStyle(
+                    style:  TextStyle(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white)),
+                        color: Theme.of(context).textTheme.bodyMedium?.color)),
                 AutoScrollingText(
                     text: currentRadio.song.artist,
-                    style: const TextStyle(
+                    style:  TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white)),
+                        color: Theme.of(context).textTheme.bodyMedium?.color)),
               ],
             ),
           ),
@@ -75,6 +77,23 @@ class _RadioScreenState extends State<RadioScreen> {
         ),
       ],
     );
+  } catch (e) {
+      return const Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          AlertDialog(
+            backgroundColor: backgroundColor,
+            title: Text(
+                'Error',
+                style: TextStyle(color: defaultFontColor)
+            ),
+            content: Text(
+                'Ein Fehler ist aufgetreten.\nBitte verbinden sie sich mit dem Internet.',
+                style: TextStyle(color: defaultFontColor)
+            ),
+          ),
+    ]);
+    }
   }
 }
 

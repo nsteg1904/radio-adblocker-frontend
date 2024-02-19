@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:radio_adblocker/shared/custom_list_tile.dart';
 import 'dart:io' show Platform;
-import '../../../model/radioStation.dart';
+import '../../../model/radio_station.dart';
 import '../../../services/audio_player_radio_stream_service.dart';
 import '../../../shared/colors.dart';
 import '../../../services/client_data_storage_service.dart';
@@ -13,8 +13,10 @@ import '../../../services/websocket_api_service/websocket_radio_stream_service.d
 class RadioTile extends StatefulWidget {
   /// The radio station that is displayed in the tile.
   final RadioStation radio;
+  final bool reorderable;
+  final index;
 
-  const RadioTile({super.key, required this.radio});
+  const RadioTile({super.key, required this.radio, required this.reorderable, required this.index});
 
   @override
   State<RadioTile> createState() => _RadioTileState();
@@ -30,6 +32,26 @@ class _RadioTileState extends State<RadioTile> {
     void toggleFavorite() async {
       setState(() => widget.radio.isFavorite = !widget.radio.isFavorite);
       await ClientDataStorageService().safeFavoriteState(widget.radio.id);
+    }
+
+    Widget trailing2() {
+      if (widget.reorderable) {
+        return ReorderableDragStartListener(
+          index: widget.index,
+          child: const Icon(Icons.drag_handle, color: Colors.white),
+        );
+      }
+      else {
+        return IconButton(
+          onPressed: toggleFavorite,
+          icon: Icon(
+            Icons.favorite,
+            color: isFavorite
+                ? selectedFavIconColor
+                : unSelectedFavIconColor,
+          ),
+        );
+      }
     }
 
     /// Shows a dialog if the radio station is currently playing an ad.
@@ -111,7 +133,7 @@ class _RadioTileState extends State<RadioTile> {
         },
         child: Card(
           margin: const EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0),
-          color: radioTileBackground,
+          color: Theme.of(context).cardTheme.color,
           child: Padding(
             padding: const EdgeInsets.all(6.0),
             child: CustomListTile(
@@ -139,26 +161,10 @@ class _RadioTileState extends State<RadioTile> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-
-              // AutoScrollingText(
-              //   text: '${widget.radio.song.artist} - ${widget.radio.song.name}',
-              //   style: const TextStyle(
-              //     color: defaultFontColor,
-              //     fontSize: 12.0,
-              //   ),
-              // ),
-              trailing2: IconButton(
-                onPressed: toggleFavorite,
-                icon: Icon(
-                  Icons.favorite,
-                  color: isFavorite
-                      ? selectedFavIconColor
-                      : unSelectedFavIconColor,
-                ),
-              ),
+              trailing2: trailing2(),
               trailing: Icon(
                 widget.radio.status != "1" ? Icons.music_note : Icons.block,
-                color: selectedElementColor,
+                color: Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
               ),
             ),
           ),

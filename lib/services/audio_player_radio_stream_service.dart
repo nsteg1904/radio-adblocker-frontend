@@ -55,7 +55,6 @@ class AudioPlayerRadioStreamManager {
     try {
       _isPlayingController.add(true);
       await _audioPlayer.play();
-      print("Start radio");
     } on PlatformException catch (e) { // PlatformException is thrown when the radio stream is already playing
       print('Error occurred: $e');
     }
@@ -65,7 +64,6 @@ class AudioPlayerRadioStreamManager {
   Future<void> stopRadio() async {
     _isPlayingController.add(false);
     await _audioPlayer.pause();
-    print("Stop radio");
   }
 
   void dispose() {
