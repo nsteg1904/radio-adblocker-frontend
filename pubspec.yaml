@@ -45,6 +45,7 @@ dependencies:
   window_manager: ^0.3.8
   flutter_launcher_icons: ^0.13.1
   just_audio: ^0.9.36
+  just_audio_windows: ^0.2.0
 
 
 
