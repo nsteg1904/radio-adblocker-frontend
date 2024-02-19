@@ -21,6 +21,7 @@ class WebSocketConnectionService {
 
     try {
       socket = await WebSocket.connect('ws://185.233.107.253:5000/api')
+      // socket = await WebSocket.connect('ws://192.168.178.28:8080/api')
           .timeout(const Duration(seconds: 20));
 
       // socket ??= throw Exception("ApiConnectionService: Socket could not be initialized");
@@ -46,10 +47,7 @@ class WebSocketConnectionService {
     try {
       socket ??= throw Exception("ApiConnectionService: Socket could not be initialized");
 
-      // If the channel is not initialized yet, initialize it
-      if (!_channels.containsKey(channelId)) {
-        _channels[channelId] = IOWebSocketChannel(socket);
-      }
+      _channels[channelId] = IOWebSocketChannel(socket);
 
       // If the channel is still not initialized, throw an exception
       _channels[channelId] ??= throw Exception("ApiConnectionService: Channel could not be initialized");

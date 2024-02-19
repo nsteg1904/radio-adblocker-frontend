@@ -16,6 +16,7 @@ class WebSocketRadioListService {
   static Future<void> initChannel() async {
     try {
       _channel = await WebSocketConnectionService.getChannel('RadioList');
+      listenForRadioList();
 
       _channel ??=
       throw Exception("RadioListService: Channel could not be initialized");
@@ -29,18 +30,24 @@ class WebSocketRadioListService {
   ///
   /// The [updateCount] is the number of updates that should be requested.
   static Future<void> requestRadioList(int updateCount) async {
-    if(_channel == null){
-      await initChannel();
+    try {
+      _channel ??= throw Exception("Channel not initialized");
+
+      final message = jsonEncode({
+        "type": "search_request",
+        "requested_updates": updateCount
+      });
+
+
+      remainingUpdates = updateCount;
+
+      _channel?.sink.add(message);
+    } catch (e) {
+      print("Error in requestRadioList(): " + e.toString());
     }
 
-    final message = jsonEncode({
-      "type": "search_request",
-      "requested_updates": updateCount
-    });
 
-    remainingUpdates = updateCount;
 
-    _channel?.sink.add(message);
   }
 
   /// Creates a [RadioStation] from the given map.
@@ -61,17 +68,19 @@ class WebSocketRadioListService {
   }
 
 
+  static Stream<List<RadioStation>> getRadioList() {
+    return _controller.stream;
+  }
+
   /// Returns a stream of the radio list from the Server.
   ///
   /// The stream contains a list of [RadioStation]s.
-  static Stream<List<RadioStation>> getRadioList() {
+  static void listenForRadioList() {
     try {
       _channel ??= throw Exception("Channel not initialized");
-      print(_channel);
       _channel?.stream.listen(
             (dynamic serverResponse) {
           var responseData = json.decode(serverResponse);
-          //print("Remaining Updates for List: " + responseData['remaining_updates'].toString() + "\n\n");
 
           //Save Remaining Updates
           remainingUpdates = responseData['remaining_updates'];
@@ -90,22 +99,29 @@ class WebSocketRadioListService {
         },
         onDone: () {
           print('Stream closed');
-          // closes streamController when the stream is closed
-          _controller.close();
+          reconnect();
         },
         onError: (error) {
           print('Error receiving data from server: $error');
           // close streamController with error
           _controller.addError(error);
-          _controller.close();
+
+          reconnect();
         },
         cancelOnError: true,
       );
     } catch (e) {
       print("Error in getRadioList(): " + e.toString());
     }
+  }
 
-    return _controller.stream;
+  /// Reconnects to the WebSocket server after a delay.
+  static void reconnect() {
+    Timer(const Duration(seconds: 5), () async {
+      print('Trying to reconnect...');
+      await initChannel();
+      await requestRadioList(10);
+    });
   }
 
   static Future<void> close() async {

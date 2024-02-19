@@ -20,12 +20,13 @@ import 'services/audio_player_radio_stream_service.dart';
 
 Future<void> main() async {
   // This ensures that the initialization is complete before the app starts its execution.
+  await WebSocketRadioListService.initChannel();
   await WebSocketRadioListService.requestRadioList(10);
   await WebSocketRadioStreamService.initChannel();
 
   WidgetsFlutterBinding.ensureInitialized();
+  await WebSocketRadioStreamService.initStreamRequest();
 
-  await initStreamRequest();
 
   // Set the window size for Windows
   if (Platform.isWindows) {
@@ -38,14 +39,6 @@ Future<void> main() async {
   DependencyInjection.init();
 }
 
-Future<void> initStreamRequest() async {
-  final prefService = ClientDataStorageService();
-  int? lastListenedRadio = await prefService.loadLastListenedRadio();
-  List<int> favoriteRadioIds = await prefService.loadFavoriteRadioIds();
-
-  await WebSocketRadioStreamService.streamRequest(
-      lastListenedRadio, favoriteRadioIds);
-}
 
 class RadioAdblocker extends StatefulWidget {
   const RadioAdblocker({super.key});
