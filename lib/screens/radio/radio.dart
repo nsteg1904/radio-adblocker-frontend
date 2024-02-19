@@ -88,7 +88,7 @@ class _RadioScreenState extends State<RadioScreen> {
                 style: TextStyle(color: defaultFontColor)
             ),
             content: Text(
-                'Ein Fehler ist aufgetreten.\nBitte verbinden sie sich mit dem Internet und starten die App neu.',
+                'Ein Fehler ist aufgetreten.\nBitte verbinden sie sich mit dem Internet.',
                 style: TextStyle(color: defaultFontColor)
             ),
           ),
