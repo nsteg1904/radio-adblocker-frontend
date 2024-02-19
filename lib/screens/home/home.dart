@@ -20,17 +20,14 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return const Column(
         children: [
-          // headline (12% of body)
           SizedBox(
             height: 80,
             child: Headline(),
           ),
-          // filter options (15% of body)
           SizedBox(
-            height: 110,
+            height: 105,
             child: FilterOptions(),
           ),
-          // radio list (32% of body)
           Expanded(
             child: RadioList(),
           ),

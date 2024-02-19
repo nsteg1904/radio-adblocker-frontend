@@ -66,8 +66,10 @@ class _SearchState extends State<Search> {
 
       decoration:  InputDecoration(
         // labelText: 'Suche nach Radio...',
-        border: const UnderlineInputBorder(
+        // border: InputBorder.none,
+        border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0),),
+          borderSide: BorderSide.none,
         ),
         prefixIcon: const Icon(Icons.search, color: defaultFontColor, ),
         hintText: 'Suche nach Radio...',
@@ -76,6 +78,7 @@ class _SearchState extends State<Search> {
         ),
         filled: true,
         fillColor: Theme.of(context).colorScheme.secondary,
+        contentPadding: const EdgeInsets.all(0.0),
       ),
       style: const TextStyle(
         color: defaultFontColor,
