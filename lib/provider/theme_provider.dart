@@ -1,13 +1,25 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
- /// A provider that manages the theme of the app.
- class ThemeProvider with ChangeNotifier {
-   bool _isDarkMode = true;
+class ThemeProvider with ChangeNotifier {
+  bool _isDarkMode = true;
 
-   bool get isDarkMode => _isDarkMode;
+  bool get isDarkMode => _isDarkMode;
 
-   void toggleTheme() {
-     _isDarkMode = !_isDarkMode;
-     notifyListeners();
-   }
- }
+  ThemeProvider() {
+    _loadTheme();
+  }
+
+  void _loadTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    _isDarkMode = (prefs.getBool('isDarkMode') ?? true);
+    notifyListeners();
+  }
+
+  void toggleTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    _isDarkMode = !_isDarkMode;
+    prefs.setBool('isDarkMode', _isDarkMode);
+    notifyListeners();
+  }
+}
