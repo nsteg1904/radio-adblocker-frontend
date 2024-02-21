@@ -1,13 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radio_adblocker/model/radio_station.dart';
-import 'package:radio_adblocker/screens/radio/headline.dart';
+import 'package:radio_adblocker/screens/radio/main_radio/main_radio.dart';
 import 'package:radio_adblocker/shared/colors.dart';
-import '../../../shared/auto_scrolling_text.dart';
 
-import 'controls.dart';
+import 'controlls/controls.dart';
 
 ///Covers the whole screen and shows the current Radio with all its information and controls.
 ///
@@ -24,57 +21,27 @@ class _RadioScreenState extends State<RadioScreen> {
   Widget build(BuildContext context) {
     try {
       RadioStation? currentRadio = Provider.of<RadioStation?>(context);
-      //Holds all seperate Elements of this Screen
-      return Column(
+
+      return currentRadio != null ? Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Headline(
-            currentRadio: currentRadio,
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.06,
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width / 2,
-            height: MediaQuery.of(context).size.width / 2,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                currentRadio!.logoUrl,
-                fit: BoxFit.cover,
-              ),
+            height: 430,
+            child: MainRadio(
+              currentRadio: currentRadio,
             ),
           ),
-          //Song description of the current Radio
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.2,
-            child: Center(
-              child: Column(
-                children: [
-                  AutoScrollingText(
-                      text: currentRadio.song.name,
-                      style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color:
-                              Theme.of(context).textTheme.bodyMedium?.color)),
-                  AutoScrollingText(
-                      text: currentRadio.song.artist,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color:
-                              Theme.of(context).textTheme.bodyMedium?.color)),
-                ],
-              ),
-            ),
+          const SizedBox(
+            child: Controls(),
           ),
-          //Control Buttons (Play, forward, backwards)
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.2,
-            child: const Controls(),
-          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.04,
+          )
         ],
-      );
+      ) : const Placeholder();
     } catch (e) {
       return const Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

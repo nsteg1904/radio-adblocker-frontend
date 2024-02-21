@@ -10,7 +10,6 @@ import 'package:radio_adblocker/provider/filter_queries_provider.dart';
 import 'package:radio_adblocker/screens/home/home.dart';
 import 'package:radio_adblocker/screens/radio/radio.dart';
 import 'package:radio_adblocker/screens/settings/settings.dart';
-import 'package:radio_adblocker/services/client_data_storage_service.dart';
 import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_list_service.dart';
 import 'package:radio_adblocker/services/websocket_api_service/websocket_radio_stream_service.dart';
 import 'package:radio_adblocker/shared/colors.dart';
@@ -107,8 +106,8 @@ class _RadioAdblockerState extends State<RadioAdblocker> {
         final provider = Provider.of<ThemeProvider>(context);
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: lighttheme,
-          darkTheme: darktheme,
+          theme: lightTheme,
+          darkTheme: darkTheme,
           themeMode:  provider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
           title: 'Radio Adblocker',
           home: Scaffold(

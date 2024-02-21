@@ -48,6 +48,7 @@ class CurrentRadio extends StatelessWidget {
               ),
               trailing: const RadioStreamControlButton(
                 size: 1.0,
+                color: backgroundColor,
               ),
             )
           : null,

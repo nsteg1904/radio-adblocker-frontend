@@ -9,8 +9,9 @@ import '../services/audio_player_radio_stream_service.dart';
 class RadioStreamControlButton extends StatefulWidget {
   /// To scale Widget size.
   final double size;
+  final Color color;
 
-  const RadioStreamControlButton({super.key, this.size = 1.0});
+  const RadioStreamControlButton({super.key, this.size = 1.0, required this.color });
 
   @override
   State<RadioStreamControlButton> createState() =>
@@ -64,7 +65,7 @@ class _RadioStreamControlButtonState extends State<RadioStreamControlButton> {
 
     return CircleAvatar(
       radius: 27.0 * widget.size, // to scale Widget size
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: widget.color,
       child: IconButton(
         padding: EdgeInsets.zero,
         visualDensity: VisualDensity.compact,
